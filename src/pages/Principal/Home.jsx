@@ -1,21 +1,14 @@
 import { FaBasketballBall, FaVolleyballBall, FaTableTennis } from "react-icons/fa";
 import fondo from '../../assets/inflable.jfif';
-import futbol1 from '../../assets/futbol.jpg';
-import futbol2 from '../../assets/futbol1.jpg';
-import futbol3 from '../../assets/atletismo1.jpg';
 import esfot from '../../assets/esfot.png';
 import { Link, useLocation } from "react-router";
-import Carrusel from "../../components/carrusel/carrusel";
+import {Carrusel} from "../../components/carrusel/carrusel";
 
 export const Home = () => {
 
 const location = useLocation();
 
-  const images = [
-    { src: futbol1, alt: "Slide 1" },
-    { src: futbol3, alt: "Slide 2" },
-    { src: futbol2, alt: "Slide 3" },
-  ];
+  
 
   return (
     <>
