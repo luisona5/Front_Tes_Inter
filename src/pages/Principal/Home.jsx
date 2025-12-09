@@ -1,11 +1,11 @@
 import { FaBasketballBall, FaVolleyballBall, FaTableTennis } from "react-icons/fa";
-import { Carousel } from "@material-tailwind/react";
 import fondo from '../../assets/inflable.jfif';
 import futbol1 from '../../assets/futbol.jpg';
 import futbol2 from '../../assets/futbol1.jpg';
 import futbol3 from '../../assets/atletismo1.jpg';
 import esfot from '../../assets/esfot.png';
 import { Link, useLocation } from "react-router";
+import Carrusel from "../../components/carrusel/carrusel";
 
 export const Home = () => {
 
@@ -25,7 +25,7 @@ const location = useLocation();
       >
         <header className="container mx-auto h-40 text-center py-4 md:flex justify-between items-center px-4 md:h-15">
           <ul className="flex justify-center items-center gap-5 my-4">
-            <li><img src={esfot} alt="logo" width={100} height={100} /></li>
+            <li><img src={esfot} alt="logo" width={64} height={96} /></li>
           </ul>
 
           <ul className="flex gap-5 justify-center my-4 flex-wrap">
@@ -65,21 +65,7 @@ const location = useLocation();
 
       <section className="container mx-auto px-4 my-10">
         <div className="h-64 md:h-96 w-full">
-          <Carousel
-            className="rounded-xl mt-4"
-            autoplay
-            autoplayDelay={5000}
-            loop
-          >
-            {images.map((img, idx) => (
-              <img
-                key={idx}
-                src={img.src}
-                alt={img.alt}
-                className="h-full w-full object-cover"
-              />
-            ))}
-          </Carousel>
+          <Carrusel />
         </div>
       </section>
 
