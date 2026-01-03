@@ -15,7 +15,8 @@ const Login = ({ isModal = false }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const loginUser = async (dataForm) => {
-    const url =  `${import.meta.env.VITE_BACKEND_URL}/administrador/login`
+    const url =  
+         `${import.meta.env.VITE_BACKEND_URL}/administrador/login`
 
     const response = await fetchDataBackend(url, dataForm, "POST");
     setToken(response.token);
@@ -31,7 +32,7 @@ const Login = ({ isModal = false }) => {
   };
 
   // Vista MODAL
-  if (isModal) { 
+  if (isModal) { // Cambio aquí: lógica correcta
     return (
       <div 
         className="fixed inset-0 flex justify-center items-center z-50 bg-black/50"
@@ -106,7 +107,7 @@ const Login = ({ isModal = false }) => {
 
               
               <div className="text-xs">
-                <Link to="/forgot/id" className="underline text-gray-400 hover:text-gray-900">
+                <Link to="/forgot/recuperacion-password/id" className="underline text-gray-400 hover:text-gray-900">
                   ¿Olvidaste tu password?
                 </Link>
               </div>

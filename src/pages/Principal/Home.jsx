@@ -1,5 +1,5 @@
 import { FaBasketballBall, FaVolleyballBall, FaTableTennis } from "react-icons/fa";
-import fondo from '../../assets/inflable.jfif';
+//import fondo from '../../assets/buho.jpg';
 import esfot from '../../assets/esfot.png';
 import { Link, useLocation } from "react-router";
 import {Carrusel} from "../../components/carrusel/carrusel";
@@ -12,108 +12,158 @@ const location = useLocation();
 
   return (
     <>
-      <div
-        className="relative min-h-screen bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${fondo})` }}
-      >
-        <header className="container mx-auto h-40 text-center py-4 md:flex justify-between items-center px-4 md:h-15">
-          <ul className="flex justify-center items-center gap-5 my-4">
-            <li><img src={esfot} alt="logo" width={64} height={96} /></li>
-          </ul>
+        <header  className="bg-gradient-to-br from-gray-900 to-gray-800   shadow-md">
+          <div className="container mx-auto flex justify-between items-center px-2 h-15">
+            
+            {/* Logo */}
+            <div className="flex items-center">
+              <img src={esfot} alt="logo" width={84} height={96}  />
+            </div>
 
-          <ul className="flex gap-5 justify-center my-4 flex-wrap">
-            <li><a href="#" className="font-bold hover:text-amber-700 hover:underline">About US</a></li>
-            <li><a href="#" className="font-bold hover:text-amber-700 hover:underline">Services</a></li>
-            <li><a href="#site-footer" className="font-bold hover:text-amber-700 hover:underline">Contact</a></li>
-          </ul>
+            {/* Botones Agrupados */}
+            <nav className="flex items-center gap-4">
+              <Link
+                to="/login"
+                state={{ background: location }}
+                className="relative group text-white hover:text-orange-600 font-semibold text-sm px-5 py-2 transition-colors"
+              >
+                Iniciar Sesión
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover:w-full transition-all duration-300"></span>
+              </Link>
 
-          <ul className="flex justify-center items-center gap-5 my-4">
-            <Link
-              to="/login"
-              state={{ background: location }}
-              className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-12 py-3"
-            >
-              Login
-            </Link>
-          </ul>
+              <Link
+                to="/register/nuevo-estudiantes"
+                className="relative group text-white hover:text-orange-600 font-semibold text-sm px-5 py-2 transition-colors"
+              >
+                Registrarse
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover:w-full transition-all duration-300"></span>
+              </Link>
+            </nav>
+
+          </div>
         </header>
 
-        <main className="text-center py-6 px-8 md:text-left md:flex justify-between items-center gap-10 md:py-1">
-          <div>
-            <h1 className="font-lato font-extrabold text-amber-800 uppercase text-4xl my-4 md:text-6xl">
-              Deporte y Cultura
-            </h1>
+        
+      <body>
 
-            <p className="font-bold text-left my-8 md:text-2xl underline">Powered by</p>
-            <p className="text-2xl my-6 font-sans">
-              Artificial intelligence, Payment gateway, Realtime chat and much more...
-            </p>
-
-            
-
-            <p className="font-bold text-left my-4 md:text-2xl">Find us</p>
+        <section className="container mx-auto px-4 my-10">
+          <div className="h-100 md:h-100 w-full">
+            <Carrusel />
           </div>
-        </main>
+        </section>
+              <section id="deportes" className="container mx-auto px-2 py-20">
+        <div className="text-center mb-16">
+          <h2 className="font-bold text-4xl md:text-5xl text-gray-800 mb-4">
+            Nuestros Deportes
+          </h2>
+          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+            Explora las diferentes disciplinas deportivas disponibles en ESFOT
+          </p>
+        </div>
+
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    {/* Card Fútbol */}
+    <div className="group relative bg-gradient-to-br from-red-50 to-orange-50 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
+      <div className="absolute top-0 right-0 w-32 h-32 bg-amber-200/20 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500" />
+      
+      <div className="relative z-10">
+        <div className="bg-gradient-to-br from-amber-500 to-amber-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+          <FaVolleyballBall className="text-white text-3xl" />
+        </div>
+        
+        <h4 className="text-2xl font-bold text-gray-800 mb-3">Fútbol</h4>
+        <p className="text-gray-600 leading-relaxed">
+          Participa en torneos inter-facultades y desarrolla tus habilidades futbolísticas
+        </p>
+        
+        <button className="mt-6 text-amber-600 font-semibold flex items-center gap-2 group-hover:gap-3 transition-all">
+          Ver más 
+          <span className="transform group-hover:translate-x-1 transition-transform">→</span>
+        </button>
       </div>
+    </div>
 
-      <section className="container mx-auto px-4 my-10">
-        <div className="h-64 md:h-96 w-full">
-          <Carrusel />
+    {/* Card Basketball */}
+    <div className="group relative bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
+      <div className="absolute top-0 right-0 w-32 h-32 bg-orange-200/20 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500" />
+      
+      <div className="relative z-10">
+        <div className="bg-gradient-to-br from-orange-500 to-red-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+          <FaBasketballBall className="text-white text-3xl" />
         </div>
-      </section>
+        
+        <h4 className="text-2xl font-bold text-gray-800 mb-3">Basketball</h4>
+        <p className="text-gray-600 leading-relaxed">
+          Únete a los equipos de basketball y compite en emocionantes partidos
+        </p>
+        
+        <button className="mt-6 text-orange-600 font-semibold flex items-center gap-2 group-hover:gap-3 transition-all">
+          Ver más 
+          <span className="transform group-hover:translate-x-1 transition-transform">→</span>
+        </button>
+      </div>
+    </div>
 
-      <section className="container mx-auto px-4">
-        <div className="container mx-auto relative mt-6">
-          <h2 className="font-semibold text-3xl relative z-1 w-50 text-center mx-auto bg-white">Deporte</h2>
-          <div className="text-amber-900 border-2 absolute top-1/2 w-full z-0" />
+    {/* Card Volleyball */}
+    <div className="group relative bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
+      <div className="absolute top-0 right-0 w-32 h-32 bg-blue-200/20 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500" />
+      
+      <div className="relative z-10">
+        <div className="bg-gradient-to-br from-blue-500 to-cyan-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+          <FaVolleyballBall className="text-white text-3xl" />
         </div>
+        
+        <h4 className="text-2xl font-bold text-gray-800 mb-3">Volleyball</h4>
+        <p className="text-gray-600 leading-relaxed">
+          Forma parte de nuestros equipos de volleyball y demuestra tu talento
+        </p>
+        
+        <button className="mt-6 text-blue-600 font-semibold flex items-center gap-2 group-hover:gap-3 transition-all">
+          Ver más 
+          <span className="transform group-hover:translate-x-1 transition-transform">→</span>
+        </button>
+      </div>
+    </div>
 
-        <div className="my-10 flex justify-between flex-wrap gap-5">
-          <div className="text-center shadow-lg hover:shadow-xl transition-shadow bg-red-50 relative pt-4 sm:flex-1">
-            <FaVolleyballBall className="inline text-5xl" />
-            <h4 className="text-xl font-bold py-4 text-amber-700 hover:underline">Futball</h4>
-            <p className="my-4 px-2">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-          </div>
-
-          <div className="text-center shadow-lg hover:shadow-xl transition-shadow bg-red-50 relative pt-4 sm:flex-1">
-            <FaBasketballBall className="inline text-5xl" />
-            <h4 className="text-xl font-bold py-4 text-amber-700 hover:underline">Basketball</h4>
-            <p className="my-4 px-2">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-          </div>
-
-          <div className="text-center shadow-lg hover:shadow-xl transition-shadow bg-red-50 relative pt-4 sm:flex-1">
-            <FaVolleyballBall className="inline text-5xl" />
-            <h4 className="text-xl font-bold py-4 text-amber-700 hover:underline">Volleyball</h4>
-            <p className="my-4 px-2">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-          </div>
-
-          <div className="text-center shadow-lg hover:shadow-xl transition-shadow bg-red-50 relative pt-4 sm:flex-1">
-            <FaTableTennis className="inline text-5xl" />
-            <h4 className="text-xl font-bold py-4 text-amber-700 hover:underline">Pinpon</h4>
-            <p className="my-4 px-2">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-          </div>
+    {/* Card Tenis de Mesa */}
+    <div className="group relative bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
+      <div className="absolute top-0 right-0 w-32 h-32 bg-green-200/20 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500" />
+      
+      <div className="relative z-10">
+        <div className="bg-gradient-to-br from-green-500 to-emerald-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+          <FaTableTennis className="text-white text-3xl" />
         </div>
-      </section>
+        
+        <h4 className="text-2xl font-bold text-gray-800 mb-3">Tenis de Mesa</h4>
+        <p className="text-gray-600 leading-relaxed">
+          Practica y compite en tenis de mesa con los mejores jugadores
+        </p>
+        
+        <button className="mt-6 text-green-600 font-semibold flex items-center gap-2 group-hover:gap-3 transition-all">
+          Ver más 
+          <span className="transform group-hover:translate-x-1 transition-transform">→</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+      
+        
+      </body>
 
-      <footer id="site-footer" className="bg-white rounded-lg shadow-sm m-4">
-        <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
-          <div className="sm:flex sm:items-center sm:justify-between">
-            <a href="#" className="flex items-center mb-4 sm:mb-0 space-x-3">
-              <img src={esfot} className="h-8" alt="esfot Logo" />
-            </a>
-            <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0">
-              <li><a href="#" className="hover:underline me-4 md:me-6">About</a></li>
-              <li><a href="#" className="hover:underline me-4 md:me-6">Privacy Policy</a></li>
-              <li><a href="#" className="hover:underline me-4 md:me-6">Licensing</a></li>
-              <li><a href="#" className="hover:underline">Contact</a></li>
-            </ul>
-          </div>
-          <hr className="my-6 border-gray-200 lg:my-8" />
-          <span className="block text-sm text-gray-500 text-center">
-            © 2025 <a href="#" className="hover:underline">ESFOT™</a>. All Rights Reserved.
-          </span>
+      
+
+      <footer className="bg-gradient-to-br from-gray-900 to-gray-800   mt-20">
+      <div className="container mx-auto">
+        <div className="border-t border-gray-700 pt-6 text-center text-gray-400">
+          <ul>
+            <li><p>© - Copyright  2025</p></li>
+            <li><p>Todos los derechos reservados</p></li>
+          </ul>
+          
         </div>
-      </footer>
+      </div>
+    </footer>
 
     </>
   );
