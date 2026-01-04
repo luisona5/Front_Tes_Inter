@@ -129,10 +129,10 @@ export const Register = () => {
                             {...register("carreraEstudiante", { required: "La carrera es obligatoria" })}
                         >
                             <option value="">----Selecciona una carrera----</option>
-                            <option value="electromecanica">Electromecánica</option>
-                            <option value="redes-telecomunicaciones">Redes y Telecomunicaciones</option>
-                            <option value="agua-saneamiento">Agua y Saneamiento Ambiental</option>
-                            <option value="desarrollo-software">Desarrollo de Software</option>
+                            <option value="Electromecánica">Electromecánica</option>
+                            <option value="Redes y Telecomunicaciones">Redes y Telecomunicaciones</option>
+                            <option value="Agua y Saneamiento Ambiental">Agua y Saneamiento Ambiental</option>
+                            <option value="Desarrollo de Software">Desarrollo de Software</option>
                         </select>
                         {errors.carreraEstudiante && <p className="text-red-600 text-sm mt-1">{errors.carreraEstudiante.message}</p>}
                     </div>

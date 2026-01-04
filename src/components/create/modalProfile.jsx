@@ -48,7 +48,8 @@ export const UserMenu = () => {
                 </div>
                 <span className="text-white font-semibold group-hover:text-cyan-100 transition-colors duration-200">
                     {user?.nombre || 
-                    user?.nombreDirector }
+                    user?.nombreDirector||
+                    user?.nombreEstudiante}
                 </span>
             </div>
 
@@ -60,10 +61,12 @@ export const UserMenu = () => {
                     <div className="px-4 py-2 border-b border-slate-100 mb-2">
                         <p className="text-sm text-center font-semibold text-slate-800 truncate">
                             {user?.nombre || 
-                            user?.nombreDirector}</p>
+                            user?.nombreDirector||
+                            user?.nombreEstudiante}</p>
                         <p className="text-xs text-center text-slate-500 truncate">
                             {user?.email || 
-                            user?.emailDirector }</p>
+                            user?.emailDirector||
+                            user?.emailEstudiante}</p>
                     </div>
                     
                     {/* Opciones del menú */}

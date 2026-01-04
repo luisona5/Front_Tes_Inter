@@ -25,9 +25,11 @@ const storeProfile = create((set) => ({
         try {
 
             const storedUser = JSON.parse(localStorage.getItem("auth-token"))
-            const endpoint = storedUser.state.rol ==="Administrador"
-                ? "perfil"
-                : "directordeEvento/perfil"
+            const endpoint = storedUser.state.rol ==="Estudiante"
+                ? "estudiante/perfil"
+                : storedUser.state.rol === "Director"
+                ? "directordeEvento/perfil"
+                : "administrador/perfil"
             const url = `${import.meta.env.VITE_BACKEND_URL}/${endpoint}`
             const respuesta = await axios.get(url, getAuthHeaders())
             set({ user: respuesta.data })
@@ -53,6 +55,7 @@ const storeProfile = create((set) => ({
     updatePasswordProfile:async(url,data)=>{
         try {
             const respuesta = await axios.put(url, data, getAuthHeaders())
+            toast.success("Password actualizado correctamente")
             return respuesta
 
         } catch (error) {
@@ -60,36 +63,6 @@ const storeProfile = create((set) => ({
             toast.error(error.response?.data?.msg)
         }
     },
-
-    /*deletedirector: async ( id) => {
-        try {
-            const url = `${import.meta.env.VITE_BACKEND_URL}/directordeEvento/eliminar/${id}`;
-           
-            const respuesta = await axios.delete(url, getAuthHeaders());
-            
-            toast.success("Director eliminado correctamente.");
-
-            return respuesta;
-
-        } catch (error) {
-            
-            toast.error(error.response?.data?.msg );
-            
-           
-        }
-    },
-        */
-
-
-
-
-
-
-
-
-
-
-
 
     })
 

@@ -2,8 +2,8 @@ import inflable from '../../assets/inflable.jfif'
 import { useEffect, useState } from 'react'
 import { useFetch } from '../../hooks/useFetch';
 import { useParams } from 'react-router';
-import { ToastContainer, toast } from 'react-toastify'
-import { Eye, EyeOff, Key, Lock, Check, X } from 'lucide-react';
+import { ToastContainer } from 'react-toastify'
+import { Eye, EyeOff, Check, X } from 'lucide-react';
 import { useNavigate } from 'react-router'
 import { useForm } from 'react-hook-form'
 
@@ -14,30 +14,21 @@ const ResetEstudiante = () => {
     const [tokenback, setTokenBack] = useState(false)
     const { register, handleSubmit, watch, formState: { errors } } = useForm()
     
-    const [showPassword, setShowPassword] = useState(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-
     const password = watch("password", "");
     const confirmPassword = watch("confirmpassword", "");
 
     // Validaciones en tiempo real
     const validations = {
-        length: password.length >= 8,
-        minuscula: /[a-z]/.test(password),
-        mayuscula: /[A-Z]/.test(password),
-        numero: /\d/.test(password),
-        special: /[@$!%*?&]/.test(password),
-        match: password && confirmPassword && password === confirmPassword
+        hasPassword: password.length > 0,
+        hasConfirmPassword: confirmPassword.length > 0,
+        match: password === confirmPassword && password.length > 0
     };
 
-    const allValid = Object.values(validations).every(Boolean);
+    const allValid = validations.match;
 
     const changePassword = async (dataForm) => {
-        if (!allValid) {
-            toast.error("Por favor, cumple con todos los requisitos de contraseña");
-            return;
-        }
-
+       
         const url = `${import.meta.env.VITE_BACKEND_URL}/nuevopasswordEstudiante/${token}`
         await fetchDataBackend(url, dataForm, 'POST')
         setTimeout(() => {
@@ -101,22 +92,18 @@ const ResetEstudiante = () => {
                                     Nueva Contraseña 
                                 </label>
                                 <div className="relative">
-                                    <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                                        <Lock size={20} className="text-gray-500" />
-                                    </div>
                                     <input 
-                                        type={showConfirmPassword ? "text" : "password"}
+                                        type={ "password"}
                                         placeholder="Ingresa tu nueva contraseña" 
-                                        className="block w-full rounded-xl border-2 border-white/40 bg-white/90 py-3.5 pl-12 pr-12 text-gray-800 placeholder:text-gray-500 focus:border-white focus:ring-2 focus:ring-white/50 focus:outline-none transition-all duration-200 backdrop-blur-sm"
-                                        {...register("password", { required: "La contraseña es obligatoria"})}
+                                        className="block w-full rounded-xl border-2 border-white/40 bg-white/90 py-3.5 pl-4 pr-12 text-gray-800 placeholder:text-gray-500 focus:border-white focus:ring-2 focus:ring-white/50 focus:outline-none transition-all duration-200 backdrop-blur-sm"
+                                        {...register("password", { required: "La contraseña es obligatoria",
+                                            minLength: {
+                                                value: 12,
+                                                message: "La contraseña debe tener al menos 12 caracteres"
+                                            }
+                                         })}
                                     />
-                                    <button
-                                        type="button"
-                                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                        className="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-500 hover:text-gray-700 transition-colors"
-                                    >
-                                        {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                                    </button>
+                                    
                                 </div>
                                 {errors.password && (
                                     <p className="text-sm text-red-200 font-medium mt-1.5 bg-red-500/30 px-3 py-1 rounded-lg">
@@ -125,30 +112,25 @@ const ResetEstudiante = () => {
                                 )}
                             </div>
 
-                            
                             {/* Campo Confirmar Contraseña */}
                             <div>
                                 <label className="mb-2 block text-sm font-semibold text-white">
                                     Confirmar Contraseña
                                 </label>
                                 <div className="relative">
-                                    <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                                        <Key size={20} className="text-gray-500" />
-                                    </div>
                                     <input 
-                                        type={showPassword ? "text" : "password"}
+                                        type={showConfirmPassword ? "text" : "password"}
                                         placeholder="Confirma tu contraseña" 
-                                        className="block w-full rounded-xl border-2 border-white/40 bg-white/90 py-3.5 pl-12 pr-12 text-gray-800 placeholder:text-gray-500 focus:border-white focus:ring-2 focus:ring-white/50 focus:outline-none transition-all duration-200 backdrop-blur-sm"
-                                        {...register("confirmpassword", { 
-                                            required: "Confirma tu contraseña"
-                                        })}
+                                        className="block w-full rounded-xl border-2 border-white/40 bg-white/90 py-3.5 pl-4 pr-12 text-gray-800 placeholder:text-gray-500 focus:border-white focus:ring-2 focus:ring-white/50 focus:outline-none transition-all duration-200 backdrop-blur-sm"
+                                        {...register("confirmpassword", {  required: "Confirma tu contraseña" })}
+                                       
                                     />
                                     <button
                                         type="button"
-                                        onClick={() => setShowPassword(!showPassword)}
+                                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                                         className="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-500 hover:text-gray-700 transition-colors"
                                     >
-                                        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                                        {showConfirmPassword ? <Eye size={20} /> : <EyeOff size={20} />}
                                     </button>
                                 </div>
                                 {errors.confirmpassword && (
@@ -156,8 +138,16 @@ const ResetEstudiante = () => {
                                         {errors.confirmpassword.message}
                                     </p>
                                 )}
-                                
-                                
+
+                                {/* Indicador de coincidencia - solo se muestra si ambos campos tienen contenido */}
+                                {confirmPassword && password && (
+                                    <div className="mt-2">
+                                        <ValidationItem 
+                                            isValid={validations.match} 
+                                            text={validations.match ? "Las contraseñas coinciden" : "Las contraseñas no coinciden"} 
+                                        />
+                                    </div>
+                                )}
                             </div>
 
                             {/* Botón Enviar */}
@@ -172,37 +162,6 @@ const ResetEstudiante = () => {
                             >
                                 {allValid ? 'Enviar' : 'Enviar'}
                             </button>
-
-                            {/* Indicadores de validación */}
-                            {password && (
-                                <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 space-y-2 border border-white/20">
-                                    <p className="text-sm font-semibold text-white mb-3">
-                                        La contraseña debe contener:
-                                    </p>
-                                    
-                                    <ValidationItem 
-                                        isValid={validations.length} 
-                                        text="Mínimo 8 caracteres" 
-                                    />
-                                    <ValidationItem 
-                                        isValid={validations.minuscula} 
-                                        text="Minúscula (a-z)" 
-                                    />
-                                    <ValidationItem 
-                                        isValid={validations.mayuscula} 
-                                        text="Mayúscula (A-Z)" 
-                                    />
-                                    <ValidationItem 
-                                        isValid={validations.numero} 
-                                        text="Número (0-9)" 
-                                    />
-                                    <ValidationItem 
-                                        isValid={validations.special} 
-                                        text="Carácter especial (@$!%*?&)" 
-                                    />
-                                </div>
-                            )}
-
 
                             {/* Link Iniciar Sesión */}
                             <div className="text-center mt-6">

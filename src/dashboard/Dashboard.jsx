@@ -2,6 +2,7 @@ import { Link, Outlet, useLocation } from 'react-router'
 import storeProfile from "../context/storeProfile"
 import { UserMenu } from '../components/create/modalProfile'
 import { ModalSidebar } from '../components/create/modalSidebar'
+import DashboardEstudiante from '../pages/Estudiante/DashboardEstudiante'
 
 
 const Dashboard = () => {
@@ -38,11 +39,11 @@ const Dashboard = () => {
                     <div className="bg-gray-800/50 rounded-xl p-4 mb-4 border border-gray-700/50 backdrop-blur-sm">
                         <div className="flex items-center justify-center gap-2 mb-3">
                             <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-lg shadow-green-500/50"></span>
-                            <p className="text-slate-300 text-sm font-medium">Activo</p>
+                            <p className="text-slate-300 text-sm font-medium">{user?.status}</p>
                         </div>
                         
                         <p className="text-white text-center font-semibold text-lg mb-2">
-                            {user?.nombre || user?.nombreDirector } 
+                            {user?.nombreEstudiante|| user?.nombre || user?.nombreDirector } 
                         </p>                 
                         
                         <div className="flex items-center justify-center gap-2">
@@ -54,7 +55,11 @@ const Dashboard = () => {
                     </div>
                 </div>
             
-                {/*Enlaces de navegación*/}
+                {user && user.rol === 'Estudiante' && (
+                    <DashboardEstudiante />
+                )}
+                
+                
                 <ul className="mt-5">
 
                     {/* Enlaces individuales (MANTENER IGUAL) */}

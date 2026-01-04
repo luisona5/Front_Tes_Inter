@@ -11,21 +11,19 @@ const Login = ({ isModal = false }) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const fetchDataBackend = useFetch();
   const { setToken, setRol } = storeAuth();
-
   const [showPassword, setShowPassword] = useState(false);
 
-  const loginUser = async (dataForm) => {
-    const url =  
-         `${import.meta.env.VITE_BACKEND_URL}/administrador/login`
 
-    const response = await fetchDataBackend(url, dataForm, "POST");
-    setToken(response.token);
-    setRol(response.rol);
-        
-    if (response) {
-      navigate("/dashboard");
+  
+  const loginUser = async(dataForm) => {
+        const url = `${import.meta.env.VITE_BACKEND_URL}/estudiante/login`
+        const response = await fetchDataBackend(url, dataForm,'POST')
+        setToken(response.token)
+        setRol(response.rol)
+        if(response){
+            navigate('/dashboard')
+        }
     }
-  };
 
   const handleClose = () => {
     navigate(-1); 

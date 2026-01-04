@@ -1,6 +1,6 @@
 import { CardProfileAdmin } from '.././Administrador/profile/CardProfileAdmin'
-//import { CardProfileDirector } from '../components/profile/CardProfileDirector'
-import storeProfile from '../context/storeProfile'
+import { CardProfileEstudiante } from '../Estudiante/CardProfileEstudiante'
+import storeProfile from '../../context/storeProfile'
 
 const Profile = () => {
     const { user } = storeProfile()
@@ -18,13 +18,19 @@ const Profile = () => {
             <div className="flex justify-center">
                 {!user ? (
                     <div className="text-center"></div>
-                ) : user && user?.rol === "Director" ? (
+                ) : user && user?.rol === "Estudiante" ? (
                     <div className='w-full max-w-lg'> 
                         <div className="sticky top-4"> 
-                          {/*  <CardProfileDirector /> */}
+                           <CardProfileEstudiante />
                         </div>
                     </div>
-                ) : (   
+                ) : user && user?.rol === "Administrador" ? (
+                    <div className='w-full max-w-lg'> 
+                        <div className="sticky top-4"> 
+                            <CardProfileAdmin />
+                        </div>
+                    </div>
+                ): (   
                     // Perfil normal
                     <div className='w-full max-w-lg'> 
                         <div className="sticky top-4"> 
