@@ -1,6 +1,12 @@
 import FormProfileEstudiante from '../../pages/Estudiante/FormProfileEstudiante';
+import FormProfileAdministrador from '../Administrador/FormProfileAdministrador';
+import storeProfile from '../../context/storeProfile'
+
 
 const UpdateProfile = () => {
+
+            const { user } = storeProfile()
+
     return (
         <>
             {/* Encabezado */}
@@ -10,10 +16,32 @@ const UpdateProfile = () => {
                 <p className='text-slate-500'>Gestiona tu información personal.</p>
             </div>  
             
-            {/* FormProfile centrado */}
-            <div className='w-full max-w-4xl mx-auto'>
-                <FormProfileEstudiante/>
-            </div>
+            <div className="flex justify-center">
+                            {!user ? (
+                                <div className="text-center"></div>
+                            ) : user && user?.rol === "Estudiante" ? (
+                                <div className='w-full max-w-lg'> 
+                                    <div className="sticky top-4"> 
+                                       <FormProfileEstudiante />
+                                    </div>
+                                </div>
+                            ) : user && user?.rol === "Administrador" ? (
+                                <div className='w-full max-w-lg'> 
+                                    <div className="sticky top-4"> 
+                                        <FormProfileAdministrador />
+                                    </div>
+                                </div>
+                            ): (   
+                                // Perfil normal
+                               {/* <div className='w-full max-w-lg'> 
+                                    <div className="sticky top-4"> 
+                                        <CardProfileAdmin />
+                                    </div>
+                                </div>*/}
+                            )}
+                        </div>
+            
+            
         </>
     );
 }

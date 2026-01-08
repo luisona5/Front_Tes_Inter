@@ -17,9 +17,19 @@ import    Profile     from "./pages/profileGeneral/profile";
 import UpdateProfile  from "./pages/profileGeneral/UpdateProfile";
 import UpdatePassword from "./pages/profileGeneral/UpdatePassword";
 
+import NuevoDirector        from "./pages/Administrador/FormDirector";
+import { NuevoEstudiante }  from "./pages/Administrador/FormEstudiante";
+import TableDirectores      from "./pages/Administrador/Table/TableDirector";
+import TableEstudiantes     from "./pages/Administrador/Table/TableEstudiante";
+import   DetailsDirector    from "./pages/Administrador/Table/actions/DetailsDirector";
+import   UpdateDirector     from "./pages/Administrador/Table/actions/UpdateDirector";
+
 import Dashboard from "./dashboard/Dashboard";
-import { Confirm } from "./pages/Estudiante/Confirm";
-import ResetEstudiante from "./pages/Estudiante/ResetEstudiante";
+import { Confirm }      from "./pages/Estudiante/Confirm";
+import ResetEstudiante  from "./pages/Estudiante/ResetEstudiante";
+import InscripcionDeportiva from "./pages/Inscripcion/FormInscripcion";
+
+
 
 
 function App() {
@@ -75,6 +85,14 @@ function AppContent() {
             <Route path="profile" element={<Profile />} />
             <Route path='UpdateProfile' element={<UpdateProfile />}/>
             <Route path='UpdatePassword' element={<UpdatePassword />}/>
+            <Route path='inscripciones/nuevodeporte' element={<InscripcionDeportiva />} />
+            <Route path='inscripciones/nuevo/director' element={<NuevoDirector/>} />
+            <Route path='inscripciones/nuevo/estudiante/politecnico' element={<NuevoEstudiante/>} />
+            <Route path='inscripciones/visualizar/directores' element={<TableDirectores/>} />
+            <Route path='inscripciones/visualizar/estudiantes' element={<TableEstudiantes/>} />
+            <Route path='Director-de-Evento/informacion-completa/:id' element={<DetailsDirector/>} />
+            <Route path='update/Director-de-Evento/informacion-completa/:id' element={<UpdateDirector/>} />
+          
 
           </Route>
         </Route>

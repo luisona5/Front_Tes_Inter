@@ -11,26 +11,33 @@ const Login = ({ isModal = false }) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const fetchDataBackend = useFetch();
   const { setToken, setRol } = storeAuth();
+
   const [showPassword, setShowPassword] = useState(false);
 
-
-  
-  const loginUser = async(dataForm) => {
-        const url = `${import.meta.env.VITE_BACKEND_URL}/estudiante/login`
-        const response = await fetchDataBackend(url, dataForm,'POST')
-        setToken(response.token)
-        setRol(response.rol)
-        if(response){
-            navigate('/dashboard')
-        }
+  const loginUser = async (dataForm) => {
+    const endpoints = {
+      administrador: `${import.meta.env.VITE_BACKEND_URL}/administrador/login`,
+      director: `${import.meta.env.VITE_BACKEND_URL}/directordeEvento/login`,
+      estudiante: `${import.meta.env.VITE_BACKEND_URL}/estudiante/login`
+    };
+    
+    const url = endpoints[dataForm.rol];
+    
+    const response = await fetchDataBackend(url, dataForm, "POST");
+    
+    if (response) {
+      setToken(response.token);
+      setRol(response.rol);
+      navigate("/dashboard");
     }
+  };
 
   const handleClose = () => {
     navigate(-1); 
   };
 
   // Vista MODAL
-  if (isModal) { // Cambio aquí: lógica correcta
+  if (isModal) {
     return (
       <div 
         className="fixed inset-0 flex justify-center items-center z-50 bg-black/50"
@@ -41,18 +48,28 @@ const Login = ({ isModal = false }) => {
           className="bg-white rounded-xl p-6 max-w-sm w-full shadow-2xl"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex justify-center mb-4">
             <h2 className="text-2xl font-bold">Iniciar Sesión</h2>
-            <button 
-              onClick={handleClose}
-              className="text-gray-500 hover:text-gray-700 text-2xl"
-              aria-label="Cerrar modal"
-            >
-              
-            </button>
           </div>
 
           <form onSubmit={handleSubmit(loginUser)}>
+            <div className="mb-3">
+              <label className="block text-sm font-semibold mb-1">Tipo de usuario</label>
+              <select 
+                className="w-full rounded-md border border-gray-300 focus:ring-2 focus:ring-blue-500 px-3 py-2 text-gray-700"
+                {...register("rol", { required: "Selecciona un rol",
+                  validate: value => value !== "" || "Selecciona un rol"
+                })}
+                defaultValue=""
+              >
+                <option value="" disabled>Selecciona un rol</option>
+                <option value="estudiante">Estudiante</option>
+                <option value="director">Director</option>
+                <option value="administrador">Administrador</option>
+              </select>
+              {errors.rol && <p className="text-red-600 text-sm mt-1">{errors.rol.message}</p>}
+            </div>
+
             <div className="mb-3">
               <label className="block text-sm font-semibold mb-1">Correo electrónico</label>
               <input
@@ -71,7 +88,7 @@ const Login = ({ isModal = false }) => {
                   type={showPassword ? "text" : "password"}
                   placeholder="************"
                   className="w-full rounded-md border border-gray-300 focus:ring-2 focus:ring-blue-500 px-3 py-2 pr-10"
-                  {...register("password", { required: "password es obligatoria" })}
+                  {...register("password", { required: "La contraseña es obligatoria" })}
                 />
                 <button
                   type="button"
@@ -92,9 +109,7 @@ const Login = ({ isModal = false }) => {
               Ingresar
             </button>
 
-          
             <div className="flex justify-between items-center mt-4">
-
               <button
                 type="button"
                 onClick={handleClose}
@@ -103,20 +118,17 @@ const Login = ({ isModal = false }) => {
                 Cancelar
               </button>
 
-              
               <div className="text-xs">
-                <Link to="/forgot/recuperacion-password/id" className="underline text-gray-400 hover:text-gray-900">
+                <Link to="/forgot/id" className="underline text-gray-400 hover:text-gray-900">
                   ¿Olvidaste tu password?
                 </Link>
               </div>
-
             </div>
-
           </form>
         </div>
       </div>
     );
   }
-
 }
+
 export default Login;

@@ -1,7 +1,11 @@
 import { Lock } from 'lucide-react'
 import CardPasswordEstudiante from '../../pages/Estudiante/CardPasswordEstudiante'
+import CardPasswordAdministrador from '../Administrador/CardPasswordAdministrador'
+import storeProfile from '../../context/storeProfile'
 
 const UpdatePassword = () => {
+    
+    const { user } = storeProfile()
     return (
         <>
             {/* Encabezado para consistencia visual */}
@@ -15,10 +19,30 @@ const UpdatePassword = () => {
                     <div className="h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent"></div>
             </div>
         
-            {/* Contenedor centrado */}
             <div className="flex justify-center">
-                <CardPasswordEstudiante/>
-            </div>
+                            {!user ? (
+                                <div className="text-center"></div>
+                            ) : user && user?.rol === "Estudiante" ? (
+                                <div className='w-full max-w-lg'> 
+                                    <div className="sticky top-4"> 
+                                       <CardPasswordEstudiante />
+                                    </div>
+                                </div>
+                            ) : user && user?.rol === "Administrador" ? (
+                                <div className='w-full max-w-lg'> 
+                                    <div className="sticky top-4"> 
+                                        <CardPasswordAdministrador />
+                                    </div>
+                                </div>
+                            ): (   
+                                // Perfil normal
+                               {/* <div className='w-full max-w-lg'> 
+                                    <div className="sticky top-4"> 
+                                        <CardProfileAdmin />
+                                    </div>
+                                </div>*/}
+                            )}
+                        </div>
         </>
     )
 }

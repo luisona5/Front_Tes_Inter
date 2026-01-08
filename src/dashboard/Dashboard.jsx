@@ -1,21 +1,20 @@
-import { Link, Outlet, useLocation } from 'react-router' 
+import { Outlet } from 'react-router' 
 import storeProfile from "../context/storeProfile"
 import { UserMenu } from '../components/create/modalProfile'
-import { ModalSidebar } from '../components/create/modalSidebar'
 import DashboardEstudiante from '../pages/Estudiante/DashboardEstudiante'
+import DashboardAdministrador from '../pages/Administrador/DashboardAdministrador'
 
 
 const Dashboard = () => {
-    const location = useLocation()
-    const urlActual = location.pathname
+    
 
     const {user} = storeProfile()
 
     return (
         
-        <div className='md:flex md:min-h-screen'>
+        <div className='md:flex h-screen overflow-hidden'>
 
-            <div className="min-h-screen bg-gray-900 p-6"> 
+            <div className="bg-gray-900 p-6 overflow-y-auto"> 
                 <div className="md:w-80 bg-gradient-to-b from-gray-800 to-gray-900 rounded-2xl shadow-2xl px-6 py-8 border border-gray-700">
                     
                     {/* ... Contenido del logo y perfil ... */}
@@ -55,68 +54,21 @@ const Dashboard = () => {
                     </div>
                 </div>
             
-                {user && user.rol === 'Estudiante' && (
+                {user && user.rol?.toLowerCase() === 'estudiante' && (
                     <DashboardEstudiante />
                 )}
+                {user && user.rol?.toLowerCase() === 'administrador' && (
+                    <DashboardAdministrador />
+                )}
                 
-                
-                <ul className="mt-5">
-
-                    {/* Enlaces individuales (MANTENER IGUAL) */}
-                    <li className="text-center">
-                        <Link 
-                            to='/dashboard' 
-                            className={`
-                                ${urlActual === '/dashboard' 
-                                    ? 'text-slate-200 px-3 py-2 rounded-md block mt-2 text-xl bg-gradient-to-r from-cyan-500 to-blue-500 shadow-lg' 
-                                    : 'text-slate-600 hover:text-slate-200 hover:bg-gray-800/30' 
-                                } 
-                                text-xl block mt-2 w-full transition-all duration-200
-                            `}
-                        >
-                            <span className="flex items-center justify-start gap-3 px-3 py-2">
-                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-                                </svg>
-                                Panel de control
-                            </span>
-                        </Link>
-                    </li>
-                    
-                    <li className="text-center">
-                        <Link 
-                            to='/dashboard/list' 
-                            className={`
-                                ${urlActual === '/dashboard/list' 
-                                    ? 'text-slate-200 px-3 py-2 rounded-md block mt-2 text-xl bg-gradient-to-r from-cyan-500 to-blue-500 shadow-lg' 
-                                    : 'text-slate-600 hover:text-slate-200 hover:bg-gray-800/30' 
-                                } 
-                                text-xl block mt-2 w-full transition-all duration-200
-                            `}
-                        >
-                            <span className="flex items-center justify-start gap-3 px-3 py-2">
-                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                                </svg>
-                                Registros
-                            </span>
-                        </Link>
-                    </li>
-
-                    <li className="text-center">
-                        <ModalSidebar />
-                    </li>
-
-                    
-
-                </ul>
+               
             </div>
 
 {/*---------------------------------------------------------barra superior----------------------------------- */}
             
-            <div className='flex-1 flex flex-col justify-between h-screen bg-gray-50'>
-                {/* ... Contenido de la barra superior, Outlet y Footer (MANTENER IGUAL) ... */}
-                <div className="bg-gradient-to-r from-gray-900 via-blue-500 to-gray-900 py-4 px-6 flex justify-between items-center shadow-xl">
+            <div className='flex-1 flex flex-col bg-gray-50 overflow-hidden'>
+                {/* Barra superior */}
+                <div className="bg-gradient-to-r from-gray-900 via-blue-500 to-gray-900 py-4 px-6 flex justify-between items-center shadow-xl flex-shrink-0">
                     <div className="flex items-center gap-4"> 
                         {/* Espacio para elementos de la barra superior izquierda */}
                     </div>
@@ -124,18 +76,16 @@ const Dashboard = () => {
                     <div className="flex items-center gap-4">
                         <UserMenu />
                     </div>
-
                 </div>
                 
-                
-                
-                {/* Contenido para mostra el contenido de las páginas internas */}
-                <div className='overflow-y-scroll p-8'>
+                {/* Contenido para mostrar el contenido de las páginas internas */}
+                <div className='flex-1 overflow-y-auto p-8'>
                     <Outlet />
                 </div>
-{/*---------------------------------------------------------FOOTER----------------------------------- */}
 
-                <footer className='bg-white/80 backdrop-blur-xl border-t border-gray-200/50 py-4 px-6'>
+{/*---------------------------------------------------------FOOTER----------------------------------- */}
+                {/* Footer se queda al final automáticamente */}
+                <footer className='bg-white/80 backdrop-blur-xl border-t border-gray-200/50 py-4 px-6 flex-shrink-0'>
                     <div className='flex flex-col sm:flex-row justify-center items-center gap-3'>
                         <p className='text-sm text-gray-600 flex items-center gap-2'>
                             <span>©</span>

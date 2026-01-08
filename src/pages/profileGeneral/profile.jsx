@@ -1,5 +1,6 @@
 import { CardProfileAdmin } from '.././Administrador/profile/CardProfileAdmin'
 import { CardProfileEstudiante } from '../Estudiante/CardProfileEstudiante'
+
 import storeProfile from '../../context/storeProfile'
 
 const Profile = () => {
