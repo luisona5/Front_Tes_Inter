@@ -5,16 +5,19 @@ import { useFetch } from "../../hooks/useFetch";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import { useState } from "react";
 import storeAuth from "../../context/storeAuth";
+import { Mail, Lock, User, ArrowRight } from "lucide-react";
 
-const Login = ( ) => { 
+const Login = () => { 
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm();
   const fetchDataBackend = useFetch();
   const { setToken, setRol } = storeAuth();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const loginUser = async (dataForm) => {
+    setIsLoading(true);
     const endpoints = {
       administrador: `${import.meta.env.VITE_BACKEND_URL}/administrador/login`,
       director: `${import.meta.env.VITE_BACKEND_URL}/directordeEvento/login`,
@@ -30,126 +33,181 @@ const Login = ( ) => {
       setRol(response.rol);
       navigate("/dashboard");
     }
+    setIsLoading(false);
   };
 
-  
+  return (
+    <div className="min-h-screen flex">
+      <ToastContainer position="top-right" autoClose={3000} />
 
-  
-    return (
-        <div className="flex flex-col sm:flex-row h-screen">
+      {/* Panel Izquierdo - Imagen con Overlay */}
+      <div className="hidden lg:flex lg:w-1/2 relative bg-gradient-to-br from-cyan-600 via-cyan-700 to-cyan-800">
+        <div 
+          className="absolute inset-0 bg-[url('/src/assets/futbol.jpg')] bg-cover bg-center opacity-20"
+        ></div>
+      </div>
 
-            <ToastContainer />
-
-            {/* Imagen */}
-            <div className="hidden sm:block sm:w-1/2 bg-[url('/src/assets/futbol.jpg')] bg-cover bg-center"></div>
-
-
-            <div className="w-full sm:w-1/2 flex justify-center items-center bg-white">
-
-                <div className="w-4/5">
-
-                    <h1 className="text-3xl font-semibold text-center text-gray-500">Bienvenido(a)</h1>
-                
-                    <p className="text-gray-400 text-center my-4">Por favor ingresa tus datos</p>
-
-
-                    {/* Formulario */}
-                    <form onSubmit={handleSubmit(loginUser)}>
-                      <div className="mb-3">
-                        <label className="block text-sm font-semibold mb-1">Tipo de usuario</label>
-                        <select 
-                          className="w-full rounded-md border border-gray-300 focus:ring-2 focus:ring-blue-500 px-3 py-2 text-gray-700"
-                          {...register("rol", { required: "Selecciona un rol",
-                            validate: value => value !== "" || "Selecciona un rol"
-                          })}
-                          defaultValue=""
-                        >
-                          <option value="" disabled>Selecciona un rol</option>
-                          <option value="estudiante">Estudiante</option>
-                          <option value="director">Director</option>
-                          <option value="administrador">Administrador</option>
-                        </select>
-                        {errors.rol && <p className="text-red-600 text-sm mt-1">{errors.rol.message}</p>}
-                      </div>
-
-                        {/* Campo Correo */}
-                        <div className="mb-3">
-                            <label className="block text-sm font-semibold mb-1">Correo electrónico</label>
-                            <input
-                                type="email"
-                                placeholder="Ingresa tu correo"
-                                className="w-full rounded-md border border-gray-300 focus:ring-1 px-2 py-1 text-gray-500"
-                                {...register("email", { required: "El correo es obligatorio" })}
-                            />
-                                {errors.email && <p className="text-red-800">{errors.email.message}</p>}
-                        </div>
-
-
-                        {/* Campo Contraseña */}
-                        <div className="mb-3">
-                            
-                            <label className="block text-sm font-semibold mb-1">Contraseña</label>
-
-                            <div className="relative">
-                                <input
-                                    type={showPassword ? "text" : "password"}
-                                    placeholder="************"
-                                    className="w-full rounded-md border border-gray-300 px-3 py-2 pr-10"
-                                    {...register("password", { required: "La contraseña es obligatoria" })}
-                                />
-                                    {errors.password && <p className="text-red-800">{errors.password.message}</p>}
-
-                                <button
-                                    type="button"
-                                    onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700"
-                                    aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
-                                >
-                                    {showPassword ? <MdVisibilityOff size={20} /> : <MdVisibility size={20} />}
-                                </button>
-                            </div>
-                        </div>
-
-
-                        {/* Botón login */}
-                            <button className="py-2 w-full block text-center bg-gray-500 text-slate-300 border rounded-xl 
-                            hover:scale-100 duration-300 hover:bg-gray-900 hover:text-white">Iniciar sesión</button>
-
-                    </form>
-
-
-                    {/* Separador */}
-                    <div className="mt-6 flex items-center text-gray-400">
-                        <hr className="flex-1" />
-                        <span className="px-2 text-sm">O</span>
-                        <hr className="flex-1" />
-                    </div>
-
-
-                   
-
-
-                    {/* Enlace para olvidaste tu contraseña */}
-                    <div className="mt-5 text-xs border-b-2 py-4 text-left">
-                        <Link to="/forgot/recuperacion-password/" className="underline text-gray-400 hover:text-gray-900">
-                            ¿Olvidaste tu contraseña?
-                        </Link>
-                    </div>
-
-
-
-                    {/* Enlaces para volver o registrarse */}
-                    <div className="mt-3 flex justify-between text-sm">
-                        <Link to="/" className="underline text-gray-400 hover:text-gray-900">Regresar</Link>
-                        <Link to="/register" className="py-2 px-5 bg-gray-600 text-white rounded-xl hover:bg-gray-900">Registrarse</Link>
-                    </div>
-
-
-                </div>
+      <div className="w-full lg:w-1/2 flex items-center justify-center bg-gray-50 p-8">
+        <div className="w-full max-w-md">
+          
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl mb-4 shadow-lg">
+              <User className="w-8 h-8 text-white" />
             </div>
-        </div>
-    );
-};
+            <h2 className="text-3xl font-bold text-gray-800 mb-2">
+              Bienvenido 
+            </h2>
+            <p className="text-gray-500">
+              Ingresa tus credenciales para continuar
+            </p>
+          </div>
 
+          <div className="space-y-5">
+            
+            {/* Selector de Rol */}
+            <div>
+              <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                <User className="w-4 h-4" />
+                Tipo de usuario
+              </label>
+              <div className="relative">
+                <select 
+                  className={`w-full px-4 py-3 rounded-xl border-2 transition-all duration-200 appearance-none bg-white
+                    ${errors.rol 
+                      ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100' 
+                      : 'border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100'
+                    }`}
+                  {...register("rol", { 
+                    required: "Selecciona un tipo de usuario",
+                    validate: value => value !== "" || "Selecciona un tipo de usuario"
+                  })}
+                  defaultValue=""
+                >
+                  <option value="" disabled>Selecciona tu rol</option>
+                  <option value="estudiante"> Estudiante</option>
+                  <option value="director"> Director</option>
+                  <option value="administrador">Administrador</option>
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </div>
+              {errors.rol && (<p className="mt-2 text-sm text-red-600 flex items-center gap-1">{errors.rol.message}</p>)}</div>
+
+            {/* Campo Email */}
+            <div>
+              <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                <Mail className="w-4 h-4" />
+                Correo electrónico
+              </label>
+              <div className="relative">
+                <input
+                  type="email"
+                  placeholder="ingresa tu email"
+                  className={`w-full px-4 py-3 pl-11 rounded-xl border-2 transition-all duration-200
+                    ${errors.email 
+                      ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100' 
+                      : 'border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100'
+                    }`}
+                  {...register("email", { required: "El correo es obligatorio"})}
+                />
+              </div>
+              {errors.email && (<p className="mt-2 text-sm text-red-600 flex items-center gap-1">{errors.email.message}</p>)}
+            </div>
+
+            {/* Campo Contraseña */}
+            <div>
+              <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
+                <Lock className="w-4 h-4" />
+                Contraseña
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••••"
+                  className={`w-full px-4 py-3 pl-11 pr-11 rounded-xl border-2 transition-all duration-200
+                    ${errors.password 
+                      ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100' 
+                      : 'border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100'
+                    }`}
+                  {...register("password", { required: "La contraseña es obligatoria"})}
+                />
+
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                  aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                >
+                  {showPassword ?<MdVisibility size={22} />: <MdVisibilityOff size={22} />  }
+                </button>
+              </div>
+              {errors.password && (<p className="mt-2 text-sm text-red-600 flex items-center gap-1">{errors.password.message}</p>)}
+            </div>
+
+            {/* Olvidaste contraseña */}
+            <div className="flex justify-end">
+              <Link 
+                to="/forgot/recuperacion-password/" 
+                className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors"
+              >
+                ¿Olvidaste tu contraseña?
+              </Link>
+            </div>
+
+            {/* Botón de Login */}
+            <button 
+              type="button"
+              onClick={handleSubmit(loginUser)}
+              disabled={isLoading}
+              className={`w-full py-3.5 px-4 rounded-xl font-semibold text-white transition-all duration-200 flex items-center justify-center gap-2 shadow-lg
+                ${isLoading 
+                  ? 'bg-gray-400 cursor-not-allowed' 
+                  : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transform hover:scale-[1.02] active:scale-[0.98]'
+                }`}
+            >
+              {isLoading ? (
+                <>
+                  <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Iniciando sesión...
+                </>
+              ) : (
+                <>
+                  Iniciar sesión
+                  <ArrowRight className="w-5 h-5" />
+                </>
+              )}
+            </button>
+          </div>
+
+          {/* Links adicionales */}
+          <div className="flex flex-col sm:flex-row gap-3 items-center justify-between">
+            <Link 
+              to="/" 
+              className="text-sm font-medium text-gray-600 hover:text-gray-800 transition-colors flex items-center gap-1"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+              Regresar
+            </Link>
+            <Link 
+              to="/register/nuevo-estudiantes" 
+              className="px-6 py-2.5 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-colors"
+            >
+              Crear cuenta
+            </Link>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default Login;

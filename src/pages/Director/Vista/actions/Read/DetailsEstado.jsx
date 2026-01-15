@@ -4,7 +4,7 @@ import { useFetch } from "../../../../../hooks/useFetch"
 import { User, Phone, Activity, Calendar, Clock, MapPinned, AlertCircle, ArrowLeft, CheckCircle, XCircle } from 'lucide-react'
 import { toast, ToastContainer } from 'react-toastify'
 
-const DetailsInscripctionEstadoPendiente = () => {
+const DetailsInscripctionEstadoGeneral = () => {
     
     const {id} = useParams()
     const navigate = useNavigate()
@@ -22,7 +22,7 @@ const DetailsInscripctionEstadoPendiente = () => {
         const detalleInscripcion = async () => {
             try {
                 setLoading(true)
-                const url = `${import.meta.env.VITE_BACKEND_URL}/inscripciones/detalle/${id}`
+                const url = `${import.meta.env.VITE_BACKEND_URL}/inscripciones-estudiantes/detalle/${id}`
                 const storedUser = JSON.parse(localStorage.getItem("auth-token"))
                 const headers = {
                     "Content-Type": "application/json",
@@ -39,13 +39,13 @@ const DetailsInscripctionEstadoPendiente = () => {
             }
         }
         detalleInscripcion()
-    }, [id])
+    }, [])
 
     // Función para aprobar inscripción
     const handleAprobar = async () => {
         try {
             setProcesando(true)
-            const url = `${import.meta.env.VITE_BACKEND_URL}/inscripcion/aprobar//${id}`
+            const url = `${import.meta.env.VITE_BACKEND_URL}/inscripcion/aprobar/${id}`
             const storedUser = JSON.parse(localStorage.getItem("auth-token"))
             const headers = {
                 "Content-Type": "application/json",
@@ -57,7 +57,6 @@ const DetailsInscripctionEstadoPendiente = () => {
             const response = await fetchDataBackend(url, body, "PUT", headers)
             
             if (response) {
-                toast.success("✅ Inscripción aprobada exitosamente")
                 setModalOpen(false)
                 setTimeout(() => {
                     navigate("/dashboard/director/inscripciones-pendientes")
@@ -80,7 +79,7 @@ const DetailsInscripctionEstadoPendiente = () => {
 
         try {
             setProcesando(true)
-            const url = `${import.meta.env.VITE_BACKEND_URL}/inscripciones/rechazar/${id}`
+            const url = `${import.meta.env.VITE_BACKEND_URL}/inscripcion/rechazar/${id}`
             const storedUser = JSON.parse(localStorage.getItem("auth-token"))
             const headers = {
                 "Content-Type": "application/json",
@@ -92,7 +91,6 @@ const DetailsInscripctionEstadoPendiente = () => {
             const response = await fetchDataBackend(url, body, "PUT", headers)
             
             if (response) {
-                toast.success("✅ Inscripción rechazada")
                 setModalOpen(false)
                 setTimeout(() => {
                     navigate("/dashboard/director/inscripciones-pendientes")
@@ -100,10 +98,7 @@ const DetailsInscripctionEstadoPendiente = () => {
             }
         } catch (error) {
             console.error("Error al rechazar:", error)
-            toast.error("Error al rechazar la inscripción")
-        } finally {
-            setProcesando(false)
-        }
+        } 
     }
 
     const abrirModal = (tipo) => {
@@ -285,7 +280,11 @@ const DetailsInscripctionEstadoPendiente = () => {
                                             <Calendar className="w-4 h-4 text-blue-600" />
                                             <p className="text-sm text-blue-700 font-semibold">Fecha</p>
                                         </div>
-                                        <p className="text-gray-800 font-semibold">{inscripcion?.deporte?.fecha || 'N/A'}</p>
+                                        <p className="text-gray-800 font-semibold"> {new Date(inscripcion.deporte?.fechaFin).toLocaleDateString('es-EC', {
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric'
+                                        })} </p>
                                     </div>
                                     
                                     <div className="bg-purple-50 p-4 rounded-lg">
@@ -293,7 +292,7 @@ const DetailsInscripctionEstadoPendiente = () => {
                                             <Clock className="w-4 h-4 text-purple-600" />
                                             <p className="text-sm text-purple-700 font-semibold">Hora</p>
                                         </div>
-                                        <p className="text-gray-800 font-semibold">{inscripcion?.deporte?.hora || 'N/A'}</p>
+                                        <p className="text-gray-800 font-semibold">{inscripcion?.deporte?.horaFin || 'N/A'}</p>
                                     </div>
                                     
                                     <div className="bg-indigo-50 p-4 rounded-lg">
@@ -308,19 +307,50 @@ const DetailsInscripctionEstadoPendiente = () => {
                         </div>
 
                         {/* Información Médica */}
-                        {inscripcion?.informacionMedica && (
-                            <div className="bg-gradient-to-br from-red-50 to-pink-50 rounded-2xl shadow-lg p-6 border-2 border-red-200 hover:shadow-xl transition-shadow duration-300">
-                                <div className="flex items-center gap-3 mb-4">
-                                    <div className="p-3 bg-red-100 rounded-lg">
-                                        <AlertCircle className="w-6 h-6 text-red-600" />
-                                    </div>
-                                    <h2 className="text-2xl font-bold text-gray-800">Información Médica</h2>
+                    {inscripcion?.informacionMedica && (
+                        <div className="bg-gradient-to-br from-red-50 to-pink-50 rounded-2xl shadow-lg p-6 border-2 border-red-200 hover:shadow-xl transition-shadow duration-300">
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="p-3 bg-red-100 rounded-lg">
+                                    <AlertCircle className="w-6 h-6 text-red-600" />
                                 </div>
+                                <h2 className="text-2xl font-bold text-gray-800">Información Médica</h2>
+                            </div>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {/* Estado de Salud */}
                                 <div className="bg-white p-4 rounded-lg shadow-sm">
-                                    <p className="text-gray-800">{inscripcion.informacionMedica}</p>
+                                    <p className="text-sm font-semibold text-gray-600 mb-1">Estado de Salud</p>
+                                    <p className="text-gray-800 font-medium">
+                                        {inscripcion.informacionMedica?.estadoSalud || 'No especificado'}
+                                    </p>
+                                </div>
+
+                                {/* Alergias */}
+                                <div className="bg-white p-4 rounded-lg shadow-sm">
+                                    <p className="text-sm font-semibold text-gray-600 mb-1">Alergias</p>
+                                    <p className="text-gray-800 font-medium">
+                                        {inscripcion.informacionMedica?.alergias || 'Ninguna'}
+                                    </p>
+                                </div>
+
+                                {/* Medicamentos */}
+                                <div className="bg-white p-4 rounded-lg shadow-sm">
+                                    <p className="text-sm font-semibold text-gray-600 mb-1">Medicamentos</p>
+                                    <p className="text-gray-800 font-medium">
+                                        {inscripcion.informacionMedica?.medicamentos || 'Ninguno'}
+                                    </p>
+                                </div>
+
+                                {/* Condiciones Médicas */}
+                                <div className="bg-white p-4 rounded-lg shadow-sm">
+                                    <p className="text-sm font-semibold text-gray-600 mb-1">Condiciones Médicas</p>
+                                    <p className="text-gray-800 font-medium">
+                                        {inscripcion.informacionMedica?.condicionesMedicas || 'Ninguna'}
+                                    </p>
                                 </div>
                             </div>
-                        )}
+                        </div>
+                    )}
                     </div>
 
                     {/* Columna lateral */}
@@ -357,7 +387,7 @@ const DetailsInscripctionEstadoPendiente = () => {
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 transform transition-all">
                         <h3 className="text-2xl font-bold text-gray-800 mb-4">
-                            {accion === 'aprobar' ? '✅ Aprobar Inscripción' : '❌ Rechazar Inscripción'}
+                            {accion === 'aprobar' ? 'Aprobar Inscripción' : ' Rechazar Inscripción'}
                         </h3>
                         
                         {accion === 'aprobar' ? (
@@ -422,4 +452,4 @@ const DetailsInscripctionEstadoPendiente = () => {
     )
 }
 
-export default DetailsInscripctionEstadoPendiente
+export default DetailsInscripctionEstadoGeneral

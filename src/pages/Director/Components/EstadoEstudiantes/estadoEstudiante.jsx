@@ -2,19 +2,19 @@ import { MdInfo } from "react-icons/md"
 import { useFetch } from "../../../../hooks/useFetch"
 import { useEffect, useState } from "react"
 import { FileDown, Trash2, Search, Download } from "lucide-react"
-import { Link, useNavigate } from "react-router"
+import {  useNavigate } from "react-router"
 import { ToastContainer } from "react-toastify"
 import { BlobProvider, PDFDownloadLink } from "@react-pdf/renderer"
 import SimpleCategoryPDF from "../../../../pages/Estudiante/pdf/Inscripcion"
 
 const TablaEstadoEstudiante = () => {
     const fetchDataBackend = useFetch()
-    const [categories, setCategorias] = useState([])
+    const [estados, setEstados] = useState([])
     const [busqueda, setBusqueda] = useState('')
     
     const navigate = useNavigate()
 
-    const listCategory = async () => {
+    const listEstados = async () => {
         const url = `${import.meta.env.VITE_BACKEND_URL}/listado-estados-director`
         
         const storedUser = JSON.parse(localStorage.getItem("auth-token"))
@@ -23,7 +23,7 @@ const TablaEstadoEstudiante = () => {
             Authorization: `Bearer ${storedUser.state.token}`,
         }
         const response = await fetchDataBackend(url, null, "GET", headers)
-        setCategorias(response)
+        setEstados(response)
     }
 
     const deleteCategory = async(id) => {
@@ -37,10 +37,10 @@ const TablaEstadoEstudiante = () => {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${storedUser.state.token}`,
                 }
-                const body = JSON.stringify({ estadoCategoria: false });
+                const body = JSON.stringify({ estadoInscripcion: false });
                 await fetchDataBackend(url, body, "DELETE", options);
-                setCategorias((prevCategories) => prevCategories.filter(category => category._id !== id))
-                listCategory(); 
+                setEstados((prevEstados) => prevEstados.filter(estado => estado._id !== id))
+                listEstados(); 
             } catch (error) {
                 console.error("Error al deshabilitar categoria.", error);
             }
@@ -48,30 +48,34 @@ const TablaEstadoEstudiante = () => {
     };
 
     const estadoStyles = {
-    'Aprobada': 'bg-green-100 text-green-800 ring-1 ring-green-600',
+    'Aprobada':'bg-green-100 text-green-800 ring-1 ring-green-600',
     'Pendiente': 'bg-yellow-100 text-yellow-800 ring-1 ring-yellow-600',
     'Rechazada': 'bg-red-100 text-red-800 ring-1 ring-red-600'
 };
     useEffect(() => {
-        listCategory()
+        listEstados()
     }, [])
 
-    const filteredCategorias = categories.slice().sort((a, b) => {
-        const nombreComparison = a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' });
-        if (nombreComparison !== 0) {
-            return nombreComparison; 
+    const filteredEstado = estados.slice().sort((a, b) => {
+        const apellidoComparison = a.apellido.localeCompare(b.apellido, 'es', { sensitivity: 'base' });
+        if (apellidoComparison !== 0) {
+            return apellidoComparison; 
         }
         return a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' });
-    }).filter(category => {
+    }).filter(Inscription => {
         if (!busqueda) return true
         const buscar = busqueda.toLowerCase()
         return (
-            category.nombre.toLowerCase().includes(buscar)
-            
+            Inscription.nombre.toLowerCase().includes(buscar) ||
+            Inscription.apellido.toLowerCase().includes(buscar) ||
+            Inscription.cedula.toLowerCase().includes(buscar) ||
+            Inscription.email.toLowerCase().includes(buscar)||
+            Inscription.deporte?.nombre.toLowerCase().includes(buscar)||
+            Inscription.categoria?.nombre.toLowerCase().includes(buscar)
         )
     })
 
-    if (categories.length === 0) {
+    if (estados.length === 0) {
         return (
             <div className="p-6 text-center">
                 <div className="inline-block p-8 bg-red-50 rounded-2xl shadow-md">
@@ -80,6 +84,7 @@ const TablaEstadoEstudiante = () => {
             </div>
         )
     }
+
 
     return (
         <div className="p-6 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
@@ -104,7 +109,7 @@ const TablaEstadoEstudiante = () => {
 
                     {/* Botón de descarga mejorado */}
                     <PDFDownloadLink
-                        document={<SimpleCategoryPDF categories={filteredCategorias} />}
+                        document={<SimpleCategoryPDF categories={filteredEstado} />}
                         fileName={`estudiantes${new Date().toISOString().split('T')[0]}.pdf`}
                         className="flex items-center gap-3 bg-blue-900 text-white px-6 py-3.5 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl font-medium transform hover:scale-105"
                     >
@@ -121,7 +126,7 @@ const TablaEstadoEstudiante = () => {
             </div>
 
             {/* Mensaje cuando no hay resultados */}
-            {filteredCategorias.length === 0 && busqueda && (
+            {filteredEstado.length === 0 && busqueda && (
                 <div className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-lg shadow-md mb-6">
                     <div className="flex items-center">
                         <div>
@@ -157,7 +162,7 @@ const TablaEstadoEstudiante = () => {
 
                         {/* Cuerpo */}
                         <tbody className="divide-y divide-gray-200">
-                            {filteredCategorias.map((Inscription, index) => (
+                            {filteredEstado.map((Inscription, index) => (
                                 <tr 
                                     key={Inscription._id}
                                     className="hover:bg-gray-50 transition-colors duration-150"
@@ -176,7 +181,7 @@ const TablaEstadoEstudiante = () => {
                                     <td className="px-4 py-4 text-center">
                                         <span 
                                             className={`px-3 py-1.5 inline-flex text-xs font-semibold rounded-full ${
-                                                estadoStyles[Inscription.estado] || 'bg-gray-100 text-gray-800 ring-1 ring-gray-600'
+                                                estadoStyles[Inscription.estado] || 'bg-green-100 text-green-800 ring-1 ring-green-600'
                                             }`}
                                         >
                                             {Inscription.estado}
@@ -187,7 +192,7 @@ const TablaEstadoEstudiante = () => {
                                     <td className="px-4 py-4">
                                         <div className="flex items-center justify-center gap-2">
                                             <button 
-                                                onClick={() => navigate(`/dashboard/update/inscripcion-estudiante-esfot/${Inscription._id}`)}
+                                                onClick={() => navigate(`/dashboard/details-inscripcion-estudinates/${Inscription._id}`)}
                                                 className="p-2 text-green-600 hover:text-white hover:bg-green-600 
                                                          rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
                                                 title="Ver información"

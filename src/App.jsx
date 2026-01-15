@@ -43,7 +43,7 @@ import DetailsInscripction from "./pages/Estudiante/Vista/actions/Read/DetailsIn
 import TablaInscripcion from "./pages/Estudiante/Vista/actions/Delete/DeleteInscripcion";
 import { ForgotGeneral } from "./pages/Principal/forgotGeneral";
 import TablaEstadoEstudiante from "./pages/Director/Components/EstadoEstudiantes/estadoEstudiante";
-import DetailsInscripctionEstadoPendiente from "./pages/Director/Vista/actions/Read/DetailsEstado";
+import DetailsInscripctionEstadoGeneral from "./pages/Director/Vista/actions/Read/DetailsEstado";
 
 
 
@@ -125,7 +125,8 @@ function AppContent() {
             <Route path='inscripciones/Deporte/nuevo/Director' element={< CreateDeporte />} />
             <Route path='Deporte-esfot-epn/informacion-deporte/:id' element={< DetailsDeporte />} />
             <Route path='update/Deporte-esfot-epn/informacion-deporte/:id' element={< UpdateDeporte/>} />
-            <Route path='update/inscripcion-estudiante-esfot/:id' element={< DetailsInscripctionEstadoPendiente/>} />
+            <Route path='details-inscripcion-estudinates/:id' element={< DetailsInscripctionEstadoGeneral/>} />
+
 
             
 
@@ -133,6 +134,8 @@ function AppContent() {
             <Route path='inscripciones/nuevodeporte' element={<InscripcionDeportiva />} />
             <Route path='estudiante/inscripcionesGenerales'element={<TablaInscripcion />} />
             <Route path='Inscription-esfot-epn/informacion-completa/:id'element={<DetailsInscripction />} />
+
+
 
 
 

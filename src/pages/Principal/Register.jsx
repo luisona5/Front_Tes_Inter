@@ -28,60 +28,20 @@ export const Register = () => {
         <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex">
             <ToastContainer />
 
-            {/* Panel izquierdo - Imagen de fondo */}
             <div className="hidden lg:block lg:w-1/2 bg-[url('/src/assets/buho.jpg')] bg-cover bg-center bg-no-repeat relative">
-                {/* Overlay con gradiente */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-900/90 via-blue-800/85 to-indigo-900/90 backdrop-blur-[2px]"></div>
                 
-                {/* Contenido */}
-                <div className="relative z-10 flex flex-col justify-between h-full p-12 text-white">
+                <div className=" z-10 flex flex-col justify-between h-full p-12 text-white ">
                     <div>
-                        <h1 className="text-5xl font-bold mb-4 drop-shadow-lg">POLISPORT</h1>
-                        <div className="w-24 h-1.5 bg-white/60 rounded-full mb-8"></div>
-                        <p className="text-xl text-blue-50 leading-relaxed max-w-md drop-shadow-md">
-                            Únete a la comunidad deportiva más grande. 
-                            Regístrate y comienza tu experiencia deportiva universitaria.
-                        </p>
+                        <h1 className="text-5xl text-center font-bold mb-4 drop-shadow-lg">POLISPORT</h1>
+                        
                     </div>
 
-                    {/* Beneficios */}
-                    <div className="space-y-6">
-                        <div className="flex items-start gap-4">
-                            <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center flex-shrink-0">
-                                <MdSchool className="text-2xl" />
-                            </div>
-                            <div>
-                                <h3 className="font-semibold text-lg mb-1 drop-shadow">Inscripciones Rápidas</h3>
-                                <p className="text-blue-100 text-sm">Regístrate en tus deportes favoritos en minutos</p>
-                            </div>
-                        </div>
 
-                        <div className="flex items-start gap-4">
-                            <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center flex-shrink-0">
-                                <MdBadge className="text-2xl" />
-                            </div>
-                            <div>
-                                <h3 className="font-semibold text-lg mb-1 drop-shadow">Seguimiento Personalizado</h3>
-                                <p className="text-blue-100 text-sm">Consulta el estado de tus inscripciones</p>
-                            </div>
-                        </div>
-
-                        <div className="flex items-start gap-4">
-                            <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center flex-shrink-0">
-                                <MdPerson className="text-2xl" />
-                            </div>
-                            <div>
-                                <h3 className="font-semibold text-lg mb-1 drop-shadow">Comunidad Activa</h3>
-                                <p className="text-blue-100 text-sm">Forma parte de nuestra familia deportiva</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="pt-8 border-t border-white/20">
-                        <p className="text-blue-100 text-sm mb-3">¿Ya tienes una cuenta?</p>
+                    <div className="pt-8 border-t border-white/20 text-center">
+                        <p className="text-white text-center text-lg mb-3">¿Ya tienes una cuenta?</p>
                         <Link 
                             to="/login" 
-                            className="inline-block px-8 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl font-semibold transition-all duration-300 hover:scale-105"
+                            className="inline-block px-8 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl font-semibold transition-all duration-300 hover:scale-105 "
                         >
                             Iniciar Sesión
                         </Link>
@@ -89,10 +49,11 @@ export const Register = () => {
                 </div>
             </div>
 
-            {/* Panel derecho - Formulario */}
+            {/* Panel derecho  */}
             <div className="w-full lg:w-1/2 flex items-center justify-center p-6 overflow-y-auto">
                 <div className="w-full max-w-2xl">
-                    {/* Header Mobile */}
+
+                    {/* Header  */}
                     <div className="lg:hidden mb-8 text-center">
                         <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2">
                             POLISPORT
@@ -103,15 +64,14 @@ export const Register = () => {
                     {/* Card del formulario */}
                     <div className="bg-white rounded-3xl shadow-2xl p-8 lg:p-10">
                         <div className="mb-8">
-                            <h2 className="text-3xl font-bold text-gray-800 mb-2">
+                            <h2 className="text-3xl font-bold text-gray-800 mb-2 text-center">
                                 Crear Cuenta
                             </h2>
-                            <p className="text-gray-600">
-                                Completa tus datos para registrarte
-                            </p>
+                        
                         </div>
 
                         <form onSubmit={handleSubmit(registerUser)} className="space-y-5">
+                            
                             {/* Cédula */}
                             <div>
                                 <label className="block text-sm font-semibold text-gray-700 mb-2">

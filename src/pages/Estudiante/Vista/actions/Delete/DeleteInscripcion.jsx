@@ -151,9 +151,9 @@ const TablaInscripcion = () => {
                             <tr>
                                 <th className="px-4 py-4 text-center text-xs font-bold uppercase tracking-wider">N°</th>
                                 <th className="px-4 py-4 text-center text-xs font-bold uppercase tracking-wider">Nombre</th>
-                                <th className="px-4 py-4 text-center text-xs font-bold uppercase tracking-wider">Email</th>
+                                <th className="px-4 py-4 text-center text-xs font-bold uppercase tracking-wider">Apellido</th>
+                                <th className="px-4 py-4 text-center text-xs font-bold uppercase tracking-wider">Deporte</th>
                                 <th className="px-4 py-4 text-center text-xs font-bold uppercase tracking-wider">Estado</th>
-
                                 <th className="px-4 py-4 text-center text-xs font-bold uppercase tracking-wider">Acciones</th>
                                 <th className="px-4 py-4 text-center text-xs font-bold uppercase tracking-wider">PDF</th>
                             </tr>
@@ -168,7 +168,9 @@ const TablaInscripcion = () => {
                                 >
                                     <td className="px-4 py-4 text-sm font-medium text-gray-900">{index + 1} </td>
                                     <td className="px-4 py-4 text-sm text-gray-700">{Inscription.nombre} </td>
-                                    <td className="px-4 py-4 text-sm text-gray-600">{Inscription.email}</td>
+                                    <td className="px-4 py-4 text-sm text-gray-600">{Inscription.apellido}</td>
+                                    <td className="px-4 py-4 text-sm text-gray-600">{Inscription?.deporte?.nombre}</td>
+
 
                                     <td className="px-4 py-4 text-center">
                                         <span 
