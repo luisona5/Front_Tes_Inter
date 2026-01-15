@@ -1,5 +1,5 @@
 import { Camera, CreditCard, Mail, Phone, User, Briefcase, MapPin, Users } from "lucide-react";
-import storeProfile from "../../context/storeProfile"
+import storeProfile from "../../../context/storeProfile"
 
 
 export const CardProfileEstudiante = () => {

@@ -1,22 +1,21 @@
-import { MdInfo, MdUpdate } from "react-icons/md"
-import { useFetch } from "../../../hooks/useFetch"
+import { MdInfo } from "react-icons/md"
+import { useFetch } from "../../../../../hooks/useFetch"
 import { useEffect, useState } from "react"
 import { FileDown, Trash2, Search, Download } from "lucide-react"
 import { Link, useNavigate } from "react-router"
 import { ToastContainer } from "react-toastify"
-import SimpleDirectorPDF from "../pdf/ConversePDF"
 import { BlobProvider, PDFDownloadLink } from "@react-pdf/renderer"
-import DirectoresTablePDF from "../pdf/TableDirectores"
+import SimpleCategoryPDF from "../../../pdf/Inscripcion"
 
-const TableDirector = () => {
+const TablaInscripcion = () => {
     const fetchDataBackend = useFetch()
-    const [directores, setDirectores] = useState([])
+    const [categories, setCategorias] = useState([])
     const [busqueda, setBusqueda] = useState('')
     
     const navigate = useNavigate()
 
-    const listDirector = async () => {
-        const url = `${import.meta.env.VITE_BACKEND_URL}/directordeEvento/visualizarDirectores`
+    const listCategory = async () => {
+        const url = `${import.meta.env.VITE_BACKEND_URL}/inscripciones/listar`
         
         const storedUser = JSON.parse(localStorage.getItem("auth-token"))
         const headers = {
@@ -24,52 +23,55 @@ const TableDirector = () => {
             Authorization: `Bearer ${storedUser.state.token}`,
         }
         const response = await fetchDataBackend(url, null, "GET", headers)
-        setDirectores(response)
+        setCategorias(response)
     }
 
-    const deleteDirector = async(id) => {
+    const deleteCategory = async(id) => {
         const confirmDelete = confirm("Advertencia: Esta acción se eliminara de manera permanente. ¿Deseas continuar?");
         
         if (confirmDelete) {
             try {
-                const url = `${import.meta.env.VITE_BACKEND_URL}/directordeEvento/eliminar/${id}` 
+                const url = `${import.meta.env.VITE_BACKEND_URL}/inscripciones/eliminar/${id}` 
                 const storedUser = JSON.parse(localStorage.getItem("auth-token"))
                 const options = {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${storedUser.state.token}`,
                 }
-                const body = JSON.stringify({ estadoDirector: false });
+                const body = JSON.stringify({ estadoCategoria: false });
                 await fetchDataBackend(url, body, "DELETE", options);
-                setDirectores((prevDirectores) => prevDirectores.filter(director => director._id !== id))
-                listDirector(); 
+                setCategorias((prevCategories) => prevCategories.filter(category => category._id !== id))
+                listCategory(); 
             } catch (error) {
-                console.error("Error al deshabilitar director.", error);
+                console.error("Error al deshabilitar categoria.", error);
             }
         }
     };
 
+    const estadoStyles = {
+    'Aprobada': 'bg-green-100 text-green-800 ring-1 ring-green-600',
+    'Pendiente': 'bg-yellow-100 text-yellow-800 ring-1 ring-yellow-600',
+    'Rechazada': 'bg-red-100 text-red-800 ring-1 ring-red-600'
+};
     useEffect(() => {
-        listDirector()
+        listCategory()
     }, [])
 
-    const filteredDirectores = directores.slice().sort((a, b) => {
-        const apellidoComparison = a.apellidoDirector.localeCompare(b.apellidoDirector, 'es', { sensitivity: 'base' });
-        if (apellidoComparison !== 0) {
-            return apellidoComparison; 
+    const filteredCategorias = categories.slice().sort((a, b) => {
+        const nombreComparison = a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' });
+        if (nombreComparison !== 0) {
+            return nombreComparison; 
         }
-        return a.nombreDirector.localeCompare(b.nombreDirector, 'es', { sensitivity: 'base' });
-    }).filter(director => {
+        return a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' });
+    }).filter(category => {
         if (!busqueda) return true
         const buscar = busqueda.toLowerCase()
         return (
-            director.nombreDirector.toLowerCase().includes(buscar) ||
-            director.apellidoDirector.toLowerCase().includes(buscar) ||
-            director.cedulaDirector.toLowerCase().includes(buscar) ||
-            director.emailDirector.toLowerCase().includes(buscar)
+            category.nombre.toLowerCase().includes(buscar)
+            
         )
     })
 
-    if (directores.length === 0) {
+    if (categories.length === 0) {
         return (
             <div className="p-6 text-center">
                 <div className="inline-block p-8 bg-red-50 rounded-2xl shadow-md">
@@ -102,8 +104,8 @@ const TableDirector = () => {
 
                     {/* Botón de descarga mejorado */}
                     <PDFDownloadLink
-                        document={<DirectoresTablePDF directores={filteredDirectores} />}
-                        fileName={`directores_${new Date().toISOString().split('T')[0]}.pdf`}
+                        document={<SimpleCategoryPDF categories={filteredCategorias} />}
+                        fileName={`estudiantes${new Date().toISOString().split('T')[0]}.pdf`}
                         className="flex items-center gap-3 bg-blue-900 text-white px-6 py-3.5 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl font-medium transform hover:scale-105"
                     >
                         {({ loading }) => (
@@ -119,7 +121,7 @@ const TableDirector = () => {
             </div>
 
             {/* Mensaje cuando no hay resultados */}
-            {filteredDirectores.length === 0 && busqueda && (
+            {filteredCategorias.length === 0 && busqueda && (
                 <div className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-lg shadow-md mb-6">
                     <div className="flex items-center">
                         <div>
@@ -129,16 +131,16 @@ const TableDirector = () => {
                     </div>
                 </div>
             )}
-
-            <td className="px-4 py-3">
+             <td className="px-4 py-3">
                 <div className="flex justify-center">
-                    <Link to='/dashboard/inscripciones/nuevo/director'>
+                    <Link to='/dashboard/inscripciones/nuevodeporte'>
                         <button className="flex items-center gap-3 bg-blue-900 text-white px-6 py-4 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl font-medium transform hover:scale-105">
-                            Nuevo director
+                            Nuevo Inscripcion
                         </button>
                     </Link>
                 </div>
             </td>
+
 
             {/* Tabla mejorada */}
             <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
@@ -147,11 +149,11 @@ const TableDirector = () => {
                         {/* Encabezado */}
                         <thead className="bg-gradient-to-r from-gray-700 to-gray-800 text-white">
                             <tr>
-                                <th className="px-4 py-4 text-left text-xs font-bold uppercase tracking-wider">N°</th>
-                                <th className="px-4 py-4 text-left text-xs font-bold uppercase tracking-wider">Apellido</th>
-                                <th className="px-4 py-4 text-left text-xs font-bold uppercase tracking-wider">Nombre</th>
-                                <th className="px-4 py-4 text-left text-xs font-bold uppercase tracking-wider">Email</th>
+                                <th className="px-4 py-4 text-center text-xs font-bold uppercase tracking-wider">N°</th>
+                                <th className="px-4 py-4 text-center text-xs font-bold uppercase tracking-wider">Nombre</th>
+                                <th className="px-4 py-4 text-center text-xs font-bold uppercase tracking-wider">Email</th>
                                 <th className="px-4 py-4 text-center text-xs font-bold uppercase tracking-wider">Estado</th>
+
                                 <th className="px-4 py-4 text-center text-xs font-bold uppercase tracking-wider">Acciones</th>
                                 <th className="px-4 py-4 text-center text-xs font-bold uppercase tracking-wider">PDF</th>
                             </tr>
@@ -159,32 +161,22 @@ const TableDirector = () => {
 
                         {/* Cuerpo */}
                         <tbody className="divide-y divide-gray-200">
-                            {filteredDirectores.map((Director, index) => (
+                            {filteredCategorias.map((Inscription, index) => (
                                 <tr 
-                                    key={Director._id}
+                                    key={Inscription._id}
                                     className="hover:bg-gray-50 transition-colors duration-150"
                                 >
-                                    <td className="px-4 py-4 text-sm font-medium text-gray-900">
-                                        {index + 1}
-                                    </td>
-                                    <td className="px-4 py-4 text-sm font-semibold text-gray-800">
-                                        {Director.apellidoDirector}
-                                    </td>
-                                    <td className="px-4 py-4 text-sm text-gray-700">
-                                        {Director.nombreDirector}
-                                    </td>
-                                    <td className="px-4 py-4 text-sm text-gray-600">
-                                        {Director.emailDirector}
-                                    </td>
+                                    <td className="px-4 py-4 text-sm font-medium text-gray-900">{index + 1} </td>
+                                    <td className="px-4 py-4 text-sm text-gray-700">{Inscription.nombre} </td>
+                                    <td className="px-4 py-4 text-sm text-gray-600">{Inscription.email}</td>
+
                                     <td className="px-4 py-4 text-center">
                                         <span 
-                                            className={`px-3 py-1.5 inline-flex text-xs font-semibold rounded-full
-                                            ${Director.estadoDirector 
-                                                ? 'bg-green-100 text-green-800 ring-1 ring-green-600' 
-                                                : 'bg-red-100 text-red-800 ring-1 ring-red-600'
+                                            className={`px-3 py-1.5 inline-flex text-xs font-semibold rounded-full ${
+                                                estadoStyles[Inscription.estado] || 'bg-gray-100 text-gray-800 ring-1 ring-gray-600'
                                             }`}
                                         >
-                                            {Director.estadoDirector ? "Activo" : "Inactivo"}
+                                            {Inscription.estado}
                                         </span>
                                     </td>
 
@@ -192,7 +184,7 @@ const TableDirector = () => {
                                     <td className="px-4 py-4">
                                         <div className="flex items-center justify-center gap-2">
                                             <button 
-                                                onClick={() => navigate(`/dashboard/Director-de-Evento/informacion-completa/${Director._id}`)}
+                                                onClick={() => navigate(`/dashboard/Inscription-esfot-epn/informacion-completa/${Inscription._id}`)}
                                                 className="p-2 text-green-600 hover:text-white hover:bg-green-600 
                                                          rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
                                                 title="Ver información"
@@ -200,17 +192,9 @@ const TableDirector = () => {
                                                 <MdInfo className="h-5 w-5" /> 
                                             </button>
 
-                                            <button 
-                                                onClick={() => navigate(`/dashboard/update/Director-de-Evento/informacion-completa/${Director._id}`)}
-                                                className="p-2 text-blue-600 hover:text-white hover:bg-blue-600 
-                                                         rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
-                                                title="Actualizar"
-                                            >
-                                                <MdUpdate className="h-5 w-5" />                                
-                                            </button>
 
                                             <button 
-                                                onClick={() => deleteDirector(Director._id)}
+                                                onClick={() => deleteCategory(Inscription._id)}
                                                 className="p-2 text-red-600 hover:text-white hover:bg-red-600 
                                                          rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
                                                 title="Eliminar"
@@ -223,7 +207,7 @@ const TableDirector = () => {
                                     {/* Botón PDF mejorado */}
                                     <td className="px-4 py-3">
                                         <div className="flex justify-center">
-                                            <BlobProvider document={<SimpleDirectorPDF data={Director} />}>
+                                            <BlobProvider document={<SimpleCategoryPDF data={Inscription} />}>
                                                 {({ url, loading }) => (
                                                     <button
                                                         disabled={loading}
@@ -250,4 +234,4 @@ const TableDirector = () => {
     )
 }
 
-export default TableDirector
+export default TablaInscripcion

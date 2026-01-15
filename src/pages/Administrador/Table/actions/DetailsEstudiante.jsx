@@ -4,17 +4,17 @@ import { useFetch } from "../../../../hooks/useFetch"
 
 
 
-const DetailsDirector = () => {
+const DetailsEstudiante = () => {
     
     const {id}=useParams()
 
-    const [directores, setDirectores]= useState({})
+    const [estudiantes, setEstudiantes]= useState({})
     const fetchDataBackend = useFetch()
     
     useEffect(() => {
 
-        const detalleDirector = async () => {
-            const url = `${import.meta.env.VITE_BACKEND_URL}/directordeEvento/detalle/informacion/${id}`
+        const detalleEstudiante = async () => {
+            const url = `${import.meta.env.VITE_BACKEND_URL}/estudiante/detalle/${id}`
             const storedUser = JSON.parse(localStorage.getItem("auth-token"))
             const headers= {
                 "Content-Type": "application/json",
@@ -23,9 +23,9 @@ const DetailsDirector = () => {
             const response = await fetchDataBackend(url, null, "GET", headers)
 
 
-            setDirectores(response)
+            setEstudiantes(response)
         }
-        detalleDirector()
+        detalleEstudiante()
     }, [])
 
 
@@ -34,10 +34,10 @@ const DetailsDirector = () => {
     return (
         <>
             <div>
-                <h1 className='font-black text-4xl text-gray-500'>Informacion del Director</h1>
+                <h1 className='font-black text-4xl text-gray-500'>Informacion del Estudiante</h1>
                 <hr className='my-4 border-t-2 border-gray-300' />
-                <p className='mb-8'>Detalle completo del perfil asigando</p>
-            </div>
+                            
+                </div>
 
 
             <div>
@@ -56,37 +56,49 @@ const DetailsDirector = () => {
                                 
 
                                 <li className="text-md mt-2">
-                                    <span className="text-gray-600 font-bold">Cédula:  {directores?.cedulaDirector} </span>
+                                    <span className="text-gray-600 font-bold">Cédula:  {estudiantes?.cedulaEstudiante} </span>
                                 </li>
 
                                 <li className="text-md mt-2">
-                                    <span className="text-gray-600 font-bold">Nombre:  {directores?.nombreDirector} </span>
-                                </li>
-                                 <li className="text-md mt-2">
-                                    <span className="text-gray-600 font-bold">Apellido:  {directores?.apellidoDirector} </span>
+                                    <span className="text-gray-600 font-bold">Nombre:  {estudiantes?.nombreEstudiante} </span>
                                 </li>
 
+                                 <li className="text-md mt-2">
+                                    <span className="text-gray-600 font-bold">Apellido:  {estudiantes?.apellidoEstudiante} </span>
+                                </li>
+
+                                 <li className="text-md mt-2">
+                                    <span className="text-gray-600 font-bold">genero:  {estudiantes?.genero} </span>
+                                </li>
                                
                                 <li className="text-md mt-2">
-                                    <span className="text-gray-600 font-bold">Celular:  {directores?.telefonoDirector}</span>
+                                    <span className="text-gray-600 font-bold">Celular:  {estudiantes?.telefonoEstudiante}</span>
+                                </li>
+
+                                <li className="text-md mt-2">
+                                    <span className="text-gray-600 font-bold">Dirección:  {estudiantes?.direccionEstudiante}</span>
                                 </li>
 
                             </ul>   
 
-                            <li className="text-md text-gray-00 mt-4 font-bold text-xl">Datos del Director </li>
+                            <li className="text-md text-gray-00 mt-4 font-bold text-xl">Información Institucional </li>
 
                             <ul>
 
-                                <li className="text-md mt-2">
-                                    <span className="text-gray-600 font-bold">identificador:  {directores?._id} </span>
-                                </li>
+                                
 
                                  <li className="text-md mt-2">
-                                    <span className="text-gray-600 font-bold">Correo electrónico:  {directores?.emailDirector} </span>
+                                    <span className="text-gray-600 font-bold">Correo electrónico:  {estudiantes?.emailEstudiante} </span>
                                 </li>
 
                                 <li className="text-md mt-2">
-                                    <span className="text-gray-600 font-bold">Estado: {directores?.status}</span>
+                                    <span className="text-gray-600 font-bold">Estado: {estudiantes?.status}</span>
+                                </li>
+                                <li className="text-md mt-2">
+                                    <span className="text-gray-600 font-bold">Carrera: {estudiantes?.carreraEstudiante}</span>
+                                </li>
+                                <li className="text-md mt-2">
+                                    <span className="text-gray-600 font-bold">Semestre: {estudiantes?.semestre}</span>
                                 </li>
                             </ul>
 
@@ -108,4 +120,4 @@ const DetailsDirector = () => {
     )
 }
 
-export default DetailsDirector
+export default DetailsEstudiante

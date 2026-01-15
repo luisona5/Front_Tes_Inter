@@ -1,26 +1,26 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router"
-import {useFetch} from "../../../../hooks/useFetch"
-import  FormDirector  from "../../../Administrador/FormDirector"
+import {useFetch} from "../../../../../hooks/useFetch"
+import  FormCategory  from "../../../../Director/Vista/actions/Create/CreateCategory"
 
-const UpdateDirector = () => {
+const UpdateCategoria = () => {
 
     const { id } = useParams()
-    const [director, setDirector] = useState({})
+    const [categoria, setDCategoria] = useState({})
     const fetchDataBackend = useFetch()
 
     useEffect(() => {
-        const searchDirector = async () => {
-            const url = `${import.meta.env.VITE_BACKEND_URL}/directordeEvento/detalle/informacion/${id}`
+        const searchDCategoria = async () => {
+            const url = `${import.meta.env.VITE_BACKEND_URL}/categoriadeEvento/${id}`
             const storedUser = JSON.parse(localStorage.getItem("auth-token"))
             const headers= {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${storedUser.state.token}`
             }
             const response = await fetchDataBackend(url, null, "GET", headers)
-            setDirector(response || {})
+            setDCategoria(response || {})
         }
-        searchDirector()
+        searchDCategoria()
     }, [])
 
     return (
@@ -30,9 +30,9 @@ const UpdateDirector = () => {
             <p className='mb-8'>Este módulo te permite actualizar informacion </p>
             
             {
-                Object.keys(director).length != 0 ?
+                Object.keys(categoria).length != 0 ?
                     (
-                        <FormDirector director={director} />
+                        <FormCategory categoria={categoria} />
                     )
                     :
                     (
@@ -46,4 +46,4 @@ const UpdateDirector = () => {
     )
 }
 
-export default UpdateDirector
+export default UpdateCategoria

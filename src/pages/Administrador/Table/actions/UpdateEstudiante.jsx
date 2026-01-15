@@ -1,26 +1,26 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router"
 import {useFetch} from "../../../../hooks/useFetch"
-import  FormDirector  from "../../../Administrador/FormDirector"
+import  FormEstudiante from "../../../Administrador/FormEstudiante"
 
-const UpdateDirector = () => {
+const UpdateEstudiante = () => {
 
     const { id } = useParams()
-    const [director, setDirector] = useState({})
+    const [estudiante, setEstudiante] = useState({})
     const fetchDataBackend = useFetch()
 
     useEffect(() => {
-        const searchDirector = async () => {
-            const url = `${import.meta.env.VITE_BACKEND_URL}/directordeEvento/detalle/informacion/${id}`
+        const searchEstudiante = async () => {
+            const url = `${import.meta.env.VITE_BACKEND_URL}/estudiante/detalle/${id}`
             const storedUser = JSON.parse(localStorage.getItem("auth-token"))
             const headers= {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${storedUser.state.token}`
             }
             const response = await fetchDataBackend(url, null, "GET", headers)
-            setDirector(response || {})
+            setEstudiante(response || {})
         }
-        searchDirector()
+        searchEstudiante()
     }, [])
 
     return (
@@ -30,9 +30,9 @@ const UpdateDirector = () => {
             <p className='mb-8'>Este módulo te permite actualizar informacion </p>
             
             {
-                Object.keys(director).length != 0 ?
+                Object.keys(estudiante).length !== 0 ?
                     (
-                        <FormDirector director={director} />
+                        <FormEstudiante estudiante={estudiante} />
                     )
                     :
                     (
@@ -46,4 +46,4 @@ const UpdateDirector = () => {
     )
 }
 
-export default UpdateDirector
+export default UpdateEstudiante

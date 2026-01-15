@@ -1,12 +1,11 @@
 import { FaBasketballBall, FaVolleyballBall, FaTableTennis } from "react-icons/fa";
 //import fondo from '../../assets/buho.jpg';
 import esfot from '../../assets/esfot.png';
-import { Link, useLocation } from "react-router";
+import { Link } from "react-router";
 import {Carrusel} from "../../components/carrusel/carrusel";
 
 export const Home = () => {
 
-const location = useLocation();
 
   
 
@@ -24,7 +23,6 @@ const location = useLocation();
             <nav className="flex items-center gap-4">
               <Link
                 to="/login"
-                state={{ background: location }}
                 className="relative group text-white hover:text-orange-600 font-semibold text-sm px-5 py-2 transition-colors"
               >
                 Iniciar Sesión

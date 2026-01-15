@@ -1,7 +1,8 @@
 import { CardProfileAdmin } from '.././Administrador/profile/CardProfileAdmin'
-import { CardProfileEstudiante } from '../Estudiante/CardProfileEstudiante'
+import { CardProfileEstudiante } from '../Estudiante/Profile/CardProfileEstudiante'
 
 import storeProfile from '../../context/storeProfile'
+import { CardProfileDirector } from '../Director/profile/CardProfileDirector'
 
 const Profile = () => {
     const { user } = storeProfile()
@@ -35,7 +36,7 @@ const Profile = () => {
                     // Perfil normal
                     <div className='w-full max-w-lg'> 
                         <div className="sticky top-4"> 
-                            <CardProfileAdmin />
+                            <CardProfileDirector />
                         </div>
                     </div>
                 )}

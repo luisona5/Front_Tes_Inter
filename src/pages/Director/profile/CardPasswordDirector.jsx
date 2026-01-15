@@ -1,12 +1,12 @@
 import { Lock, Key, Eye, EyeOff } from 'lucide-react';
 import { ToastContainer } from 'react-toastify';
 import { useForm } from "react-hook-form"
-import storeProfile from "../../context/storeProfile"
-import storeAuth from "../../context/storeAuth"
+import storeProfile from "../../../context/storeProfile"
+import storeAuth from "../../../context/storeAuth"
 import { useState } from 'react';
 
 
-const CardPasswordEstudiante = () => {
+const CardPasswordDirector = () => {
 
     const { register, handleSubmit, formState: { errors } = {} } = useForm()
     const {user, updatePasswordProfile} = storeProfile()
@@ -21,7 +21,7 @@ const CardPasswordEstudiante = () => {
             return;
         }
         */
-        const url = `${import.meta.env.VITE_BACKEND_URL}/actualizarpasswordEstudiante/${user._id}`
+        const url = `${import.meta.env.VITE_BACKEND_URL}/actualizarpasswordDirector/${user._id}`
         const response = await updatePasswordProfile(url, dataForm)
         if(response){
 
@@ -104,4 +104,4 @@ const CardPasswordEstudiante = () => {
     );
 };
 
-export default CardPasswordEstudiante;
+export default CardPasswordDirector;

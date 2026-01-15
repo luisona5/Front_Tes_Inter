@@ -1,5 +1,6 @@
-import FormProfileEstudiante from '../../pages/Estudiante/FormProfileEstudiante';
+import FormProfileEstudiante from '../Estudiante/Vista/actions/Update/FormProfileEstudiante';
 import FormProfileAdministrador from '../Administrador/FormProfileAdministrador';
+import FormProfileDirector from '../../pages/Director/Vista/actions/Update/UpdateProfile';
 import storeProfile from '../../context/storeProfile'
 
 
@@ -32,12 +33,11 @@ const UpdateProfile = () => {
                                     </div>
                                 </div>
                             ): (   
-                                // Perfil normal
-                               {/* <div className='w-full max-w-lg'> 
+                                <div className='w-full max-w-lg'> 
                                     <div className="sticky top-4"> 
-                                        <CardProfileAdmin />
+                                        <FormProfileDirector />
                                     </div>
-                                </div>*/}
+                                </div>
                             )}
                         </div>
             

@@ -1,7 +1,8 @@
 import { Lock } from 'lucide-react'
-import CardPasswordEstudiante from '../../pages/Estudiante/CardPasswordEstudiante'
+import CardPasswordEstudiante from '../Estudiante/Profile/CardPasswordEstudiante'
 import CardPasswordAdministrador from '../Administrador/CardPasswordAdministrador'
 import storeProfile from '../../context/storeProfile'
+import CardPasswordDirector from '../Director/profile/CardPasswordDirector'
 
 const UpdatePassword = () => {
     
@@ -35,12 +36,11 @@ const UpdatePassword = () => {
                                     </div>
                                 </div>
                             ): (   
-                                // Perfil normal
-                               {/* <div className='w-full max-w-lg'> 
+                                <div className='w-full max-w-lg'> 
                                     <div className="sticky top-4"> 
-                                        <CardProfileAdmin />
+                                        <CardPasswordDirector />
                                     </div>
-                                </div>*/}
+                                </div>
                             )}
                         </div>
         </>

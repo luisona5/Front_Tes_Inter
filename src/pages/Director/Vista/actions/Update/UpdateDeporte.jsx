@@ -1,26 +1,27 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router"
-import {useFetch} from "../../../../hooks/useFetch"
-import  FormDirector  from "../../../Administrador/FormDirector"
+import {useFetch} from "../../../../../hooks/useFetch"
+import  FormDeporte  from "../../../../../pages/Director/Vista/actions/Create/CreateDeporte"
 
-const UpdateDirector = () => {
+
+const UpdateDeporte = () => {
 
     const { id } = useParams()
-    const [director, setDirector] = useState({})
+    const [deporte, setDeporte] = useState({})
     const fetchDataBackend = useFetch()
 
     useEffect(() => {
-        const searchDirector = async () => {
-            const url = `${import.meta.env.VITE_BACKEND_URL}/directordeEvento/detalle/informacion/${id}`
+        const searchDeporte = async () => {
+            const url = `${import.meta.env.VITE_BACKEND_URL}/detalleDeporte/${id}`
             const storedUser = JSON.parse(localStorage.getItem("auth-token"))
             const headers= {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${storedUser.state.token}`
             }
             const response = await fetchDataBackend(url, null, "GET", headers)
-            setDirector(response || {})
+            setDeporte(response || {})
         }
-        searchDirector()
+        searchDeporte()
     }, [])
 
     return (
@@ -30,9 +31,9 @@ const UpdateDirector = () => {
             <p className='mb-8'>Este módulo te permite actualizar informacion </p>
             
             {
-                Object.keys(director).length != 0 ?
+                Object.keys(deporte).length != 0 ?
                     (
-                        <FormDirector director={director} />
+                        <FormDeporte deporte={deporte} />
                     )
                     :
                     (
@@ -46,4 +47,4 @@ const UpdateDirector = () => {
     )
 }
 
-export default UpdateDirector
+export default UpdateDeporte

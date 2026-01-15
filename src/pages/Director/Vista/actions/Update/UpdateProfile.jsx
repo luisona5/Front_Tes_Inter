@@ -1,31 +1,32 @@
 import  { useEffect } from 'react';
-import storeProfile from "../../context/storeProfile"; 
+import storeProfile from "../../../../../context/storeProfile"; 
 import { useForm } from "react-hook-form";
 import { ToastContainer } from 'react-toastify';
 import {  UserRoundCog} from 'lucide-react';
 import { validacionNombre,validacionApellido,
         validacionTelefono, soloLetras,
          soloNumeros, 
-         validacionCedula} from '../../helpers/validaciones';
+         validacionCedula} from '../../../../../helpers/validaciones';
 
 
-const FormularioPerfilAdministrador = () => {
+const FormularioPerfilDirector = () => {
 
     const { user, updateProfile } = storeProfile()
     const { register, handleSubmit,  formState: { errors } = {},reset } = useForm() 
 
-    const updateAdmin = (dataForm) => {
-        const url = `${import.meta.env.VITE_BACKEND_URL}/administrador/actualizarperfil/${user._id}`
+    const updateDirector = (dataForm) => {
+        const url = `${import.meta.env.VITE_BACKEND_URL}/actualizarperfilDirector/${user._id}`
         updateProfile(url, dataForm)
     }
 
     useEffect(() => {
         if (user) {
             reset({
-                cedula:user?.cedula,
-                nombre: user?.nombre,
-                apellido: user?.apellido,
-                telefono: user?.telefono,
+                cedulaDirector:user?.cedulaDirector,
+                nombreDirector: user?.nombreDirector,
+                apellidoDirector: user?.apellidoDirector,
+                telefonoDirector: user?.telefonoDirector,
+                emailDirector:user?.emailDirector
 
             })
         }
@@ -35,7 +36,7 @@ const FormularioPerfilAdministrador = () => {
         <div className="max-w-xl mx-auto"> 
             <ToastContainer />
             
-            <form onSubmit={handleSubmit(updateAdmin)} 
+            <form onSubmit={handleSubmit(updateDirector)} 
                   className="bg-gradient-to-br from-white to-slate-50 border border-slate-200 rounded-2xl shadow-2xl p-8 w-full 
                              hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] transition-all duration-300">
                 
@@ -57,10 +58,12 @@ const FormularioPerfilAdministrador = () => {
                         placeholder="ingresa numero de cedula"
                         className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500"
                         maxLength={10}
-                        {...register("cedula", validacionCedula)}
+                        {...register("cedulaDirector", validacionCedula)}
                         onInput={soloNumeros}
+                        disabled
+                        
                     />
-                    {errors.cedula && <p className="text-red-600 text-sm mt-1">{errors.cedula.message}</p>}
+                    {errors.cedulaDirector && <p className="text-red-600 text-sm mt-1">{errors.cedulaDirector.message}</p>}
 
                 </div>
 
@@ -71,10 +74,10 @@ const FormularioPerfilAdministrador = () => {
                         type="text" 
                         placeholder="Ingresa tu nombre" 
                         className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500"
-                        {...register("nombre", validacionNombre)}
+                        {...register("nombreDirector", validacionNombre)}
                         onInput={soloLetras}
                     />
-                    {errors.nombre && <p className="text-red-600 text-sm mt-1">{errors.nombre.message}</p>}
+                    {errors.nombreDirector && <p className="text-red-600 text-sm mt-1">{errors.nombreDirector.message}</p>}
                 </div>
 
                 {/* Campo apellido */}
@@ -84,10 +87,10 @@ const FormularioPerfilAdministrador = () => {
                         type="text" 
                         placeholder="Ingresa tu apellido" 
                         className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500"
-                        {...register("apellido",validacionApellido)}
+                        {...register("apellidoDirector",validacionApellido)}
                         onInput={soloLetras}
                     />
-                    {errors.apellido && <p className="text-red-600 text-sm mt-1">{errors.apellido.message}</p>}
+                    {errors.apellidoDirector && <p className="text-red-600 text-sm mt-1">{errors.apellidoDirector.message}</p>}
                 </div>
 
                     {/* Campo celular */}
@@ -98,10 +101,10 @@ const FormularioPerfilAdministrador = () => {
                         placeholder="Ingresa tu celular" 
                         className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500"
                         maxLength={10}
-                        {...register("telefono", validacionTelefono)}
+                        {...register("telefonoDirector", validacionTelefono)}
                         onInput={soloNumeros}
                     />
-                    {errors.telefono && <p className="text-red-600 text-sm mt-1">{errors.telefono.message}</p>}
+                    {errors.telefonoDirector && <p className="text-red-600 text-sm mt-1">{errors.telefonoDirector.message}</p>}
                 </div>
 
                 
@@ -112,11 +115,12 @@ const FormularioPerfilAdministrador = () => {
                         type="email" 
                         placeholder="ingresa correo electronico"
                         className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500" 
-                        {...register("email",{required:'El correo es obligatorio'})}
+                        {...register("emailDirector",{required:'El correo es obligatorio'})}
+                        disabled
 
                     />
                 </div>
-             {errors.email && <p className="text-red-600 text-sm mt-1">{errors.email.message}</p>}
+             {errors.emailDirector && <p className="text-red-600 text-sm mt-1">{errors.emailDirector.message}</p>}
        
                 {/* Botón de envío */}
                 <button
@@ -130,4 +134,4 @@ const FormularioPerfilAdministrador = () => {
     );
 };
 
-export default FormularioPerfilAdministrador
+export default FormularioPerfilDirector

@@ -1,31 +1,56 @@
+import {  useEffect } from "react"
+
+
 import { useFetch } from "../../hooks/useFetch"
 import { useNavigate } from "react-router"
 import { useForm } from "react-hook-form"
+import { validacionNombre,validacionApellido,
+        validacionTelefono,validacionCedula, 
+        soloNumeros,soloLetras} from "../../helpers/validaciones";
 
-
-import { ToastContainer, } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import {  UserRoundCog} from 'lucide-react';
 
 
-const NuevoDirector = () => {
+const NuevoDirector = ({director}) => {
     const navigate = useNavigate()
-    const { register, handleSubmit, formState: { errors } } = useForm()
+    const { register, handleSubmit, formState: { errors },reset } = useForm()
     const fetchDataBackend = useFetch()
 
     const registerDirector = async (dataForm) => {
-   const url = `${import.meta.env.VITE_BACKEND_URL}/directordeEvento/registro`
+   let url = `${import.meta.env.VITE_BACKEND_URL}/directordeEvento/registro`
         const storedUser = JSON.parse(localStorage.getItem("auth-token"))
         const headers = {
             "Content-Type": "application/json",
             Authorization: `Bearer ${storedUser.state.token}`
         }
-        const response = await fetchDataBackend(url, dataForm, "POST", headers)
+
+        let response; 
+
+        if (director?._id) {
+            url = `${import.meta.env.VITE_BACKEND_URL}/directordeEvento/actualizar/${director._id}`
+            response = await fetchDataBackend(url, dataForm, "PUT", headers)
+        }else{
+         response = await fetchDataBackend(url, dataForm, "POST", headers)
+        }
         if (response) {
             setTimeout(() => {
                 navigate("/dashboard/inscripciones/visualizar/directores")
-            }, 3000)
+            }, 4000)
         }
     }
+    useEffect(() => {
+        if (director) {
+            reset({
+                cedulaDirector: director?.cedulaDirector,
+                nombreDirector: director?.nombreDirector,
+                apellidoDirector: director?.apellidoDirector,
+                telefonoDirector: director?.telefonoDirector,
+                emailDirector: director?.emailDirector,
+                status: director?.status
+            })
+        }
+    }, [])
 
     return (
         <div className="max-w-xl mx-auto"> 
@@ -52,7 +77,10 @@ const NuevoDirector = () => {
                             type="text" 
                             placeholder="Ingresa tu cédula" 
                             className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500"
-                            {...register("cedulaDirector", { required: "La cédula es obligatoria"})}
+                            {...register("cedulaDirector", validacionCedula)}
+                            onInput={soloNumeros}
+                            disabled={!!director}
+
                         />
                         {errors.cedulaDirector && <p className="text-red-600 text-sm mt-1">{errors.cedulaDirector.message}</p>}
                     </div>
@@ -64,7 +92,8 @@ const NuevoDirector = () => {
                         type="text" 
                         placeholder="Ingresa tu nombre" 
                         className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500"
-                        {...register("nombreDirector", { required: "El nombre es obligatorio" })}
+                        {...register("nombreDirector", validacionNombre)}
+                        onInput={soloLetras}
                     />
                     {errors.nombreDirector && <p className="text-red-600 text-sm mt-1">{errors.nombreDirector.message}</p>}
                 </div>
@@ -76,7 +105,8 @@ const NuevoDirector = () => {
                         type="text" 
                         placeholder="Ingresa tu apellido" 
                         className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500"
-                        {...register("apellidoDirector", { required: "El apellido es obligatorio" })}
+                        {...register("apellidoDirector", validacionApellido)}
+                        onInput={soloLetras}
                     />
                     {errors.apellidoDirector && <p className="text-red-600 text-sm mt-1">{errors.apellidoDirector.message}</p>}
                 </div>
@@ -88,7 +118,8 @@ const NuevoDirector = () => {
                         type="tel" 
                         placeholder="Ingresa tu celular" 
                         className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500"
-                        {...register("telefonoDirector", { required: "El celular es obligatorio"})}
+                        {...register("telefonoDirector", validacionTelefono)}
+                        onInput={soloNumeros}
                     />
                     {errors.telefonoDirector && <p className="text-red-600 text-sm mt-1">{errors.telefonoDirector.message}</p>}
                 </div>
@@ -116,17 +147,21 @@ const NuevoDirector = () => {
                             placeholder="Ingresa tu correo electrónico" 
                             className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500" 
                             {...register("emailDirector", { required: "El correo electrónico es obligatorio"})}
+                            disabled={!!director}
+
                         />
                         {errors.emailDirector && <p className="text-red-600 text-sm mt-1">{errors.emailDirector.message}</p>}
                     </div>
                                     
                 {/* Botón de envío */}
+                {/* Botón de registro */}
                 <button
                     type="submit"
-                    className="w-full  bg-blue-600  hover:from-blue-700 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.01] active:scale-[0.99] uppercase tracking-wide"
+                    className="bg-gradient-to-r from-slate-700 to-slate-600 w-full p-3 mt-5 text-white uppercase font-bold rounded-lg hover:from-slate-600 hover:to-slate-500 cursor-pointer transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                 >
-                    registrar director
+                    {director ? "Actualizar Director" : "Registrar Director"}
                 </button>
+
             </form>
         </div>
     );

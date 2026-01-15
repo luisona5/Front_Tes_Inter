@@ -2,17 +2,17 @@ import {  useEffect } from "react"
 
 import { useForm } from "react-hook-form"
 import { ToastContainer } from 'react-toastify'
-import { useFetch } from "../../hooks/useFetch"
+import { useFetch } from "../../../../../hooks/useFetch"
 import { useNavigate } from "react-router"
 import { UserRoundCog } from "lucide-react"
 import { validacionNombre,validacionApellido,
         validacionTelefono,validacionCedula, 
         soloNumeros,soloLetras,
-        validacionDireccion} from "../../helpers/validaciones";
+        validacionDireccion} from "../../../../../helpers/validaciones";
 
 
 
-const NuevoEstudiante = ({estudiante}) => {
+const CreateStudent = ({estudiante}) => {
 
     const navigate = useNavigate()
         const { register, handleSubmit, formState: { errors },reset } = useForm()
@@ -50,9 +50,7 @@ const NuevoEstudiante = ({estudiante}) => {
                     emailEstudiante: estudiante?.emailEstudiante,
                     direccionEstudiante: estudiante?.direccionEstudiante,
                     carreraEstudiante: estudiante?.carreraEstudiante,
-                    semestre:estudiante?.semestre,
-                    genero:estudiante?.genero
-
+                    semestre:estudiante?.semestre
 
                 })
             }
@@ -140,6 +138,7 @@ const NuevoEstudiante = ({estudiante}) => {
                                     value="masculino" 
                                     className="mr-2"
                                     {...register("genero", { required: "El género es obligatorio" })}
+                                    disabled={!!estudiante}
 
                                 />
                                 <span>Masculino</span>
@@ -151,6 +150,7 @@ const NuevoEstudiante = ({estudiante}) => {
                                     value="femenino" 
                                     className="mr-2"
                                     {...register("genero", { required: "El género es obligatorio" })}
+                                    disabled={!!estudiante}
                                 />
                                 <span>Femenino</span>
                             </label>
@@ -231,4 +231,4 @@ const NuevoEstudiante = ({estudiante}) => {
     );
 }
 
-export default NuevoEstudiante
+export default CreateStudent

@@ -2,21 +2,21 @@ import { MdInfo, MdUpdate } from "react-icons/md"
 import { useFetch } from "../../../hooks/useFetch"
 import { useEffect, useState } from "react"
 import { FileDown, Trash2, Search, Download } from "lucide-react"
-import { Link, useNavigate } from "react-router"
+import { useNavigate } from "react-router"
 import { ToastContainer } from "react-toastify"
-import SimpleDirectorPDF from "../pdf/ConversePDF"
 import { BlobProvider, PDFDownloadLink } from "@react-pdf/renderer"
-import DirectoresTablePDF from "../pdf/TableDirectores"
+import EstudiantesTablePDF from "../pdf/TableEstudiantes"
+import SimpleEstudiantePDF from "../pdf/ConversePDFEstudiante"
 
-const TableDirector = () => {
+const TableEstudiante = () => {
     const fetchDataBackend = useFetch()
-    const [directores, setDirectores] = useState([])
+    const [estudiantes, setEstudiantes] = useState([])
     const [busqueda, setBusqueda] = useState('')
     
     const navigate = useNavigate()
 
-    const listDirector = async () => {
-        const url = `${import.meta.env.VITE_BACKEND_URL}/directordeEvento/visualizarDirectores`
+    const listEstudiante = async () => {
+        const url = `${import.meta.env.VITE_BACKEND_URL}/estudiante/visualizarEstudiantes`
         
         const storedUser = JSON.parse(localStorage.getItem("auth-token"))
         const headers = {
@@ -24,52 +24,52 @@ const TableDirector = () => {
             Authorization: `Bearer ${storedUser.state.token}`,
         }
         const response = await fetchDataBackend(url, null, "GET", headers)
-        setDirectores(response)
+        setEstudiantes(response)
     }
 
-    const deleteDirector = async(id) => {
+    const deleteEstudiante = async(id) => {
         const confirmDelete = confirm("Advertencia: Esta acción se eliminara de manera permanente. ¿Deseas continuar?");
         
         if (confirmDelete) {
             try {
-                const url = `${import.meta.env.VITE_BACKEND_URL}/directordeEvento/eliminar/${id}` 
+                const url = `${import.meta.env.VITE_BACKEND_URL}/estudiante/eliminar/${id}` 
                 const storedUser = JSON.parse(localStorage.getItem("auth-token"))
                 const options = {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${storedUser.state.token}`,
                 }
-                const body = JSON.stringify({ estadoDirector: false });
+                const body = JSON.stringify({ estadoEstudiante: false });
                 await fetchDataBackend(url, body, "DELETE", options);
-                setDirectores((prevDirectores) => prevDirectores.filter(director => director._id !== id))
-                listDirector(); 
+                setEstudiantes((prevEstudiantes) => prevEstudiantes.filter(estudiante => estudiante._id !== id))
+                listEstudiante(); 
             } catch (error) {
-                console.error("Error al deshabilitar director.", error);
+                console.error("Error al deshabilitar estudiante.", error);
             }
         }
     };
 
     useEffect(() => {
-        listDirector()
+        listEstudiante()
     }, [])
 
-    const filteredDirectores = directores.slice().sort((a, b) => {
-        const apellidoComparison = a.apellidoDirector.localeCompare(b.apellidoDirector, 'es', { sensitivity: 'base' });
+    const filteredEstudiantes = estudiantes.slice().sort((a, b) => {
+        const apellidoComparison = a.apellidoEstudiante.localeCompare(b.apellidoEstudiante, 'es', { sensitivity: 'base' });
         if (apellidoComparison !== 0) {
             return apellidoComparison; 
         }
-        return a.nombreDirector.localeCompare(b.nombreDirector, 'es', { sensitivity: 'base' });
-    }).filter(director => {
+        return a.nombreEstudiante.localeCompare(b.nombreEstudiante, 'es', { sensitivity: 'base' });
+    }).filter(estudiante => {
         if (!busqueda) return true
         const buscar = busqueda.toLowerCase()
         return (
-            director.nombreDirector.toLowerCase().includes(buscar) ||
-            director.apellidoDirector.toLowerCase().includes(buscar) ||
-            director.cedulaDirector.toLowerCase().includes(buscar) ||
-            director.emailDirector.toLowerCase().includes(buscar)
+            estudiante.nombreEstudiante.toLowerCase().includes(buscar) ||
+            estudiante.apellidoEstudiante.toLowerCase().includes(buscar) ||
+            estudiante.cedulaEstudiante.toLowerCase().includes(buscar) ||
+            estudiante.emailEstudiante.toLowerCase().includes(buscar)
         )
     })
 
-    if (directores.length === 0) {
+    if (estudiantes.length === 0) {
         return (
             <div className="p-6 text-center">
                 <div className="inline-block p-8 bg-red-50 rounded-2xl shadow-md">
@@ -102,8 +102,8 @@ const TableDirector = () => {
 
                     {/* Botón de descarga mejorado */}
                     <PDFDownloadLink
-                        document={<DirectoresTablePDF directores={filteredDirectores} />}
-                        fileName={`directores_${new Date().toISOString().split('T')[0]}.pdf`}
+                        document={<EstudiantesTablePDF estudiantes={filteredEstudiantes} />}
+                        fileName={`estudiantes${new Date().toISOString().split('T')[0]}.pdf`}
                         className="flex items-center gap-3 bg-blue-900 text-white px-6 py-3.5 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl font-medium transform hover:scale-105"
                     >
                         {({ loading }) => (
@@ -119,7 +119,7 @@ const TableDirector = () => {
             </div>
 
             {/* Mensaje cuando no hay resultados */}
-            {filteredDirectores.length === 0 && busqueda && (
+            {filteredEstudiantes.length === 0 && busqueda && (
                 <div className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-lg shadow-md mb-6">
                     <div className="flex items-center">
                         <div>
@@ -129,16 +129,6 @@ const TableDirector = () => {
                     </div>
                 </div>
             )}
-
-            <td className="px-4 py-3">
-                <div className="flex justify-center">
-                    <Link to='/dashboard/inscripciones/nuevo/director'>
-                        <button className="flex items-center gap-3 bg-blue-900 text-white px-6 py-4 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl font-medium transform hover:scale-105">
-                            Nuevo director
-                        </button>
-                    </Link>
-                </div>
-            </td>
 
             {/* Tabla mejorada */}
             <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
@@ -159,32 +149,32 @@ const TableDirector = () => {
 
                         {/* Cuerpo */}
                         <tbody className="divide-y divide-gray-200">
-                            {filteredDirectores.map((Director, index) => (
+                            {filteredEstudiantes.map((Estudiante, index) => (
                                 <tr 
-                                    key={Director._id}
+                                    key={Estudiante._id}
                                     className="hover:bg-gray-50 transition-colors duration-150"
                                 >
                                     <td className="px-4 py-4 text-sm font-medium text-gray-900">
                                         {index + 1}
                                     </td>
                                     <td className="px-4 py-4 text-sm font-semibold text-gray-800">
-                                        {Director.apellidoDirector}
+                                        {Estudiante.apellidoEstudiante}
                                     </td>
                                     <td className="px-4 py-4 text-sm text-gray-700">
-                                        {Director.nombreDirector}
+                                        {Estudiante.nombreEstudiante}
                                     </td>
                                     <td className="px-4 py-4 text-sm text-gray-600">
-                                        {Director.emailDirector}
+                                        {Estudiante.emailEstudiante}
                                     </td>
                                     <td className="px-4 py-4 text-center">
                                         <span 
                                             className={`px-3 py-1.5 inline-flex text-xs font-semibold rounded-full
-                                            ${Director.estadoDirector 
+                                            ${Estudiante.estadoEstudiante
                                                 ? 'bg-green-100 text-green-800 ring-1 ring-green-600' 
                                                 : 'bg-red-100 text-red-800 ring-1 ring-red-600'
                                             }`}
                                         >
-                                            {Director.estadoDirector ? "Activo" : "Inactivo"}
+                                            {Estudiante.estadoEstudiante ? "Activo" : "Inactivo"}
                                         </span>
                                     </td>
 
@@ -192,7 +182,7 @@ const TableDirector = () => {
                                     <td className="px-4 py-4">
                                         <div className="flex items-center justify-center gap-2">
                                             <button 
-                                                onClick={() => navigate(`/dashboard/Director-de-Evento/informacion-completa/${Director._id}`)}
+                                                onClick={() => navigate(`/dashboard/Estudiantes-esfot-epn/informacion-completa/${Estudiante._id}`)}
                                                 className="p-2 text-green-600 hover:text-white hover:bg-green-600 
                                                          rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
                                                 title="Ver información"
@@ -201,7 +191,7 @@ const TableDirector = () => {
                                             </button>
 
                                             <button 
-                                                onClick={() => navigate(`/dashboard/update/Director-de-Evento/informacion-completa/${Director._id}`)}
+                                                onClick={() => navigate(`/dashboard/update/Estudiantes-esfot-epn/informacion-completa/${Estudiante._id}`)}
                                                 className="p-2 text-blue-600 hover:text-white hover:bg-blue-600 
                                                          rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
                                                 title="Actualizar"
@@ -210,7 +200,7 @@ const TableDirector = () => {
                                             </button>
 
                                             <button 
-                                                onClick={() => deleteDirector(Director._id)}
+                                                onClick={() => deleteEstudiante(Estudiante._id)}
                                                 className="p-2 text-red-600 hover:text-white hover:bg-red-600 
                                                          rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
                                                 title="Eliminar"
@@ -223,7 +213,7 @@ const TableDirector = () => {
                                     {/* Botón PDF mejorado */}
                                     <td className="px-4 py-3">
                                         <div className="flex justify-center">
-                                            <BlobProvider document={<SimpleDirectorPDF data={Director} />}>
+                                            <BlobProvider document={<SimpleEstudiantePDF data={Estudiante} />}>
                                                 {({ url, loading }) => (
                                                     <button
                                                         disabled={loading}
@@ -250,4 +240,4 @@ const TableDirector = () => {
     )
 }
 
-export default TableDirector
+export default TableEstudiante

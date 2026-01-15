@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const SimpleDirectorPDF = ({ data }) => {
+const SimpleCategoryPDF = ({ data }) => {
   if (!data) {
     return (
       <Document>
@@ -98,7 +98,7 @@ const SimpleDirectorPDF = ({ data }) => {
 
   return (
     <Document>
-      <Page size="A4" orientation="landscape" style={styles.page}>
+      <Page size="A4" style={styles.page}>
 
         {/* HEADER con imagen y texto */}
         <View style={styles.header} fixed>
@@ -126,45 +126,17 @@ const SimpleDirectorPDF = ({ data }) => {
 
           <View style={styles.section}>
             <Text>
-              <Text style={styles.label}>Cédula:</Text> {data.cedulaDirector || 'N/A'}
+              <Text style={styles.label}>Nombre:</Text> {data.nombre|| 'N/A'}
             </Text>
           </View>
 
           <View style={styles.section}>
             <Text>
-              <Text style={styles.label}>Nombre:</Text> {data.nombreDirector || 'N/A'}
+              <Text style={styles.label}>Descripcion:</Text> {data.descripcion || 'N/A'}
             </Text>
           </View>
 
-          <View style={styles.section}>
-            <Text>
-              <Text style={styles.label}>Apellido:</Text> {data.apellidoDirector || 'N/A'}
-            </Text>
-          </View>
-
-          <View style={styles.section}>
-            <Text>
-              <Text style={styles.label}>Celular:</Text> {data.telefonoDirector || 'N/A'}
-            </Text>
-          </View>
-
-          <View style={styles.section}>
-            <Text>
-              <Text style={styles.label}>Email:</Text> {data.emailDirector || 'N/A'}
-            </Text>
-          </View>
-
-          <View style={styles.section}>
-            <Text>
-              <Text style={styles.label}>Estado:</Text> {data.estadoDirector ? 'Activo' : 'Inactivo'}
-            </Text>
-          </View>
-
-          <View style={styles.section}>
-            <Text>
-              <Text style={styles.label}>ID:</Text> {data._id || 'N/A'}
-            </Text>
-          </View>
+          
         </View>
 
         {/* FOOTER */}
@@ -177,4 +149,4 @@ const SimpleDirectorPDF = ({ data }) => {
   );
 };
 
-export default SimpleDirectorPDF;
+export default SimpleCategoryPDF;

@@ -7,7 +7,7 @@ import { Eye, EyeOff, Check, X } from 'lucide-react';
 import { useNavigate } from 'react-router'
 import { useForm } from 'react-hook-form'
 
-const ResetEstudiante = () => {
+const ResetGeneral = () => {
     const navigate = useNavigate()
     const { token } = useParams()
     const fetchDataBackend = useFetch()
@@ -29,7 +29,7 @@ const ResetEstudiante = () => {
 
     const changePassword = async (dataForm) => {
        
-        const url = `${import.meta.env.VITE_BACKEND_URL}/nuevopasswordEstudiante/${token}`
+        const url = `${import.meta.env.VITE_BACKEND_URL}/nuevopasswordUniversal/${token}`
         await fetchDataBackend(url, dataForm, 'POST')
         setTimeout(() => {
             if (dataForm.password === dataForm.confirmpassword) {
@@ -40,7 +40,7 @@ const ResetEstudiante = () => {
 
     useEffect(() => {
         const verifyToken = async () => {
-            const url = `${import.meta.env.VITE_BACKEND_URL}/recuperarpasswordEstudiante/${token}`
+            const url = `${import.meta.env.VITE_BACKEND_URL}/recuperarpasswordUniversal/${token}`
             await fetchDataBackend(url, 'GET')
             setTokenBack(true)
         }
@@ -180,4 +180,4 @@ const ResetEstudiante = () => {
     )
 }
 
-export default ResetEstudiante
+export default ResetGeneral

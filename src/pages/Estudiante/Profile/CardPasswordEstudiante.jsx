@@ -1,13 +1,12 @@
 import { Lock, Key, Eye, EyeOff } from 'lucide-react';
 import { ToastContainer } from 'react-toastify';
 import { useForm } from "react-hook-form"
-import storeProfile from "../../context/storeProfile"
-import storeAuth from "../../context/storeAuth"
+import storeProfile from "../../../context/storeProfile"
+import storeAuth from "../../../context/storeAuth"
 import { useState } from 'react';
-import { validacionPassword } from '../../helpers/validaciones';
 
 
-const CardPasswordAdministrador = () => {
+const CardPasswordEstudiante = () => {
 
     const { register, handleSubmit, formState: { errors } = {} } = useForm()
     const {user, updatePasswordProfile} = storeProfile()
@@ -22,7 +21,7 @@ const CardPasswordAdministrador = () => {
             return;
         }
         */
-        const url = `${import.meta.env.VITE_BACKEND_URL}/administrador/actualizarpassword/${user._id}`
+        const url = `${import.meta.env.VITE_BACKEND_URL}/actualizarpasswordEstudiante/${user._id}`
         const response = await updatePasswordProfile(url, dataForm)
         if(response){
 
@@ -71,7 +70,10 @@ const CardPasswordAdministrador = () => {
                             type={showNewPassword ? "text" : "password"}
                             placeholder="Ingresa la nueva contraseña" 
                             className="block w-full rounded-xl border border-slate-300 py-3 pl-10 pr-12 text-slate-700 placeholder:text-slate-400 focus:border-pink-500 focus:ring-2 focus:ring-pink-500/20 focus:outline-none transition-all duration-200 bg-white hover:border-slate-400"
-                            {...register("passwordnuevo", validacionPassword)}
+                            {...register("passwordnuevo", { 
+                                required: "La nueva contraseña es obligatoria",
+                                minLength: { value: 8, message: "Debe tener al menos 8 caracteres" }
+                            })}
                         />
                         <button
                             type="button"
@@ -102,4 +104,4 @@ const CardPasswordAdministrador = () => {
     );
 };
 
-export default CardPasswordAdministrador;
+export default CardPasswordEstudiante;

@@ -1,8 +1,9 @@
 import { Outlet } from 'react-router' 
 import storeProfile from "../context/storeProfile"
 import { UserMenu } from '../components/create/modalProfile'
-import DashboardEstudiante from '../pages/Estudiante/DashboardEstudiante'
+import SidebarEstudiante from '../pages/Estudiante/Sidebar'
 import DashboardAdministrador from '../pages/Administrador/DashboardAdministrador'
+import SidebarDirector from '../pages/Director/Vista/Sidebar'
 
 
 const Dashboard = () => {
@@ -55,12 +56,14 @@ const Dashboard = () => {
                 </div>
             
                 {user && user.rol?.toLowerCase() === 'estudiante' && (
-                    <DashboardEstudiante />
+                    <SidebarEstudiante />
                 )}
                 {user && user.rol?.toLowerCase() === 'administrador' && (
                     <DashboardAdministrador />
                 )}
-                
+                {user && user.rol?.toLowerCase() === 'director' && (
+                    <SidebarDirector/>
+                )}
                
             </div>
 

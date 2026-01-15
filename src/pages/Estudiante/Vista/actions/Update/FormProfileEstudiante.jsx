@@ -1,5 +1,5 @@
 import  { useEffect } from 'react';
-import storeProfile from "../../context/storeProfile"; 
+import storeProfile from "../../../../../context/storeProfile"; 
 import { useForm } from "react-hook-form";
 import { ToastContainer } from 'react-toastify';
 import {  UserRoundCog} from 'lucide-react';
