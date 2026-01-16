@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router" 
 import { useFetch } from "../../../../../hooks/useFetch"
-import { User, Phone, Activity, Calendar, Clock, MapPinned, AlertCircle, ArrowLeft, CheckCircle, XCircle } from 'lucide-react'
+import { User, Phone, Activity, Calendar, Clock, MapPin, AlertCircle, ArrowLeft, 
+            CheckCircle, XCircle, FileText } from 'lucide-react'
 import { toast, ToastContainer } from 'react-toastify'
 
 const DetailsInscripctionEstadoGeneral = () => {
@@ -41,7 +42,6 @@ const DetailsInscripctionEstadoGeneral = () => {
         detalleInscripcion()
     }, [])
 
-    // Función para aprobar inscripción
     const handleAprobar = async () => {
         try {
             setProcesando(true)
@@ -57,10 +57,23 @@ const DetailsInscripctionEstadoGeneral = () => {
             const response = await fetchDataBackend(url, body, "PUT", headers)
             
             if (response) {
+                setInscripcion(prev => ({
+                    ...prev,
+                    estado: 'Aprobada',
+                    aprobacion: {
+                        ...prev.aprobacion,
+                        comentarios: comentarios,
+                        fechaAprobacion: new Date(),
+                        aprobadoPor: prev.aprobacion?.aprobadoPor
+                    }
+                }))
+                
+                toast.success("Inscripción aprobada exitosamente")
                 setModalOpen(false)
+                
                 setTimeout(() => {
-                    navigate("/dashboard/director/inscripciones-pendientes")
-                }, 2000)
+                    navigate("/dashboard/estados-de-inscripciones/visualizar/estudiantes")
+                }, 3000)
             }
         } catch (error) {
             console.error("Error al aprobar:", error)
@@ -70,7 +83,6 @@ const DetailsInscripctionEstadoGeneral = () => {
         }
     }
 
-    // Función para rechazar inscripción
     const handleRechazar = async () => {
         if (!motivo.trim()) {
             toast.error("Debes proporcionar un motivo para el rechazo")
@@ -91,14 +103,30 @@ const DetailsInscripctionEstadoGeneral = () => {
             const response = await fetchDataBackend(url, body, "PUT", headers)
             
             if (response) {
+                setInscripcion(prev => ({
+                    ...prev,
+                    estado: 'Rechazada',
+                    aprobacion: {
+                        ...prev.aprobacion,
+                        comentarios: motivo,
+                        fechaAprobacion: new Date(),
+                        aprobadoPor: prev.aprobacion?.aprobadoPor
+                    }
+                }))
+                
+                toast.success("Inscripción rechazada")
                 setModalOpen(false)
+                
                 setTimeout(() => {
-                    navigate("/dashboard/director/inscripciones-pendientes")
-                }, 2000)
+                    navigate("/dashboard/estados-de-inscripciones/visualizar/estudiantes")
+                }, 3000)
             }
         } catch (error) {
             console.error("Error al rechazar:", error)
-        } 
+            toast.error("Error al rechazar la inscripción")
+        } finally {
+            setProcesando(false)
+        }
     }
 
     const abrirModal = (tipo) => {
@@ -109,315 +137,317 @@ const DetailsInscripctionEstadoGeneral = () => {
     }
 
     const estadoStyles = {
-        'Aprobada': 'bg-green-100 text-green-800 ring-2 ring-green-600',
-        'Pendiente': 'bg-yellow-100 text-yellow-800 ring-2 ring-yellow-600',
-        'Rechazada': 'bg-red-100 text-red-800 ring-2 ring-red-600'
+        'Aprobada': 'bg-green-50 text-green-700 border-green-200',
+        'Pendiente': 'bg-amber-50 text-amber-700 border-amber-200',
+        'Rechazada': 'bg-red-50 text-red-700 border-red-200'
     }
 
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
+            <div className="min-h-screen flex items-center justify-center bg-gray-50">
                 <div className="text-center">
-                    <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-indigo-600 mx-auto mb-4"></div>
-                    <p className="text-gray-600 font-semibold">Cargando información...</p>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                    <p className="text-gray-600">Cargando información...</p>
                 </div>
             </div>
         )
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-8 px-4">
+        <div className="min-h-screen bg-gray-50 py-6 px-4">
             <ToastContainer />
             
-            <div className="max-w-7xl mx-auto">
+            <div className="max-w-6xl mx-auto">
                 {/* Header */}
                 <div className="mb-6">
                     <button 
                         onClick={() => navigate(-1)}
-                        className="flex items-center gap-2 text-gray-600 hover:text-indigo-600 transition-colors duration-200 mb-4"
+                        className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-4 transition-colors"
                     >
                         <ArrowLeft className="w-5 h-5" />
-                        <span className="font-semibold">Volver</span>
+                        <span>Volver</span>
                     </button>
                     
-                    <div className="bg-white rounded-2xl shadow-lg p-6">
-                        <div className="flex items-center justify-between flex-wrap gap-4">
-                            <div>
-                                <h1 className='text-4xl font-bold text-gray-800'>Detalle de Inscripción</h1>
-                                <p className='text-gray-600 mt-2'>Información completa del estudiante</p>
+                    <div className="bg-white border border-gray-200 rounded-lg p-6">
+                        <div className="flex items-start justify-between gap-4">
+                            <div className="flex-1">
+                                <h1 className='text-2xl font-semibold text-gray-900 mb-1'>Detalle de Inscripción</h1>
+                                <p className='text-sm text-gray-500'>El estudiante tiene un estado de inscripción</p>
                             </div>
                             
-                            {/* Botones de acción solo si está pendiente */}
-                            {inscripcion?.estado === 'Pendiente' && (
-                                <div className="flex gap-3">
-                                    <button
-                                        onClick={() => abrirModal('aprobar')}
-                                        className="flex items-center gap-2 bg-green-600 text-white px-6 py-3 rounded-xl hover:bg-green-700 transition-all duration-200 shadow-lg hover:shadow-xl font-semibold transform hover:scale-105"
-                                    >
-                                        <CheckCircle className="w-5 h-5" />
-                                        Aprobar
-                                    </button>
-                                    
-                                    <button
-                                        onClick={() => abrirModal('rechazar')}
-                                        className="flex items-center gap-2 bg-red-600 text-white px-6 py-3 rounded-xl hover:bg-red-700 transition-all duration-200 shadow-lg hover:shadow-xl font-semibold transform hover:scale-105"
-                                    >
-                                        <XCircle className="w-5 h-5" />
-                                        Rechazar
-                                    </button>
-                                </div>
-                            )}
-                            
-                            {/* Estado badge */}
-                            {inscripcion?.estado && (
-                                <span className={`px-6 py-3 text-sm font-bold rounded-full ${estadoStyles[inscripcion.estado] || 'bg-gray-100 text-gray-800 ring-2 ring-gray-600'}`}>
-                                    {inscripcion.estado}
-                                </span>
-                            )}
+                            <div className="flex items-center gap-3">
+                                {inscripcion?.estado === 'Pendiente' && (
+                                    <>
+                                        <button
+                                            onClick={() => abrirModal('aprobar')}
+                                            className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors text-sm font-medium"
+                                        >
+                                            <CheckCircle className="w-4 h-4" />
+                                            Aprobar
+                                        </button>
+                                        
+                                        <button
+                                            onClick={() => abrirModal('rechazar')}
+                                            className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors text-sm font-medium"
+                                        >
+                                            <XCircle className="w-4 h-4" />
+                                            Rechazar
+                                        </button>
+                                    </>
+                                )}
+                                
+                                {inscripcion?.estado && (
+                                    <span className={`px-3 py-1.5 text-lg font-medium rounded-md border ${estadoStyles[inscripcion.estado] || 'bg-gray-50 text-gray-700 border-gray-200'}`}>
+                                        {inscripcion.estado}
+                                    </span>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                {/* Grid de información */}
+                {/* Contenido */}
                 <div className="grid lg:grid-cols-3 gap-6">
                     {/* Columna principal */}
-                    <div className="lg:col-span-2 space-y-6">
+                    <div className="lg:col-span-4 space-y-6">
                         
                         {/* Información Personal */}
-                        <div className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
-                            <div className="flex items-center gap-3 mb-6 border-b pb-4">
-                                <div className="p-3 bg-blue-100 rounded-lg">
-                                    <User className="w-6 h-6 text-blue-600" />
-                                </div>
-                                <h2 className="text-2xl font-bold text-gray-800">Información Personal</h2>
+                        <div className="bg-white border border-gray-200 rounded-lg p-6">
+                            <div className="flex items-center gap-2 mb-4 pb-3 border-b border-gray-200">
+                                <User className="w-5 h-5 text-gray-600" />
+                                <h2 className="text-lg font-semibold text-gray-900">Información Personal</h2>
                             </div>
                             
                             <div className="grid md:grid-cols-2 gap-4">
-                                <div className="bg-gray-50 p-4 rounded-lg">
-                                    <p className="text-sm text-gray-500 mb-1">Cédula</p>
-                                    <p className="text-gray-800 font-semibold">{inscripcion?.cedula || 'N/A'}</p>
+                                <div>
+                                    <p className="text-xs text-gray-500 mb-1">Cédula</p>
+                                    <p className="text-sm text-gray-900 font-medium">{inscripcion?.cedula || 'N/A'}</p>
                                 </div>
                                 
-                                <div className="bg-gray-50 p-4 rounded-lg">
-                                    <p className="text-sm text-gray-500 mb-1">Nombre Completo</p>
-                                    <p className="text-gray-800 font-semibold">{inscripcion?.nombre} {inscripcion?.apellido}</p>
+                                <div>
+                                    <p className="text-xs text-gray-500 mb-1">Nombre Completo</p>
+                                    <p className="text-sm text-gray-900 font-medium">{inscripcion?.nombre} {inscripcion?.apellido}</p>
                                 </div>
                                 
-                                <div className="bg-gray-50 p-4 rounded-lg">
-                                    <p className="text-sm text-gray-500 mb-1">Celular</p>
-                                    <p className="text-gray-800 font-semibold">{inscripcion?.telefono || 'N/A'}</p>
+                                <div>
+                                    <p className="text-xs text-gray-500 mb-1">Celular</p>
+                                    <p className="text-sm text-gray-900 font-medium">{inscripcion?.telefono || 'N/A'}</p>
                                 </div>
                                 
-                                <div className="bg-gray-50 p-4 rounded-lg">
-                                    <p className="text-sm text-gray-500 mb-1">Correo Electrónico</p>
-                                    <p className="text-gray-800 font-semibold break-all">{inscripcion?.email || 'N/A'}</p>
+                                <div>
+                                    <p className="text-xs text-gray-500 mb-1">Correo Electrónico</p>
+                                    <p className="text-sm text-gray-900 font-medium break-all">{inscripcion?.email || 'N/A'}</p>
                                 </div>
                                 
-                                <div className="bg-gray-50 p-4 rounded-lg md:col-span-2">
-                                    <p className="text-sm text-gray-500 mb-1">Dirección</p>
-                                    <p className="text-gray-800 font-semibold">{inscripcion?.direccion || 'N/A'}</p>
+                                <div className="md:col-span-2">
+                                    <p className="text-xs text-gray-500 mb-1">Dirección</p>
+                                    <p className="text-sm text-gray-900 font-medium">{inscripcion?.direccion || 'N/A'}</p>
                                 </div>
                             </div>
                         </div>
 
                         {/* Contacto de Emergencia */}
-                        <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl shadow-lg p-6 border-2 border-amber-200 hover:shadow-xl transition-shadow duration-300">
-                            <div className="flex items-center gap-3 mb-6 border-b border-amber-200 pb-4">
-                                <div className="p-3 bg-amber-100 rounded-lg">
-                                    <Phone className="w-6 h-6 text-amber-600" />
-                                </div>
-                                <h2 className="text-2xl font-bold text-gray-800">Contacto de Emergencia</h2>
+                        <div className="bg-white border border-gray-200 rounded-lg p-6">
+                            <div className="flex items-center gap-2 mb-4 pb-3 border-b border-gray-200">
+                                <Phone className="w-5 h-5 text-gray-600" />
+                                <h2 className="text-lg font-semibold text-gray-900">Contacto de Emergencia</h2>
                             </div>
                             
                             <div className="grid md:grid-cols-3 gap-4">
-                                <div className="bg-white p-4 rounded-lg shadow-sm">
-                                    <p className="text-sm text-amber-700 mb-1 font-semibold">Nombre</p>
-                                    <p className="text-gray-800 font-semibold">{inscripcion?.contactoEmergencia?.nombre || 'No disponible'}</p>
+                                <div>
+                                    <p className="text-xs text-gray-500 mb-1">Nombre</p>
+                                    <p className="text-sm text-gray-900 font-medium">{inscripcion?.contactoEmergencia?.nombre || 'No disponible'}</p>
                                 </div>
                                 
-                                <div className="bg-white p-4 rounded-lg shadow-sm">
-                                    <p className="text-sm text-amber-700 mb-1 font-semibold">Parentesco</p>
-                                    <p className="text-gray-800 font-semibold">{inscripcion?.contactoEmergencia?.relacion || 'No disponible'}</p>
+                                <div>
+                                    <p className="text-xs text-gray-500 mb-1">Parentesco</p>
+                                    <p className="text-sm text-gray-900 font-medium">{inscripcion?.contactoEmergencia?.relacion || 'No disponible'}</p>
                                 </div>
                                 
-                                <div className="bg-white p-4 rounded-lg shadow-sm">
-                                    <p className="text-sm text-amber-700 mb-1 font-semibold">Celular</p>
-                                    <p className="text-gray-800 font-semibold">{inscripcion?.contactoEmergencia?.telefono || 'No disponible'}</p>
+                                <div>
+                                    <p className="text-xs text-gray-500 mb-1">Celular</p>
+                                    <p className="text-sm text-gray-900 font-medium">{inscripcion?.contactoEmergencia?.telefono || 'No disponible'}</p>
                                 </div>
                             </div>
                         </div>
 
                         {/* Información Deportiva */}
-                        <div className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
-                            <div className="flex items-center gap-3 mb-6 border-b pb-4">
-                                <div className="p-3 bg-green-100 rounded-lg">
-                                    <Activity className="w-6 h-6 text-green-600" />
-                                </div>
-                                <h2 className="text-2xl font-bold text-gray-800">Información Deportiva</h2>
+                        <div className="bg-white border border-gray-200 rounded-lg p-6">
+                            <div className="flex items-center gap-2 mb-4 pb-3 border-b border-gray-200">
+                                <Activity className="w-5 h-5 text-gray-600" />
+                                <h2 className="text-lg font-semibold text-gray-900">Información Deportiva</h2>
                             </div>
                             
                             <div className="space-y-4">
                                 <div className="grid md:grid-cols-2 gap-4">
-                                    <div className="bg-green-50 p-4 rounded-lg">
-                                        <p className="text-sm text-green-700 mb-1 font-semibold">Categoría</p>
-                                        <p className="text-gray-800 font-semibold">{inscripcion?.categoria?.nombre || 'N/A'}</p>
+                                    <div>
+                                        <p className="text-xs text-gray-500 mb-1">Categoría</p>
+                                        <p className="text-sm text-gray-900 font-medium">{inscripcion?.categoria?.nombre || 'N/A'}</p>
                                     </div>
                                     
-                                    <div className="bg-green-50 p-4 rounded-lg">
-                                        <p className="text-sm text-green-700 mb-1 font-semibold">Disciplina</p>
-                                        <p className="text-gray-800 font-semibold">{inscripcion?.deporte?.nombre || 'N/A'}</p>
+                                    <div>
+                                        <p className="text-xs text-gray-500 mb-1">Disciplina</p>
+                                        <p className="text-sm text-gray-900 font-medium">{inscripcion?.deporte?.nombre || 'N/A'}</p>
                                     </div>
                                 </div>
                                 
-                                <div className="bg-gray-50 p-4 rounded-lg">
-                                    <p className="text-sm text-gray-500 mb-1">Descripción</p>
-                                    <p className="text-gray-800">{inscripcion?.deporte?.detalle || 'Sin descripción'}</p>
-                                </div>
+                                {inscripcion?.deporte?.detalle && (
+                                    <div>
+                                        <p className="text-xs text-gray-500 mb-1">Descripción</p>
+                                        <p className="text-sm text-gray-700">{inscripcion.deporte.detalle}</p>
+                                    </div>
+                                )}
                                 
-                                <div className="grid md:grid-cols-3 gap-4">
-                                    <div className="bg-blue-50 p-4 rounded-lg">
-                                        <div className="flex items-center gap-2 mb-1">
-                                            <Calendar className="w-4 h-4 text-blue-600" />
-                                            <p className="text-sm text-blue-700 font-semibold">Fecha</p>
+                                <div className="grid md:grid-cols-3 gap-4 pt-2">
+                                    <div className="flex items-start gap-2">
+                                        <Calendar className="w-4 h-4 text-gray-400 mt-0.5" />
+                                        <div>
+                                            <p className="text-xs text-gray-500 mb-1">Fecha</p>
+                                            <p className="text-sm text-gray-900 font-medium">
+                                                {new Date(inscripcion.deporte?.fechaFin).toLocaleDateString('es-EC', {
+                                                    year: 'numeric',
+                                                    month: 'short',
+                                                    day: 'numeric'
+                                                })}
+                                            </p>
                                         </div>
-                                        <p className="text-gray-800 font-semibold"> {new Date(inscripcion.deporte?.fechaFin).toLocaleDateString('es-EC', {
-                                            year: 'numeric',
-                                            month: 'long',
-                                            day: 'numeric'
-                                        })} </p>
                                     </div>
                                     
-                                    <div className="bg-purple-50 p-4 rounded-lg">
-                                        <div className="flex items-center gap-2 mb-1">
-                                            <Clock className="w-4 h-4 text-purple-600" />
-                                            <p className="text-sm text-purple-700 font-semibold">Hora</p>
+                                    <div className="flex items-start gap-2">
+                                        <Clock className="w-4 h-4 text-gray-400 mt-0.5" />
+                                        <div>
+                                            <p className="text-xs text-gray-500 mb-1">Hora</p>
+                                            <p className="text-sm text-gray-900 font-medium">{inscripcion?.deporte?.horaFin || 'N/A'}</p>
                                         </div>
-                                        <p className="text-gray-800 font-semibold">{inscripcion?.deporte?.horaFin || 'N/A'}</p>
                                     </div>
                                     
-                                    <div className="bg-indigo-50 p-4 rounded-lg">
-                                        <div className="flex items-center gap-2 mb-1">
-                                            <MapPinned className="w-4 h-4 text-indigo-600" />
-                                            <p className="text-sm text-indigo-700 font-semibold">Lugar</p>
+                                    <div className="flex items-start gap-2">
+                                        <MapPin className="w-4 h-4 text-gray-400 mt-0.5" />
+                                        <div>
+                                            <p className="text-xs text-gray-500 mb-1">Lugar</p>
+                                            <p className="text-sm text-gray-900 font-medium">{inscripcion?.deporte?.lugar || 'N/A'}</p>
                                         </div>
-                                        <p className="text-gray-800 font-semibold">{inscripcion?.deporte?.lugar || 'N/A'}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         {/* Información Médica */}
-                    {inscripcion?.informacionMedica && (
-                        <div className="bg-gradient-to-br from-red-50 to-pink-50 rounded-2xl shadow-lg p-6 border-2 border-red-200 hover:shadow-xl transition-shadow duration-300">
-                            <div className="flex items-center gap-3 mb-6">
-                                <div className="p-3 bg-red-100 rounded-lg">
-                                    <AlertCircle className="w-6 h-6 text-red-600" />
-                                </div>
-                                <h2 className="text-2xl font-bold text-gray-800">Información Médica</h2>
-                            </div>
-                            
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {/* Estado de Salud */}
-                                <div className="bg-white p-4 rounded-lg shadow-sm">
-                                    <p className="text-sm font-semibold text-gray-600 mb-1">Estado de Salud</p>
-                                    <p className="text-gray-800 font-medium">
-                                        {inscripcion.informacionMedica?.estadoSalud || 'No especificado'}
-                                    </p>
-                                </div>
-
-                                {/* Alergias */}
-                                <div className="bg-white p-4 rounded-lg shadow-sm">
-                                    <p className="text-sm font-semibold text-gray-600 mb-1">Alergias</p>
-                                    <p className="text-gray-800 font-medium">
-                                        {inscripcion.informacionMedica?.alergias || 'Ninguna'}
-                                    </p>
-                                </div>
-
-                                {/* Medicamentos */}
-                                <div className="bg-white p-4 rounded-lg shadow-sm">
-                                    <p className="text-sm font-semibold text-gray-600 mb-1">Medicamentos</p>
-                                    <p className="text-gray-800 font-medium">
-                                        {inscripcion.informacionMedica?.medicamentos || 'Ninguno'}
-                                    </p>
-                                </div>
-
-                                {/* Condiciones Médicas */}
-                                <div className="bg-white p-4 rounded-lg shadow-sm">
-                                    <p className="text-sm font-semibold text-gray-600 mb-1">Condiciones Médicas</p>
-                                    <p className="text-gray-800 font-medium">
-                                        {inscripcion.informacionMedica?.condicionesMedicas || 'Ninguna'}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                    </div>
-
-                    {/* Columna lateral */}
-                    <div className="lg:col-span-1">
-                        <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-6">
-                            <img 
-                                src="https://static4.depositphotos.com/1013084/343/v/450/depositphotos_3430480-stock-illustration-sport-silhouettes.jpg" 
-                                alt="deportes" 
-                                className='w-full rounded-xl shadow-md mb-6' 
-                            />
-                            
-                            <div className="space-y-4">
-                                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-lg border border-blue-200">
-                                    <p className="text-sm text-blue-700 font-semibold mb-2">Estado</p>
-                                    <span className={`px-4 py-2 text-sm font-bold rounded-full inline-block ${estadoStyles[inscripcion?.estado] || 'bg-gray-100 text-gray-800 ring-2 ring-gray-600'}`}>
-                                        {inscripcion?.estado || 'Pendiente'}
-                                    </span>
+                        {inscripcion?.informacionMedica && (
+                            <div className="bg-white border border-gray-200 rounded-lg p-6">
+                                <div className="flex items-center gap-2 mb-4 pb-3 border-b border-gray-200">
+                                    <AlertCircle className="w-5 h-5 text-gray-600" />
+                                    <h2 className="text-lg font-semibold text-gray-900">Información Médica</h2>
                                 </div>
                                 
-                                <div className="bg-gray-50 p-4 rounded-lg">
-                                    <p className="text-sm text-gray-500 mb-1">Fecha de Inscripción</p>
-                                    <p className="text-gray-800 font-semibold text-sm">
-                                        {inscripcion?.fechaInscripcion ? new Date(inscripcion.fechaInscripcion).toLocaleDateString('es-ES') : 'N/A'}
-                                    </p>
+                                <div className="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <p className="text-xs text-gray-500 mb-1">Estado de Salud</p>
+                                        <p className="text-sm text-gray-900 font-medium">
+                                            {inscripcion.informacionMedica?.estadoSalud || 'No especificado'}
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <p className="text-xs text-gray-500 mb-1">Alergias</p>
+                                        <p className="text-sm text-gray-900 font-medium">
+                                            {inscripcion.informacionMedica?.alergias || 'Ninguna'}
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <p className="text-xs text-gray-500 mb-1">Medicamentos</p>
+                                        <p className="text-sm text-gray-900 font-medium">
+                                            {inscripcion.informacionMedica?.medicamentos || 'Ninguno'}
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <p className="text-xs text-gray-500 mb-1">Condiciones Médicas</p>
+                                        <p className="text-sm text-gray-900 font-medium">
+                                            {inscripcion.informacionMedica?.condicionesMedicas || 'Ninguna'}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        )}
+                   
+                        {/* Observaciones */}
+                        {inscripcion?.aprobacion?.comentarios && (
+                            <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                                <div className="flex items-center gap-2 mb-3">
+                                    <FileText className="w-5 h-5 text-blue-600" />
+                                    <h2 className="text-lg font-semibold text-gray-900">
+                                        {inscripcion.estado === 'Aprobada' ? 'Comentarios de Aprobación' : 'Motivo del Rechazo'}
+                                    </h2>
+                                </div>
+                                
+                                <p className="text-sm text-gray-700 mb-3">
+                                    {inscripcion.aprobacion.comentarios}
+                                </p>
+                                
+                                <div className="flex flex-wrap gap-4 pt-3 border-t border-blue-200 text-xs text-gray-600">
+                                    {inscripcion.aprobacion.aprobadoPor && (
+                                        <div>
+                                            <span className="font-medium">Por:</span> {inscripcion.aprobacion.aprobadoPor}
+                                        </div>
+                                    )}
+                                    {inscripcion.aprobacion.fechaAprobacion && (
+                                        <div>
+                                            <span className="font-medium">Fecha:</span>{' '}
+                                            {new Date(inscripcion.aprobacion.fechaAprobacion).toLocaleDateString('es-EC', {
+                                                year: 'numeric',
+                                                month: 'short',
+                                                day: 'numeric',
+                                                hour: '2-digit',
+                                                minute: '2-digit'
+                                            })}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        )}
                     </div>
+
                 </div>
             </div>
 
-            {/* Modal de confirmación */}
+            {/* Modal */}
             {modalOpen && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 transform transition-all">
-                        <h3 className="text-2xl font-bold text-gray-800 mb-4">
-                            {accion === 'aprobar' ? 'Aprobar Inscripción' : ' Rechazar Inscripción'}
+                <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                            {accion === 'aprobar' ? 'Aprobar Inscripción' : 'Rechazar Inscripción'}
                         </h3>
                         
                         {accion === 'aprobar' ? (
                             <div>
-                                <p className="text-gray-600 mb-4">
-                                    ¿Estás seguro de aprobar esta inscripción?
+                                <p className="text-sm text-gray-600 mb-4">
+                                    ¿Confirmas que deseas aprobar esta inscripción?
                                 </p>
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
                                     Comentarios (opcional)
                                 </label>
                                 <textarea
                                     value={comentarios}
                                     onChange={(e) => setComentarios(e.target.value)}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
                                     rows="3"
-                                    placeholder="Agrega comentarios adicionales..."
+                                    placeholder="Agrega comentarios si lo deseas..."
                                 />
                             </div>
                         ) : (
                             <div>
-                                <p className="text-gray-600 mb-4">
+                                <p className="text-sm text-gray-600 mb-4">
                                     Debes proporcionar un motivo para el rechazo
                                 </p>
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                    Motivo del rechazo *
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Motivo del rechazo <span className="text-red-600">*</span>
                                 </label>
                                 <textarea
                                     value={motivo}
                                     onChange={(e) => setMotivo(e.target.value)}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent text-sm"
                                     rows="3"
                                     placeholder="Explica el motivo del rechazo..."
                                     required
@@ -425,18 +455,18 @@ const DetailsInscripctionEstadoGeneral = () => {
                             </div>
                         )}
                         
-                        <div className="flex gap-3 mt-6">
+                        <div className="flex gap-3 mt-5">
                             <button
                                 onClick={() => setModalOpen(false)}
                                 disabled={procesando}
-                                className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-semibold"
+                                className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors text-sm font-medium"
                             >
                                 Cancelar
                             </button>
                             <button
                                 onClick={accion === 'aprobar' ? handleAprobar : handleRechazar}
                                 disabled={procesando}
-                                className={`flex-1 px-4 py-3 text-white rounded-lg transition-colors font-semibold ${
+                                className={`flex-1 px-4 py-2 text-white rounded-md transition-colors text-sm font-medium ${
                                     accion === 'aprobar' 
                                         ? 'bg-green-600 hover:bg-green-700' 
                                         : 'bg-red-600 hover:bg-red-700'

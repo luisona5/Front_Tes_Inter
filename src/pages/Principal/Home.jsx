@@ -19,8 +19,26 @@ export const Home = () => {
               <img src={esfot} alt="logo" width={84} height={96}  />
             </div>
 
-            {/* Botones Agrupados */}
             <nav className="flex items-center gap-4">
+              <a href='#contacto' className="relative group text-white hover:text-orange-600 font-semibold text-sm px-5 py-2 transition-colors" >
+                Contacto
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover:w-full transition-all duration-300"></span>
+              </a>
+
+              <a href='#deportes' className="relative group text-white hover:text-orange-600 font-semibold text-sm px-5 py-2 transition-colors" >
+                Deportes
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover:w-full transition-all duration-300"></span>
+              </a>
+
+              <a href='#contacto' className="relative group text-white hover:text-orange-600 font-semibold text-sm px-5 py-2 transition-colors" >
+                Contacto
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover:w-full transition-all duration-300"></span>
+              </a>
+              
+            </nav>
+
+            {/* Botones Agrupados */}
+            <nav className="flex items-right gap-4 ">
               <Link
                 to="/login"
                 className="relative group text-white hover:text-orange-600 font-semibold text-sm px-5 py-2 transition-colors"
@@ -29,13 +47,7 @@ export const Home = () => {
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover:w-full transition-all duration-300"></span>
               </Link>
 
-              <Link
-                to="/register/nuevo-estudiantes"
-                className="relative group text-white hover:text-orange-600 font-semibold text-sm px-5 py-2 transition-colors"
-              >
-                Registrarse
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover:w-full transition-all duration-300"></span>
-              </Link>
+              
             </nav>
 
           </div>
@@ -49,7 +61,7 @@ export const Home = () => {
             <Carrusel />
           </div>
         </section>
-              <section id="deportes" className="container mx-auto px-2 py-20">
+        <section id="deportes" className="container mx-auto px-2 py-20">
         <div className="text-center mb-16">
           <h2 className="font-bold text-4xl md:text-5xl text-gray-800 mb-4">
             Nuestros Deportes
@@ -153,14 +165,17 @@ export const Home = () => {
 
       <footer className="bg-gradient-to-br from-gray-900 to-gray-800   mt-20">
       <div className="container mx-auto">
-        <div className="border-t border-gray-700 pt-6 text-center text-gray-400">
-          <ul>
-            <li><p>© - Copyright  2025</p></li>
-            <li><p>Todos los derechos reservados</p></li>
-          </ul>
-          
+      <div className="border-t border-gray-700 pt-6 text-gray-400">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+        <section id="contacto">Contacto </section>
+          <div>Columna 2</div>
+          <div>Columna 3</div>
         </div>
+
+        <p className="mt-2">© - Copyright 2025. Todos los derechos reservados</p>
       </div>
+    </div>
+
     </footer>
 
     </>

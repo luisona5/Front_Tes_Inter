@@ -38,8 +38,8 @@ export const validacionTelefono = {
 export const validacionNombre = {
     required: "El nombre es obligatorio",
     minLength: {
-        value: 4,
-        message: "Debe tener al menos 4 letras"
+        value: 3,
+        message: "Debe tener al menos 3 letras"
     }
     
 };
