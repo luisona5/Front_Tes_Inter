@@ -147,7 +147,7 @@ const Login = () => {
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                     aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                   >
-                    {showPassword ? <MdVisibilityOff size={22} /> : <MdVisibility size={22} />}
+                    {showPassword ?  <MdVisibility size={22} />:<MdVisibilityOff size={22} /> }
                   </button>
                 </div>
                 {errors.password && (

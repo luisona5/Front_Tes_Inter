@@ -1,5 +1,5 @@
 import { FaBasketballBall, FaVolleyballBall, FaTableTennis } from "react-icons/fa";
-//import fondo from '../../assets/buho.jpg';
+import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin, Youtube, Globe } from 'lucide-react';
 import esfot from '../../assets/esfot.png';
 import { Link } from "react-router";
 import {Carrusel} from "../../components/carrusel/carrusel";
@@ -163,19 +163,129 @@ export const Home = () => {
 
       
 
-      <footer className="bg-gradient-to-br from-gray-900 to-gray-800   mt-20">
-      <div className="container mx-auto">
-      <div className="border-t border-gray-700 pt-6 text-gray-400">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
-        <section id="contacto">Contacto </section>
-          <div>Columna 2</div>
-          <div>Columna 3</div>
+
+    <footer className="bg-gradient-to-br from-gray-900 to-gray-800 mt-20">
+      <div className="container mx-auto px-4 py-12">
+        {/* Main Footer Content */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          
+          {/* Contacto Section */}
+          <div>
+            <h3 className="text-white font-semibold text-lg mb-4 flex items-center gap-2">
+              <Mail className="w-5 h-5" />
+              Contacto
+            </h3>
+            <ul className="space-y-3 text-gray-300">
+              <li className="flex items-start gap-2">
+                <Mail className="w-4 h-4 mt-1 flex-shrink-0 text-blue-400" />
+                <div>
+                  <p className="text-sm text-gray-400">Dirección:</p>
+                  <a href="mailto:diresfot@epn.edu.ec" className="hover:text-blue-400 transition-colors">
+                    diresfot@epn.edu.ec
+                  </a>
+                </div>
+              </li>
+              <li className="flex items-start gap-2">
+                <Mail className="w-4 h-4 mt-1 flex-shrink-0 text-blue-400" />
+                <div>
+                  <p className="text-sm text-gray-400">Subdirección:</p>
+                  <a href="mailto:subesfot@epn.edu.ec" className="hover:text-blue-400 transition-colors">
+                    subesfot@epn.edu.ec
+                  </a>
+                </div>
+              </li>
+              <li className="flex items-start gap-2">
+                <Phone className="w-4 h-4 mt-1 flex-shrink-0 text-blue-400" />
+                <div>
+                  <a href="tel:+59322976300" className="hover:text-blue-400 transition-colors">
+                    (+593) 2 2976 300 ext. 2701
+                  </a>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          {/* Enlaces Rápidos */}
+          <div>
+            <h3 className="text-white font-semibold text-lg mb-4">
+              Enlaces Rápidos
+            </h3>
+            <ul className="space-y-2 text-gray-300">
+              <li>
+                <a href="#inicio" className="hover:text-blue-400 transition-colors">
+                  Inicio
+                </a>
+              </li>
+              <li>
+                <a href="#sobre-nosotros" className="hover:text-blue-400 transition-colors">
+                  Sobre Nosotros
+                </a>
+              </li>
+              <li>
+                <a href="#programas" className="hover:text-blue-400 transition-colors">
+                  Programas Académicos
+                </a>
+              </li>
+              <li>
+                <a href="#noticias" className="hover:text-blue-400 transition-colors">
+                  Noticias
+                </a>
+              </li>
+              <li>
+                <a href="#contacto" className="hover:text-blue-400 transition-colors">
+                  Contacto
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Redes Sociales */}
+          <div>
+            <h3 className="text-white font-semibold text-lg mb-4">
+              Síguenos
+            </h3>
+            <p className="text-gray-300 mb-4 text-sm">
+              Conéctate con nosotros en nuestras redes sociales
+            </p>
+            <div className="flex gap-4">
+              <a 
+                href="https://esfot.epn.edu.ec/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors"
+                aria-label="Sitio web ESFOT"
+              >
+                <Globe className="w-5 h-5 text-white" />
+              </a>
+              <a 
+              
+                href="https://www.google.com/maps/search/?api=1&query=Av.+Ladr%C3%B3n+de+Guevara+253,+Quito+170143"
+                target="_blank"
+                rel="noopener noreferrer"                
+                className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors"
+                aria-label="Facebook"
+              >
+                <Facebook className="w-5 h-5 text-white" />
+              </a>
+              <a 
+                href="#" 
+                className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-pink-600 transition-colors"
+                aria-label="Instagram"
+              >
+                <Instagram className="w-5 h-5 text-white" />
+              </a>
+              
+            </div>
+          </div>
         </div>
 
-        <p className="mt-2">© - Copyright 2025. Todos los derechos reservados</p>
+        {/* Bottom Bar */}
+        <div className="border-t border-gray-700 pt-6 text-center">
+          <p className="text-gray-400 text-sm">
+            © {new Date().getFullYear()} ESFOT - Escuela de Formación de Tecnólogos. Todos los derechos reservados.
+          </p>
+        </div>
       </div>
-    </div>
-
     </footer>
 
     </>

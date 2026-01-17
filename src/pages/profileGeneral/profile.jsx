@@ -10,13 +10,11 @@ const Profile = () => {
     
     return (
         <>
-            {/* Encabezado del perfil */}
             <div className="mb-8">
                 <h1 className='font-black text-4xl text-slate-700'>⚙️ Perfil</h1>
                 <hr className='my-3 border-gray-200'/>
             </div>
 
-            {/* Contenedor principal */}
             <div className="flex justify-center">
                 {!user ? (
                     <div className="text-center"></div>

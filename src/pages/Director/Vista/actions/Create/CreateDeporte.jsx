@@ -55,13 +55,16 @@ const CreateDeporte = ({ deporte }) => {
         if (deporte) {
             reset({
                 nombre: deporte?.nombre,
-                categoria:deporte?.categoria._id, 
+                categoria: deporte?.categoria._id, 
                 cupo: deporte?.cupo,
                 lugar: deporte?.lugar,
-                horario: deporte?.horario,
                 detalle: deporte?.detalle,
-                fechaInicio:deporte?.fechaInicio,
-                fechaFin:deporte?.fechaFin
+                fechaInicio: deporte?.fechaInicio,
+                fechaFin: deporte?.fechaFin,
+                horaInicio: deporte?.horaInicio,
+                horaFin: deporte?.horaFin,
+                EntrenamientoDia: deporte?.EntrenamientoDia,
+                EntrenamientoHora: deporte?.EntrenamientoHora
             })
         }
     }, [deporte, reset])
@@ -122,18 +125,17 @@ const CreateDeporte = ({ deporte }) => {
                         placeholder="Ej: 22"
                         className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500"
                         min="1"
-                        step="0"
+                        step="1"
                         {...register("cupo", {
-                        required: "El cupo es obligatorio",
-                        min: { value: 1, message: "El cupo debe ser un número positivo" },
-                        valueAsNumber: true
+                            required: "El cupo es obligatorio",
+                            min: { value: 1, message: "El cupo debe ser un número positivo" },
+                            valueAsNumber: true
                         })}
                     />
                     {errors.cupo && (
                         <p className="text-red-600 text-sm mt-1">{errors.cupo.message}</p>
                     )}
                 </div>
-
 
                 {/* Campo lugar */}
                 <div className="mb-3">
@@ -149,54 +151,76 @@ const CreateDeporte = ({ deporte }) => {
                     {errors.lugar && <p className="text-red-600 text-sm mt-1">{errors.lugar.message}</p>}
                 </div>
 
-
-
-                {/* Campo horario */}
-                {/* Fecha */}
+                {/* Fechas de Inicio y Fin */}
                 <div className="flex gap-4">
+                    <div className="mb-3 flex-1">
+                        <label className="mb-2 block text-sm font-semibold">Fecha Inicio</label>
+                        <input
+                            type="date"
+                            className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500"
+                            {...register("fechaInicio", {required: "La fecha de inicio es obligatoria"})}
+                        />
+                        {errors.fechaInicio && <p className="text-red-600 text-sm mt-1">{errors.fechaInicio.message}</p>}
+                    </div>
+                    <div className="mb-3 flex-1">
+                        <label className="mb-2 block text-sm font-semibold">Fecha Fin</label>
+                        <input
+                            type="date"
+                            className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500"
+                            {...register("fechaFin", {required: "La fecha de fin es obligatoria"})}
+                        />
+                        {errors.fechaFin && <p className="text-red-600 text-sm mt-1">{errors.fechaFin.message}</p>}
+                    </div>
+                </div>
 
-                <div className="mb-3">
-                    <label className="mb-2 block text-sm font-semibold">Fecha Inicio</label>
-                    <input
-                        type="date"
-                        className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500"
-                        {...register("fechaInicio", {required: "La fecha es obligatoria"})}
-                    />
-                    {errors.fechaInicio && <p className="text-red-600 text-sm mt-1">{errors.fechaInicio.message}</p>}
-                </div>
-                <div className="mb-3">
-                    <label className="mb-2 block text-sm font-semibold">Fecha Fin</label>
-                    <input
-                        type="date"
-                        className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500"
-                        {...register("fechaFin", {required: "La fecha es obligatoria"})}
-                    />
-                    {errors.fechaFin && <p className="text-red-600 text-sm mt-1">{errors.fechaFin.message}</p>}
-                </div>
-                </div>
-                {/* Hora */}
+                {/* Horas de Inicio y Fin */}
                 <div className="flex gap-4">
-                    <div className="mb-3">
+                    <div className="mb-3 flex-1">
                         <label className="mb-2 block text-sm font-semibold">Hora Inicio</label>
                         <input
                             type="time"
                             className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500"
                             {...register("horaInicio", {
-                                required: "La hora es obligatoria"
+                                required: "La hora de inicio es obligatoria"
                             })}
                         />
                         {errors.horaInicio && <p className="text-red-600 text-sm mt-1">{errors.horaInicio.message}</p>}
                     </div>
-                    <div className="mb-3">
+                    <div className="mb-3 flex-1">
                         <label className="mb-2 block text-sm font-semibold">Hora Fin</label>
                         <input
                             type="time"
                             className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500"
                             {...register("horaFin", {
-                                required: "La hora es obligatoria"
+                                required: "La hora de fin es obligatoria"
                             })}
                         />
                         {errors.horaFin && <p className="text-red-600 text-sm mt-1">{errors.horaFin.message}</p>}
+                    </div>
+                </div>
+
+                {/* Día y Hora de Entrenamiento */}
+                <div className="flex gap-4">
+                    <div className="mb-3 flex-1">
+                        <label className="mb-2 block text-sm font-semibold">Entrenamiento Día</label>
+                        <input
+                            type="date"
+                            className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500"
+                            {...register("EntrenamientoDia", {required: "El día de entrenamiento es obligatorio"})}
+                        />
+                        {errors.EntrenamientoDia && <p className="text-red-600 text-sm mt-1">{errors.EntrenamientoDia.message}</p>}
+                    </div>
+
+                    <div className="mb-3 flex-1">
+                        <label className="mb-2 block text-sm font-semibold">Entrenamiento Hora</label>
+                        <input
+                            type="time"
+                            className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500"
+                            {...register("EntrenamientoHora", {
+                                required: "La hora de entrenamiento es obligatoria"
+                            })}
+                        />
+                        {errors.EntrenamientoHora && <p className="text-red-600 text-sm mt-1">{errors.EntrenamientoHora.message}</p>}
                     </div>
                 </div>
 
@@ -219,8 +243,8 @@ const CreateDeporte = ({ deporte }) => {
                 >
                     {deporte ? "Actualizar Deporte" : "Registrar Deporte"}
                 </button>
-                </form>
-            </div>
+            </form>
+        </div>
     );
 }
 

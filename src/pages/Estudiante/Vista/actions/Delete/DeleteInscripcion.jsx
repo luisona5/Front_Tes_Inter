@@ -122,6 +122,7 @@ const TablaInscripcion = () => {
 
             {/* Mensaje cuando no hay resultados */}
             {filteredCategorias.length === 0 && busqueda && (
+                
                 <div className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-lg shadow-md mb-6">
                     <div className="flex items-center">
                         <div>
@@ -135,7 +136,7 @@ const TablaInscripcion = () => {
                 <div className="flex justify-center">
                     <Link to='/dashboard/inscripciones/nuevodeporte'>
                         <button className="flex items-center gap-3 bg-blue-900 text-white px-6 py-4 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl font-medium transform hover:scale-105">
-                            Nuevo Inscripcion
+                            Nueva Inscripción
                         </button>
                     </Link>
                 </div>

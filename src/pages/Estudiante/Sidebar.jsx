@@ -32,8 +32,7 @@ const VistaEstudiante = () => {
                             </span>
                         </Link>
                     </li>
-                    
-                    <li className="text-center">
+                     <li className="text-center">
                         <Link 
                             to='/dashboard/inscripciones/nuevodeporte' 
                             className={`
@@ -48,10 +47,11 @@ const VistaEstudiante = () => {
                                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
                                 </svg>
-                                inscripcion
+                                Inscripción
                             </span>
                         </Link>
                     </li>
+                    
                     {/*Uniforme */}
                     <li className="text-center">
                         <Link 
@@ -73,6 +73,7 @@ const VistaEstudiante = () => {
                         </Link>
                     </li>
 
+
                     {/*Visualizar */}
                     <li className="text-center">
                         <Link 
@@ -89,7 +90,7 @@ const VistaEstudiante = () => {
                                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
                                 </svg>
-                                Visualizar Inscripciones
+                                Mis Inscripciones
                             </span>
                         </Link>
                     </li>

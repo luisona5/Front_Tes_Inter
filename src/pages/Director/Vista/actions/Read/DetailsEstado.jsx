@@ -34,7 +34,6 @@ const DetailsInscripctionEstadoGeneral = () => {
                 setInscripcion(response)
             } catch (error) {
                 console.error("Error al cargar inscripción:", error)
-                toast.error("Error al cargar la inscripción")
             } finally {
                 setLoading(false)
             }
@@ -68,7 +67,6 @@ const DetailsInscripctionEstadoGeneral = () => {
                     }
                 }))
                 
-                toast.success("Inscripción aprobada exitosamente")
                 setModalOpen(false)
                 
                 setTimeout(() => {
@@ -114,7 +112,6 @@ const DetailsInscripctionEstadoGeneral = () => {
                     }
                 }))
                 
-                toast.success("Inscripción rechazada")
                 setModalOpen(false)
                 
                 setTimeout(() => {
@@ -294,7 +291,7 @@ const DetailsInscripctionEstadoGeneral = () => {
                                 {inscripcion?.deporte?.detalle && (
                                     <div>
                                         <p className="text-xs text-gray-500 mb-1">Descripción</p>
-                                        <p className="text-sm text-gray-700">{inscripcion.deporte.detalle}</p>
+                                        <p className="text-sm text-gray-700">{inscripcion?.deporte?.detalle}</p>
                                     </div>
                                 )}
                                 
@@ -304,7 +301,7 @@ const DetailsInscripctionEstadoGeneral = () => {
                                         <div>
                                             <p className="text-xs text-gray-500 mb-1">Fecha</p>
                                             <p className="text-sm text-gray-900 font-medium">
-                                                {new Date(inscripcion.deporte?.fechaFin).toLocaleDateString('es-EC', {
+                                                {new Date(inscripcion.deporte?.EntrenamientoDia).toLocaleDateString('es-EC', {
                                                     year: 'numeric',
                                                     month: 'short',
                                                     day: 'numeric'
@@ -317,7 +314,7 @@ const DetailsInscripctionEstadoGeneral = () => {
                                         <Clock className="w-4 h-4 text-gray-400 mt-0.5" />
                                         <div>
                                             <p className="text-xs text-gray-500 mb-1">Hora</p>
-                                            <p className="text-sm text-gray-900 font-medium">{inscripcion?.deporte?.horaFin || 'N/A'}</p>
+                                            <p className="text-sm text-gray-900 font-medium">{inscripcion?.deporte?.EntrenamientoHora || 'N/A'}</p>
                                         </div>
                                     </div>
                                     
@@ -426,14 +423,15 @@ const DetailsInscripctionEstadoGeneral = () => {
                                     ¿Confirmas que deseas aprobar esta inscripción?
                                 </p>
                                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Comentarios (opcional)
+                                    Comentarios 
                                 </label>
                                 <textarea
                                     value={comentarios}
                                     onChange={(e) => setComentarios(e.target.value)}
                                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
                                     rows="3"
-                                    placeholder="Agrega comentarios si lo deseas..."
+                                    placeholder="Agrega comentarios "
+                                    required
                                 />
                             </div>
                         ) : (

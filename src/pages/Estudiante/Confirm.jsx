@@ -50,7 +50,7 @@ export const Confirm = () => {
 
                 {/* Button */}
                 <Link 
-                    to="/" 
+                    to="/login" 
                     className="inline-block mt-6 px-8 py-3 w-full bg-gradient-to-r from-gray-700 to-gray-900 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transform transition-all duration-300 hover:from-gray-800 hover:to-black"
                 >
                     Iniciar Sesión

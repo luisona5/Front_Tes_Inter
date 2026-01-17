@@ -100,6 +100,17 @@ const DetailsDeporte= () => {
                                     <li className="text-md mt-2">
                                         <span className="text-gray-600 font-bold">Cupos:  {deporte?.cupo} </span>
                                     </li>
+                                    <li className="text-md mt-2">
+                                        <span className="text-gray-600 font-bold">fecha para entrenamientos:  {new Date(deporte.EntrenamientoDia).toLocaleDateString('es-EC', {
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric'
+                                        })} </span>
+                                    </li>
+
+                                    <li className="text-md mt-2">
+                                        <span className="text-gray-600 font-bold">hora para entrenamientos:  {deporte?.EntrenamientoHora} </span>
+                                    </li>
 
                                 </ul>
 
