@@ -174,14 +174,16 @@ const TablaDeporte = () => {
                                             {new Date(deporte.fechaInicio).toLocaleDateString('es-EC', {
                                                 year: 'numeric',
                                                 month: 'short',
-                                                day: 'numeric'
+                                                day: 'numeric',
+                                                timeZone:'UTC'
                                             })}
                                         </td>
                                         <td className="px-4 py-4 text-sm text-gray-600">
                                             {new Date(deporte.fechaFin).toLocaleDateString('es-EC', {
                                                 year: 'numeric',
                                                 month: 'short',
-                                                day: 'numeric'
+                                                day: 'numeric',
+                                                timeZone:'UTC'
                                             })}
                                         </td>
                                         <td className="px-4 py-4 text-center">

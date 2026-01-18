@@ -1,7 +1,7 @@
 import { MdInfo } from "react-icons/md"
 import { useFetch } from "../../../../hooks/useFetch"
 import { useEffect, useState } from "react"
-import { FileDown, Trash2, Search, Download } from "lucide-react"
+import { FileDown, Search, Download } from "lucide-react"
 import {  useNavigate } from "react-router"
 import { ToastContainer } from "react-toastify"
 import { BlobProvider, PDFDownloadLink } from "@react-pdf/renderer"
@@ -29,27 +29,7 @@ const TablaEstadoEstudiante = () => {
         setEstados(response)
     }
 
-    const deleteCategory = async(id) => {
-        const confirmDelete = confirm("Advertencia: Esta acción se eliminara de manera permanente. ¿Deseas continuar?");
-        
-        if (confirmDelete) {
-            try {
-                const url = `${import.meta.env.VITE_BACKEND_URL}/inscripciones/eliminar/${id}` 
-                const storedUser = JSON.parse(localStorage.getItem("auth-token"))
-                const options = {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${storedUser.state.token}`,
-                }
-                const body = JSON.stringify({ estadoInscripcion: false });
-                await fetchDataBackend(url, body, "DELETE", options);
-                setEstados((prevEstados) => prevEstados.filter(estado => estado._id !== id))
-                listEstados(); 
-            } catch (error) {
-                console.error("Error al deshabilitar categoria.", error);
-            }
-        }
-    };
-
+    
     const estadoStyles = {
     'Aprobada':'bg-green-100 text-green-800 ring-1 ring-green-600',
     'Pendiente': 'bg-yellow-100 text-yellow-800 ring-1 ring-yellow-600',
@@ -204,14 +184,7 @@ const TablaEstadoEstudiante = () => {
                                             </button>
 
 
-                                            <button 
-                                                onClick={() => deleteCategory(Inscription._id)}
-                                                className="p-2 text-red-600 hover:text-white hover:bg-red-600 
-                                                         rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
-                                                title="Eliminar"
-                                            >
-                                                <Trash2 className="h-5 w-5" /> 
-                                            </button>
+                                           
                                         </div>
                                     </td>
 

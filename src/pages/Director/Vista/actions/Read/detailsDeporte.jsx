@@ -74,19 +74,25 @@ const DetailsDeporte= () => {
 
                                 <ul className="pl-5">
                                     <li className="text-md mt-2">
-                                        <span className="text-gray-600 font-bold">fecha inicio:  {new Date(deporte.fechaInicio).toLocaleDateString('es-EC', {
+                                        <span className="text-gray-600 font-bold">
+                                            fecha inicio: {new Date(deporte.fechaInicio).toLocaleDateString('es-EC', {
                                             year: 'numeric',
                                             month: 'long',
-                                            day: 'numeric'
-                                        })} </span>
-                                    </li>
-                                     <li className="text-md mt-2">
-                                        <span className="text-gray-600 font-bold">fecha fin:  {new Date(deporte.fechaFin).toLocaleDateString('es-EC', {
+                                            day: 'numeric',
+                                            timeZone: 'UTC' // Solución aquí
+                                            })}
+                                        </span>
+                                        </li>
+                                        <li className="text-md mt-2">
+                                        <span className="text-gray-600 font-bold">
+                                            fecha fin: {new Date(deporte.fechaFin).toLocaleDateString('es-EC', {
                                             year: 'numeric',
                                             month: 'long',
-                                            day: 'numeric'
-                                        })} </span>
-                                    </li>
+                                            day: 'numeric',
+                                            timeZone: 'UTC' // Solución aquí
+                                            })}
+                                        </span>
+                                        </li>
                                     
                                     <li className="text-md mt-2">
                                         <span className="text-gray-600 font-bold">hora Inicio:  {deporte?.horaInicio} </span>
@@ -104,7 +110,8 @@ const DetailsDeporte= () => {
                                         <span className="text-gray-600 font-bold">fecha para entrenamientos:  {new Date(deporte.EntrenamientoDia).toLocaleDateString('es-EC', {
                                             year: 'numeric',
                                             month: 'long',
-                                            day: 'numeric'
+                                            day: 'numeric',
+                                            timeZone: 'UTC'
                                         })} </span>
                                     </li>
 

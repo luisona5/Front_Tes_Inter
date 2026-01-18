@@ -97,7 +97,7 @@ const TableEstudiante = () => {
     return (
         <div className="p-6 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
             <ToastContainer />
-
+        
             {/* Header con búsqueda y botón de descarga */}
             <div className="mb-8 bg-white rounded-2xl shadow-lg p-6">
                 <div className="flex items-center justify-between gap-6">

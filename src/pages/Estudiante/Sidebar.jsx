@@ -55,9 +55,9 @@ const VistaEstudiante = () => {
                     {/*Uniforme */}
                     <li className="text-center">
                         <Link 
-                            to='/dashboard/inscripciones/nuevodeporte/uniforme' 
+                            to='/dashboard/Uniforme/informacion-completa/detalle-para-pago' 
                             className={`
-                                ${urlActual === '/dashboard/inscripciones/nuevodeporte/uniforme' 
+                                ${urlActual === '/dashboard/Uniforme/informacion-completa/detalle-para-pago' 
                                     ? 'text-slate-200 px-3 py-2 rounded-md block mt-2 text-xl bg-gradient-to-r from-cyan-500 to-blue-500 shadow-lg' 
                                     : 'text-slate-600 hover:text-slate-200 hover:bg-gray-800/30' 
                                 } 

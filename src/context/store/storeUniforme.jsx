@@ -28,6 +28,19 @@ const storeUniforms = create(set=>({
             console.error(error)
         }
     },
+
+
+
+
+
+
+
+
+
+
+
+
+    
     deleteUniform:async(url)=>{
         const isConfirmed  = confirm("Vas a eliminar el Uniforme ¿Estás seguro de realizar esta acción?")
         if (isConfirmed ) {

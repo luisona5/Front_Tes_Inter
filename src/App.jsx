@@ -44,6 +44,7 @@ import TablaInscripcion from "./pages/Estudiante/Vista/actions/Delete/DeleteInsc
 import { ForgotGeneral } from "./pages/Principal/forgotGeneral";
 import TablaEstadoEstudiante from "./pages/Director/Components/EstadoEstudiantes/estadoEstudiante";
 import DetailsInscripctionEstadoGeneral from "./pages/Director/Vista/actions/Read/DetailsEstado";
+import TableUniforms from "./pages/Estudiante/Vista/actions/Delete/DeleteUniforme";
 
 
 
@@ -134,6 +135,8 @@ function AppContent() {
             <Route path='inscripciones/nuevodeporte' element={<InscripcionDeportiva />} />
             <Route path='estudiante/inscripcionesGenerales'element={<TablaInscripcion />} />
             <Route path='Inscription-esfot-epn/informacion-completa/:id'element={<DetailsInscripction />} />
+            <Route path='Uniforme/informacion-completa/detalle-para-pago'element={<TableUniforms />} />
+
 
 
 

@@ -85,7 +85,7 @@ const CreateDeporte = ({ deporte }) => {
                         </div>
                         <div>
                             <h1 className="font-semibold text-2xl text-gray-900">
-                                {deporte ? "Actualizar Deporte" : "Registrar Deporte"}
+                                Formulario deDeporte
                             </h1>
                            
                         </div>
@@ -152,7 +152,6 @@ const CreateDeporte = ({ deporte }) => {
                         )}
                     </div>
 
-                    {/* Campo Precio Uniforme - NUEVO */}
                     <div className="md:col-span-2">
                         <label className="mb-2 block text-sm font-medium text-gray-700">
                             Precio del Uniforme (USD)
@@ -320,7 +319,7 @@ const CreateDeporte = ({ deporte }) => {
                     className="bg-gray-800 w-full p-3 mt-6 text-white font-medium rounded-lg 
                              hover:bg-gray-700 transition-colors shadow-sm hover:shadow-md"
                 >
-                    {deporte ? "Actualizar Deporte" : "Registrar Deporte"}
+                    Enviar
                 </button>
             </form>
         </div>
