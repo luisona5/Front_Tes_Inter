@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form"
 import { ToastContainer } from 'react-toastify'
 import { useFetch } from "../../../../../hooks/useFetch"
 import { useNavigate } from "react-router"
-import { UserRoundCog } from "lucide-react"
-import { soloLetras, validacionNombre } from "../../../../../helpers/validaciones";
+import { UserRoundCog, DollarSign } from "lucide-react"
+import { soloLetras, validacionNombre } from "../../../../../helpers/validaciones"
 
 const CreateDeporte = ({ deporte }) => {
     const navigate = useNavigate()
@@ -20,7 +20,7 @@ const CreateDeporte = ({ deporte }) => {
             Authorization: `Bearer ${storedUser.state.token}`
         }
 
-        let response;
+        let response
 
         if (deporte?._id) {
             url = `${import.meta.env.VITE_BACKEND_URL}/deportes/actualizar/${deporte._id}`
@@ -64,188 +64,267 @@ const CreateDeporte = ({ deporte }) => {
                 horaInicio: deporte?.horaInicio,
                 horaFin: deporte?.horaFin,
                 EntrenamientoDia: deporte?.EntrenamientoDia,
-                EntrenamientoHora: deporte?.EntrenamientoHora
+                EntrenamientoHora: deporte?.EntrenamientoHora,
+                precioUniforme: deporte?.precioUniforme || 0
             })
         }
     }, [deporte, reset])
 
     return (
-        <div className="max-w-xl mx-auto">
+        <div className="max-w-4xl mx-auto p-6">
             <ToastContainer />
 
             <form onSubmit={handleSubmit(registerDeporte)}
-                className="bg-gradient-to-br from-white to-slate-50 border border-slate-200 rounded-2xl shadow-2xl p-8 w-full 
-                             hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] transition-all duration-300">
+                className="bg-white border border-gray-200 rounded-lg shadow-sm p-8 w-full">
 
                 {/* Header del formulario */}
-                <div className="mb-8">
-                    <div className="flex items-center gap-3 mb-3">
-                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-slate-500 to-slate-400 flex items-center justify-center shadow-lg">
+                <div className="mb-8 pb-4 border-b">
+                    <div className="flex items-center gap-3 ">
+                        <div className="w-12 h-12 rounded-lg bg-gray-500 flex items-center justify-center">
                             <UserRoundCog size={24} className="text-white" strokeWidth={2.5} />
                         </div>
-                        <h1 className="font-bold text-2xl text-slate-800">Formulario de Deporte</h1>
+                        <div>
+                            <h1 className="font-semibold text-2xl text-gray-900">
+                                {deporte ? "Actualizar Deporte" : "Registrar Deporte"}
+                            </h1>
+                           
+                        </div>
                     </div>
                 </div>
 
-                {/* Campo nombre */}
-                <div className="mb-3">
-                    <label className="mb-2 block text-sm font-semibold">Nombre del Deporte</label>
-                    <input
-                        type="text"
-                        placeholder="Ej: Fútbol, Baloncesto"
-                        className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500"
-                        {...register("nombre", validacionNombre)}
-                        onInput={soloLetras}
-                    />
-                    {errors.nombre && <p className="text-red-600 text-sm mt-1">{errors.nombre.message}</p>}
-                </div>
+                <div className="grid md:grid-cols-2 gap-6">
+                    {/* Campo nombre */}
+                    <div className="md:col-span-2">
+                        <label className="mb-2 block text-sm font-medium text-gray-700">
+                            Nombre del Deporte 
+                        </label>
+                        <input
+                            type="text"
+                            placeholder="Ej: Fútbol, Baloncesto"
+                            className="block w-full rounded-lg border border-gray-300 py-2.5 px-4 text-gray-900
+                                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            {...register("nombre", validacionNombre)}
+                            onInput={soloLetras}
+                        />
+                        {errors.nombre && <p className="text-red-600 text-sm mt-1">{errors.nombre.message}</p>}
+                    </div>
 
-                {/* Campo categoría */}
-                <div className="mb-3">
-                    <label className="mb-2 block text-sm font-semibold">Categoría</label>
-                    <select
-                        className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500"
-                        {...register("categoria", { required: "La categoría es obligatoria"})}
-                    >
-                        <option value="">Selecciona una categoría</option>
-                        {categorias.map(cat => (
-                            <option key={cat._id} value={cat._id}>
-                                {cat.nombre}
-                            </option>
-                        ))}
-                    </select>
-                    {errors.categoria && <p className="text-red-600 text-sm mt-1">{errors.categoria.message}</p>}
-                </div>
+                    {/* Campo categoría */}
+                    <div>
+                        <label className="mb-2 block text-sm font-medium text-gray-700">
+                            Categoría 
+                        </label>
+                        <select
+                            className="block w-full rounded-lg border border-gray-300 py-2.5 px-4 text-gray-900
+                                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            {...register("categoria", { required: "La categoría es obligatoria"})}
+                        >
+                            <option value="">Selecciona una categoría</option>
+                            {categorias.map(cat => (
+                                <option key={cat._id} value={cat._id}>
+                                    {cat.nombre}
+                                </option>
+                            ))}
+                        </select>
+                        {errors.categoria && <p className="text-red-600 text-sm mt-1">{errors.categoria.message}</p>}
+                    </div>
 
-                {/* Campo cupo */}
-                <div className="mb-3">
-                    <label className="mb-2 block text-sm font-semibold">Cupo</label>
-                    <input
-                        type="number"
-                        placeholder="Ej: 22"
-                        className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500"
-                        min="1"
-                        step="1"
-                        {...register("cupo", {
-                            required: "El cupo es obligatorio",
-                            min: { value: 1, message: "El cupo debe ser un número positivo" },
-                            valueAsNumber: true
-                        })}
-                    />
-                    {errors.cupo && (
-                        <p className="text-red-600 text-sm mt-1">{errors.cupo.message}</p>
-                    )}
-                </div>
+                    {/* Campo cupo */}
+                    <div>
+                        <label className="mb-2 block text-sm font-medium text-gray-700">
+                            Cupo 
+                        </label>
+                        <input
+                            type="number"
+                            placeholder="Ej: 22"
+                            className="block w-full rounded-lg border border-gray-300 py-2.5 px-4 text-gray-900
+                                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            min="1"
+                            step="1"
+                            {...register("cupo", {
+                                required: "El cupo es obligatorio",
+                                min: { value: 1, message: "El cupo debe ser un número positivo" },
+                                valueAsNumber: true
+                            })}
+                        />
+                        {errors.cupo && (
+                            <p className="text-red-600 text-sm mt-1">{errors.cupo.message}</p>
+                        )}
+                    </div>
 
-                {/* Campo lugar */}
-                <div className="mb-3">
-                    <label className="mb-2 block text-sm font-semibold">Lugar</label>
-                    <input
-                        type="text"
-                        placeholder="Ej: Cancha Principal"
-                        className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500"
-                        {...register("lugar", {
-                            required: "El lugar es obligatorio"
-                        })}
-                    />
-                    {errors.lugar && <p className="text-red-600 text-sm mt-1">{errors.lugar.message}</p>}
-                </div>
+                    {/* Campo Precio Uniforme - NUEVO */}
+                    <div className="md:col-span-2">
+                        <label className="mb-2 block text-sm font-medium text-gray-700">
+                            Precio del Uniforme (USD)
+                        </label>
+                        <div className="relative">
+                            <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-2 text-gray-500">
+                                <DollarSign className="w-4 h-4" />
+                            </div>
+                            <input
+                                type="number"
+                                step="0.01"
+                                min="0"
+                                placeholder="0.00"
+                                className="block w-full pl-12 pr-4 py-2.5 rounded-lg border border-gray-300 text-gray-900
+                                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                {...register("precioUniforme", {
+                                    required: "El precio del uniforme es obligatorio",
+                                    min: { value: 0, message: "El precio debe ser mayor o igual a 0" },
+                                    valueAsNumber: true
+                                })}
+                            />
+                        </div>
+                        {errors.precioUniforme && (
+                            <p className="text-red-600 text-sm mt-1">{errors.precioUniforme.message}</p>
+                        )}
+                     
+                    </div>
 
-                {/* Fechas de Inicio y Fin */}
-                <div className="flex gap-4">
-                    <div className="mb-3 flex-1">
-                        <label className="mb-2 block text-sm font-semibold">Fecha Inicio</label>
+                    {/* Campo lugar */}
+                    <div className="md:col-span-2">
+                        <label className="mb-2 block text-sm font-medium text-gray-700">
+                            Lugar 
+                        </label>
+                        <input
+                            type="text"
+                            placeholder="Ej: Cancha Principal"
+                            className="block w-full rounded-lg border border-gray-300 py-2.5 px-4 text-gray-900
+                                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            {...register("lugar", {
+                                required: "El lugar es obligatorio"
+                            })}
+                        />
+                        {errors.lugar && <p className="text-red-600 text-sm mt-1">{errors.lugar.message}</p>}
+                    </div>
+
+                    {/* Fechas de Inicio y Fin */}
+                    <div>
+                        <label className="mb-2 block text-sm font-medium text-gray-700">
+                            Fecha Inicio 
+                        </label>
                         <input
                             type="date"
-                            className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500"
+                            className="block w-full rounded-lg border border-gray-300 py-2.5 px-4 text-gray-900
+                                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             {...register("fechaInicio", {required: "La fecha de inicio es obligatoria"})}
                         />
                         {errors.fechaInicio && <p className="text-red-600 text-sm mt-1">{errors.fechaInicio.message}</p>}
                     </div>
-                    <div className="mb-3 flex-1">
-                        <label className="mb-2 block text-sm font-semibold">Fecha Fin</label>
+
+                    <div>
+                        <label className="mb-2 block text-sm font-medium text-gray-700">
+                            Fecha Fin 
+                        </label>
                         <input
                             type="date"
-                            className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500"
+                            className="block w-full rounded-lg border border-gray-300 py-2.5 px-4 text-gray-900
+                                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             {...register("fechaFin", {required: "La fecha de fin es obligatoria"})}
                         />
                         {errors.fechaFin && <p className="text-red-600 text-sm mt-1">{errors.fechaFin.message}</p>}
                     </div>
-                </div>
 
-                {/* Horas de Inicio y Fin */}
-                <div className="flex gap-4">
-                    <div className="mb-3 flex-1">
-                        <label className="mb-2 block text-sm font-semibold">Hora Inicio</label>
+                    {/* Horas de Inicio y Fin */}
+                    <div>
+                        <label className="mb-2 block text-sm font-medium text-gray-700">
+                            Hora Inicio 
+                        </label>
                         <input
                             type="time"
-                            className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500"
+                            className="block w-full rounded-lg border border-gray-300 py-2.5 px-4 text-gray-900
+                                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             {...register("horaInicio", {
                                 required: "La hora de inicio es obligatoria"
                             })}
                         />
                         {errors.horaInicio && <p className="text-red-600 text-sm mt-1">{errors.horaInicio.message}</p>}
                     </div>
-                    <div className="mb-3 flex-1">
-                        <label className="mb-2 block text-sm font-semibold">Hora Fin</label>
+
+                    <div>
+                        <label className="mb-2 block text-sm font-medium text-gray-700">
+                            Hora Fin 
+                        </label>
                         <input
                             type="time"
-                            className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500"
+                            className="block w-full rounded-lg border border-gray-300 py-2.5 px-4 text-gray-900
+                                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             {...register("horaFin", {
                                 required: "La hora de fin es obligatoria"
                             })}
                         />
                         {errors.horaFin && <p className="text-red-600 text-sm mt-1">{errors.horaFin.message}</p>}
                     </div>
-                </div>
 
-                {/* Día y Hora de Entrenamiento */}
-                <div className="flex gap-4">
-                    <div className="mb-3 flex-1">
-                        <label className="mb-2 block text-sm font-semibold">Entrenamiento Día</label>
+                    {/* Día y Hora de Entrenamiento */}
+                    <div>
+                        <label className="mb-2 block text-sm font-medium text-gray-700">
+                            Entrenamiento Día 
+                        </label>
                         <input
                             type="date"
-                            className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500"
+                            className="block w-full rounded-lg border border-gray-300 py-2.5 px-4 text-gray-900
+                                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             {...register("EntrenamientoDia", {required: "El día de entrenamiento es obligatorio"})}
                         />
                         {errors.EntrenamientoDia && <p className="text-red-600 text-sm mt-1">{errors.EntrenamientoDia.message}</p>}
                     </div>
 
-                    <div className="mb-3 flex-1">
-                        <label className="mb-2 block text-sm font-semibold">Entrenamiento Hora</label>
+                    <div>
+                        <label className="mb-2 block text-sm font-medium text-gray-700">
+                            Entrenamiento Hora 
+                        </label>
                         <input
                             type="time"
-                            className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500"
+                            className="block w-full rounded-lg border border-gray-300 py-2.5 px-4 text-gray-900
+                                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             {...register("EntrenamientoHora", {
                                 required: "La hora de entrenamiento es obligatoria"
                             })}
                         />
                         {errors.EntrenamientoHora && <p className="text-red-600 text-sm mt-1">{errors.EntrenamientoHora.message}</p>}
                     </div>
+
+                    {/* Campo detalle */}
+                    <div className="md:col-span-2">
+                        <label className="mb-2 block text-sm font-medium text-gray-700">
+                            Detalle 
+                        </label>
+                        <textarea
+                            placeholder="Descripción del deporte"
+                            className="block w-full rounded-lg border border-gray-300 py-2.5 px-4 text-gray-900 resize-y
+                                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            rows={4}
+                            {...register("detalle", {required: "El detalle es obligatorio"})}
+                        />
+                        {errors.detalle && <p className="text-red-600 text-sm mt-1">{errors.detalle.message}</p>}
+                    </div>
                 </div>
 
-                {/* Campo detalle */}
-                <div className="mb-3">
-                    <label className="mb-2 block text-sm font-semibold">Detalle</label>
-                    <textarea
-                        placeholder="Descripción del deporte"
-                        className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500 resize-y"
-                        rows={4}
-                        {...register("detalle", {required: "El detalle es obligatorio"})}
-                    />
-                    {errors.detalle && <p className="text-red-600 text-sm mt-1">{errors.detalle.message}</p>}
+                {/* Información adicional */}
+                <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div className="flex gap-3">
+                        <DollarSign className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                        <div className="text-sm text-blue-800">
+                            <ul className="list-disc list-inside space-y-1 text-blue-700">
+                                <li>El precio del uniforme se aplicará automáticamente al aprobar inscripciones</li>
+                               
+                            </ul>
+                        </div>
+                    </div>
                 </div>
 
                 {/* Botón de envío */}
                 <button
                     type="submit"
-                    className="bg-gradient-to-r from-slate-700 to-slate-600 w-full p-3 mt-5 text-white uppercase font-bold rounded-lg hover:from-slate-600 hover:to-slate-500 cursor-pointer transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                    className="bg-gray-800 w-full p-3 mt-6 text-white font-medium rounded-lg 
+                             hover:bg-gray-700 transition-colors shadow-sm hover:shadow-md"
                 >
                     {deporte ? "Actualizar Deporte" : "Registrar Deporte"}
                 </button>
             </form>
         </div>
-    );
+    )
 }
 
 export default CreateDeporte

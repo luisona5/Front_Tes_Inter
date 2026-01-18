@@ -7,10 +7,13 @@ import { ToastContainer } from "react-toastify"
 import { BlobProvider, PDFDownloadLink } from "@react-pdf/renderer"
 import SimpleCategoryPDF from "../../../../pages/Estudiante/pdf/Inscripcion"
 
+
+
 const TablaEstadoEstudiante = () => {
     const fetchDataBackend = useFetch()
     const [estados, setEstados] = useState([])
     const [busqueda, setBusqueda] = useState('')
+
     
     const navigate = useNavigate()
 
@@ -79,7 +82,7 @@ const TablaEstadoEstudiante = () => {
         return (
             <div className="p-6 text-center">
                 <div className="inline-block p-8 bg-red-50 rounded-2xl shadow-md">
-                    <p className="text-red-800 font-semibold text-lg">No existen registros</p>
+                    <p className="text-red-800 font-semibold text-lg">No existen inscripciones hechas por el estudiante actualmente</p>
                 </div>
             </div>
         )

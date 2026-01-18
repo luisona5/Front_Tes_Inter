@@ -5,6 +5,7 @@ import { User, Phone, Activity, Calendar, Clock, MapPin, AlertCircle, ArrowLeft,
             CheckCircle, XCircle, FileText } from 'lucide-react'
 import { toast, ToastContainer } from 'react-toastify'
 
+
 const DetailsInscripctionEstadoGeneral = () => {
     
     const {id} = useParams()
@@ -16,6 +17,7 @@ const DetailsInscripctionEstadoGeneral = () => {
     const [comentarios, setComentarios] = useState('')
     const [motivo, setMotivo] = useState('')
     const [procesando, setProcesando] = useState(false)
+
     
     const fetchDataBackend = useFetch()
     
@@ -301,7 +303,7 @@ const DetailsInscripctionEstadoGeneral = () => {
                                         <div>
                                             <p className="text-xs text-gray-500 mb-1">Fecha</p>
                                             <p className="text-sm text-gray-900 font-medium">
-                                                {new Date(inscripcion.deporte?.EntrenamientoDia).toLocaleDateString('es-EC', {
+                                                {new Date(inscripcion?.deporte?.EntrenamientoDia).toLocaleDateString('es-EC', {
                                                     year: 'numeric',
                                                     month: 'short',
                                                     day: 'numeric'
@@ -476,6 +478,8 @@ const DetailsInscripctionEstadoGeneral = () => {
                     </div>
                 </div>
             )}
+
+            
         </div>
     )
 }

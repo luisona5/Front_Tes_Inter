@@ -1,7 +1,7 @@
 import { MdInfo, MdUpdate } from "react-icons/md"
 import { useFetch } from "../../../hooks/useFetch"
 import { useEffect, useState } from "react"
-import { FileDown, Trash2, Search, Download } from "lucide-react"
+import { FileDown, Trash2, Search, Download, Link } from "lucide-react"
 import { useNavigate } from "react-router"
 import { ToastContainer } from "react-toastify"
 import { BlobProvider, PDFDownloadLink } from "@react-pdf/renderer"
@@ -69,11 +69,26 @@ const TableEstudiante = () => {
         )
     })
 
-    if (estudiantes.length === 0) {
+     if (estudiantes.length === 0) {
         return (
-            <div className="p-6 text-center">
-                <div className="inline-block p-8 bg-red-50 rounded-2xl shadow-md">
-                    <p className="text-red-800 font-semibold text-lg">No existen registros</p>
+            <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
+                <ToastContainer />
+                <div className="max-w-md w-full">
+                    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center">
+                        <div className="mb-6">
+                            
+                            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                                No hay deportes registrados
+                            </h3>
+                           
+                        </div>
+                        
+                        <Link to='/dashboard/inscripciones/Director/nuevo/estudiante/politecnico'>
+                            <button className="w-full flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                                Registrar Estudiante
+                            </button>
+                        </Link>
+                    </div>
                 </div>
             </div>
         )
@@ -129,6 +144,11 @@ const TableEstudiante = () => {
                     </div>
                 </div>
             )}
+            <Link to='/dashboard/inscripciones/Director/nuevo/estudiante/politecnico'>
+                <button className="w-full flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                    Registrar Estudiante
+                </button>
+            </Link>
 
             {/* Tabla mejorada */}
             <div className="bg-white rounded-2xl shadow-xl overflow-hidden">

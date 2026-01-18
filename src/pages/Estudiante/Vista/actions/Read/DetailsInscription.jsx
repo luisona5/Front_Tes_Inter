@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router" 
 import { User, Phone, Activity, MapPinned, ArrowLeft, Heart, AlertCircle, 
-    CheckCircle, XCircle, MessageSquare, Calendar, Clock } from 'lucide-react'
+    CheckCircle, XCircle, MessageSquare, Calendar, Clock, ShoppingBag } from 'lucide-react'
 
 const DetailsInscripction = () => {
     
@@ -9,6 +9,7 @@ const DetailsInscripction = () => {
     const navigate = useNavigate()
     const [inscripcion, setInscripcion] = useState({})
     const [loading, setLoading] = useState(true)
+    
     
     useEffect(() => {
         const detalleInscripcion = async () => {
@@ -82,6 +83,38 @@ const DetailsInscripction = () => {
                 <div className="grid lg:grid-cols-3 gap-6">
                     {/* Columna principal */}
                     <div className="lg:col-span-2 space-y-6">
+
+                        {inscripcion?.estado === 'Aprobada' && (
+                    <div className="mb-6 bg-gradient-to-r from-emerald-50 to-teal-50 border-2 border-emerald-200 rounded-lg p-6 shadow-sm">
+                        <div className="flex items-start gap-4">
+                            <div className="bg-emerald-100 p-3 rounded-full">
+                                <ShoppingBag className="w-6 h-6 text-emerald-700" />
+                            </div>
+                            <div className="flex-1">
+                                <h3 className="text-lg text-center font-semibold text-emerald-900 mb-2">
+                                    ¡Felicidades!
+                                </h3>
+                                <p className="text-sm text-emerald-800 mb-3">
+                                    Ya puedes adquirir tu uniforme de {inscripcion?.deporte?.nombre}
+                                </p>
+                                <div className="bg-white rounded-md p-4 border border-emerald-200">
+                                    <div className="flex items-center justify-between mb-2">
+                                        <span className="text-sm font-medium text-gray-700">Valor del uniforme 
+                                           
+                                        </span>
+                                        <span className="text-xl font-bold text-emerald-700">
+                                            ${inscripcion?.deporte?.precioUniforme}
+                                        </span>
+                                    </div>
+                                    
+                                    <button className="w-full bg-emerald-600 text-white py-2.5 px-4 rounded-md hover:bg-emerald-700 transition-colors font-medium text-sm">
+                                        Proceder al pago
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        )}
                         
                         {/* Estado de Aprobación/Rechazo */}
                         {inscripcion?.estado !== 'Pendiente' && inscripcion?.aprobacion && (
@@ -329,6 +362,17 @@ const DetailsInscripction = () => {
                                     {inscripcion?.estado || 'Pendiente'}
                                 </span>
                             </div>
+
+                            {inscripcion?.estado === 'Aprobada' && (
+                                <div className="mt-4 bg-emerald-50 p-4 rounded-md border border-emerald-200">
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <ShoppingBag className="w-4 h-4 text-emerald-600" />
+                                        <p className="text-xs font-semibold text-emerald-900">Uniforme Disponible</p>
+                                    </div>
+                                    <p className="text-2xl font-bold text-emerald-700">${inscripcion?.deporte?.precioUniforme}</p>
+                                    <p className="text-xs text-emerald-700 mt-1">Pago disponible</p>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

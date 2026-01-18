@@ -113,6 +113,16 @@ const DetailsDeporte= () => {
                                     </li>
 
                                 </ul>
+                                <li className="text-md text-gray-00 mt-4 font-bold text-xl">Uniforme </li>
+
+                                <ul className="pl-5">
+                                    
+                                    <li className="text-md mt-2">
+                                        <span className="text-gray-600 font-bold">Precio del Uniforme: $ {deporte?.precioUniforme}  (USD)</span>
+                                    </li>
+                                    
+
+                                </ul>
 
                         </ul>
 

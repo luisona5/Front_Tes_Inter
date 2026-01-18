@@ -69,11 +69,26 @@ const TableEstudiante = () => {
         )
     })
 
-    if (estudiantes.length === 0) {
+   if (estudiantes.length === 0) {
         return (
-            <div className="p-6 text-center">
-                <div className="inline-block p-8 bg-red-50 rounded-2xl shadow-md">
-                    <p className="text-red-800 font-semibold text-lg">No existen registros</p>
+            <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
+                <ToastContainer />
+                <div className="max-w-md w-full">
+                    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center">
+                        <div className="mb-6">
+                            
+                            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                                No hay estudiantes Registrados
+                            </h3>
+                           
+                        </div>
+                        
+                        <Link to='/dashboard/inscripciones/Director/nuevo/estudiante/politecnico'>
+                            <button className="w-full flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                                Registrar Estudiante
+                            </button>
+                        </Link>
+                    </div>
                 </div>
             </div>
         )
