@@ -9,7 +9,7 @@ import ProtectedRoute from './routes/ProtectedRoute'
 import{ Home }      from "../src/pages/Principal/Home";
 import Login        from "./pages/Principal/Login";
 import { Register } from "./pages/Principal/Register";
-import { NotFound } from "./pages/Principal/Nofound";
+import { NotFound } from "./pages/Principal/NotFound";
 import ResetGeneral  from "./pages/Principal/ResetGeneral";
 
 
