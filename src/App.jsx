@@ -124,7 +124,7 @@ function AppContent() {
 
             <Route path='inscripciones/visualizar/deportes' element={< TablaDeporte />} />
             <Route path='inscripciones/Deporte/nuevo/Director' element={< CreateDeporte />} />
-            <Route path='Deporte-esfot-epn/informacion-deporte/:id' element={< DetailsDeporte />} />
+            <Route path='Deporte-esfot-epn/informacion-deporte/:id' element={<DetailsDeporte />} />
             <Route path='update/Deporte-esfot-epn/informacion-deporte/:id' element={< UpdateDeporte/>} />
             <Route path='details-inscripcion-estudinates/:id' element={< DetailsInscripctionEstadoGeneral/>} />
 
