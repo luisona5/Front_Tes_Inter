@@ -21,7 +21,7 @@ export const Home = () => {
       `}</style>
 
 
-        <header  className="bg-gradient-to-br from-gray-900 to-gray-800   shadow-md">
+        <header id="inicio" className="bg-gradient-to-br from-gray-900 to-gray-800   shadow-md">
           <div className="container mx-auto flex justify-between items-center px-2 h-15">
             
             {/* Logo */}
@@ -30,7 +30,7 @@ export const Home = () => {
             </div>
 
             <nav className="flex items-center gap-4">
-              <a href='#inicio' className="relative group text-white hover:text-orange-600 font-semibold text-sm px-5 py-2 transition-colors" >
+              <a href='#contacto' className="relative group text-white hover:text-orange-600 font-semibold text-sm px-5 py-2 transition-colors" >
                 Contacto
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover:w-full transition-all duration-300"></span>
               </a>
@@ -40,8 +40,8 @@ export const Home = () => {
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover:w-full transition-all duration-300"></span>
               </a>
 
-              <a href='#deporte' className="relative group text-white hover:text-orange-600 font-semibold text-sm px-5 py-2 transition-colors" >
-                deportes
+              <a href='#noticias' className="relative group text-white hover:text-orange-600 font-semibold text-sm px-5 py-2 transition-colors" >
+                noticias
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover:w-full transition-all duration-300"></span>
               </a>
               
@@ -80,7 +80,7 @@ export const Home = () => {
             <Carrusel />
           </div>
         </section>
-        <section className="w-full flex justify-center py-10 bg-gray-50">
+        <section id='noticias' className="w-full flex justify-center py-10 bg-gray-50">
         
         <Cronograma />
       </section>
@@ -90,11 +90,9 @@ export const Home = () => {
         <section id="deportes" className="container mx-auto px-2 py-20">
         <div className="text-center mb-16">
           <h2 className="font-bold text-4xl md:text-5xl text-gray-800 mb-4">
-            Nuestros Deportes
+            Deportes
           </h2>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-            Explora las diferentes disciplinas deportivas disponibles en ESFOT
-          </p>
+         
         </div>
 
        
@@ -192,21 +190,21 @@ export const Home = () => {
     <div className="space-y-6"
           id='conocenos'>
       <h2 className="font-extrabold text-4xl md:text-6xl tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-800 uppercase">
-        Sobre Nosotros 
-      </h2>
+      DONDE NACE EL ORGULLO DE NUESTRA FACULTAD      </h2>
       
       <div className="w-20 h-2 bg-blue-600 rounded-full"></div>
 
-      <p className="text-gray-700 text-lg md:text-xl leading-relaxed text-justify">
-        En POLISPORT, transformamos la pasión por el deporte en una experiencia profesional y organizada. 
-        Somos la plataforma líder en gestión deportiva universitaria, diseñada para centralizar desde la organización de torneos hasta el seguimiento de categorías, 
-         eliminando las barreras administrativas que frenan el talento.
-      </p>
+      
       
       <p className="text-gray-700 text-lg md:text-xl leading-relaxed text-justify">
-        Creemos firmemente que el deporte es el motor del desarrollo integral y el bienestar estudiantil; por ello, conectamos a cada atleta con soluciones digitales que facilitan el acceso a la competición en tiempo real. 
-        En <span className="italic font-medium text-indigo-700">POLISPORT</span>, construimos el puente tecnológico para que la comunidad deportiva alcance su 
-        <span className="font-bold text-blue-600"> máximo potencial</span> en un entorno moderno y transparente.
+        ¡REPRESENTA A TU FACULTAD! 🏆
+        En POLISPORT, sabemos que el honor de tu carrera no solo se defiende en las aulas,
+         sino también en la cancha. Olvídate de los trámites y la desinformación. 
+         Hemos creado la plataforma definitiva para que tú seas el protagonista de cada torneo.
+
+      ¿Estás listo para dejar tu huella? 
+      Inscríbete, lleva a tu equipo a lo más alto. 
+      No dejes que nadie te impida en participar, aquí lo único que importa es tu talento
       </p>
 
       
@@ -242,7 +240,7 @@ export const Home = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           
           {/* Contacto Section */}
-          <div>
+          <div id="contacto">
             <h3 className="text-white font-semibold text-lg mb-4 flex items-center gap-2">
               <Mail className="w-5 h-5" />
               Contacto
@@ -289,7 +287,7 @@ export const Home = () => {
                 </a>
               </li>
               <li>
-                <a href="#sobre-nosotros" className="hover:text-blue-400 transition-colors">
+                <a href="#conocenos" className="hover:text-blue-400 transition-colors">
                   Sobre Nosotros
                 </a>
               </li>
@@ -299,11 +297,7 @@ export const Home = () => {
                   Noticias
                 </a>
               </li>
-              <li>
-                <a href="#contacto" className="hover:text-blue-400 transition-colors">
-                  Contacto
-                </a>
-              </li>
+            
             </ul>
           </div>
           
