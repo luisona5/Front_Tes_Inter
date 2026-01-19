@@ -1,8 +1,9 @@
 import { FaBasketballBall, FaVolleyballBall, FaTableTennis } from "react-icons/fa";
-import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin, Youtube, Globe } from 'lucide-react';
+import { Mail, Phone, Facebook, Instagram, Globe } from 'lucide-react';
 import esfot from '../../assets/esfot.png';
 import { Link } from "react-router";
 import {Carrusel} from "../../components/carrusel/carrusel";
+import Cronograma from "./Cronograma";
 
 export const Home = () => {
 
@@ -10,7 +11,15 @@ export const Home = () => {
   
 
   return (
+    
     <>
+    {/* para desplazamiento suave directamente en el componente */}
+      <style>{`
+        html { scroll-behavior: smooth; }
+        .scroll-section { scroll-margin-top: 70px; } 
+      `}</style>
+
+
         <header  className="bg-gradient-to-br from-gray-900 to-gray-800   shadow-md">
           <div className="container mx-auto flex justify-between items-center px-2 h-15">
             
@@ -20,18 +29,18 @@ export const Home = () => {
             </div>
 
             <nav className="flex items-center gap-4">
-              <a href='#contacto' className="relative group text-white hover:text-orange-600 font-semibold text-sm px-5 py-2 transition-colors" >
+              <a href='#inicio' className="relative group text-white hover:text-orange-600 font-semibold text-sm px-5 py-2 transition-colors" >
                 Contacto
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover:w-full transition-all duration-300"></span>
               </a>
 
-              <a href='#deportes' className="relative group text-white hover:text-orange-600 font-semibold text-sm px-5 py-2 transition-colors" >
-                Deportes
+              <a href='#conocenos' className="relative group text-white hover:text-orange-600 font-semibold text-sm px-5 py-2 transition-colors" >
+                Sobre nosotros
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover:w-full transition-all duration-300"></span>
               </a>
 
-              <a href='#contacto' className="relative group text-white hover:text-orange-600 font-semibold text-sm px-5 py-2 transition-colors" >
-                Contacto
+              <a href='#deporte' className="relative group text-white hover:text-orange-600 font-semibold text-sm px-5 py-2 transition-colors" >
+                deportes
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover:w-full transition-all duration-300"></span>
               </a>
               
@@ -55,12 +64,28 @@ export const Home = () => {
 
         
       <body>
+        <div className="text-center mb-16">
+         <h2 className="font-extrabold text-4xl md:text-6xl tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-800 mb-4">
+  POLISPORT
+</h2>
+          
+           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+          No te quedes sin la oportunidad de participar en las diferntes disciplinas         
+           </p>
+        </div>
 
         <section className="container mx-auto px-4 my-10">
           <div className="h-100 md:h-100 w-full">
             <Carrusel />
           </div>
         </section>
+        <section className="w-full flex justify-center py-10 bg-gray-50">
+        
+        <Cronograma />
+      </section>
+
+
+
         <section id="deportes" className="container mx-auto px-2 py-20">
         <div className="text-center mb-16">
           <h2 className="font-bold text-4xl md:text-5xl text-gray-800 mb-4">
@@ -70,6 +95,8 @@ export const Home = () => {
             Explora las diferentes disciplinas deportivas disponibles en ESFOT
           </p>
         </div>
+
+       
 
   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
     {/* Card Fútbol */}
@@ -157,6 +184,51 @@ export const Home = () => {
     </div>
   </div>
 </section>
+<section className="py-16 px-6 md:px-20 bg-gray-50">
+  <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+    
+    {/* LADO IZQUIERDO: Texto */}
+    <div className="space-y-6"
+          id='conocenos'>
+      <h2 className="font-extrabold text-4xl md:text-6xl tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-800 uppercase">
+        Sobre Nosotros 
+      </h2>
+      
+      <div className="w-20 h-2 bg-blue-600 rounded-full"></div>
+
+      <p className="text-gray-700 text-lg md:text-xl leading-relaxed text-justify">
+        En POLISPORT, transformamos la pasión por el deporte en una experiencia profesional y organizada. 
+        Somos la plataforma líder en gestión deportiva universitaria, diseñada para centralizar desde la organización de torneos hasta el seguimiento de categorías, 
+         eliminando las barreras administrativas que frenan el talento.
+      </p>
+      
+      <p className="text-gray-700 text-lg md:text-xl leading-relaxed text-justify">
+        Creemos firmemente que el deporte es el motor del desarrollo integral y el bienestar estudiantil; por ello, conectamos a cada atleta con soluciones digitales que facilitan el acceso a la competición en tiempo real. 
+        En <span className="italic font-medium text-indigo-700">POLISPORT</span>, construimos el puente tecnológico para que la comunidad deportiva alcance su 
+        <span className="font-bold text-blue-600"> máximo potencial</span> en un entorno moderno y transparente.
+      </p>
+
+      
+    </div>
+
+    {/* LADO DERECHO: Imagen Ajustada */}
+    <div className="relative h-full min-h-[400px]">
+
+      {/* Decoración de fondo */}
+      <div className="absolute -top-4 -left-4 w-64 h-64 bg-blue-100 rounded-full mix-blend-multiply filter blur-2xl opacity-70"></div>
+      <div className="absolute -bottom-8 right-4 w-64 h-64 bg-indigo-100 rounded-full mix-blend-multiply filter blur-2xl opacity-70"></div>
+      
+      <div className="relative h-full w-full overflow-hidden rounded-2xl shadow-2xl">
+        <img 
+          src="/src/assets/grupal.jpg" 
+          alt="Gestión Deportiva"
+          className="w-full h-full object-cover object-center transform hover:scale-105 transition duration-500"
+        />
+      </div>
+    </div>
+
+  </div>
+</section>
       
         
       </body>
@@ -221,11 +293,7 @@ export const Home = () => {
                   Sobre Nosotros
                 </a>
               </li>
-              <li>
-                <a href="#programas" className="hover:text-blue-400 transition-colors">
-                  Programas Académicos
-                </a>
-              </li>
+              
               <li>
                 <a href="#noticias" className="hover:text-blue-400 transition-colors">
                   Noticias
@@ -238,6 +306,7 @@ export const Home = () => {
               </li>
             </ul>
           </div>
+          
 
           {/* Redes Sociales */}
           <div>
@@ -278,8 +347,8 @@ export const Home = () => {
             </div>
           </div>
         </div>
+        
 
-        {/* Bottom Bar */}
         <div className="border-t border-gray-700 pt-6 text-center">
           <p className="text-gray-400 text-sm">
             © {new Date().getFullYear()} ESFOT - Escuela de Formación de Tecnólogos. Todos los derechos reservados.
