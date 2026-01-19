@@ -9,9 +9,8 @@ import ProtectedRoute from './routes/ProtectedRoute'
 import{ Home }      from "../src/pages/Principal/Home";
 import Login        from "./pages/Principal/Login";
 import { Register } from "./pages/Principal/Register";
-import { NotFound } from "./pages/Principal/NotFound";
 import ResetGeneral  from "./pages/Principal/ResetGeneral";
-
+import {NotFound}   from "./pages/Principal/NoFound";
 
 import    Panel       from "./pages/profileGeneral/Panel";
 import    Profile     from "./pages/profileGeneral/profile";
