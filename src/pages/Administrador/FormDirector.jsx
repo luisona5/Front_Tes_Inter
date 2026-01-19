@@ -131,8 +131,8 @@ const NuevoDirector = ({director}) => {
                             {...register("status", { required: "El estado es obligatorio" })}
                         >
                             <option value="">----Selecciona un estado----</option>
-                            <option value="activo">Activo</option>
-                            <option value="inactivo">Inactivo</option>
+                            <option value="Activo">Activo</option>
+                            <option value="Inactivo">Inactivo</option>
                         </select>
                         {errors.status && <p className="text-red-600 text-sm mt-1">{errors.status.message}</p>}
                     </div>

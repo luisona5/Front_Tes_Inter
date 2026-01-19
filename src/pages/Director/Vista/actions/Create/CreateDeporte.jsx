@@ -199,8 +199,9 @@ const CreateDeporte = ({ deporte }) => {
 
                     {/* Fechas de Inicio y Fin */}
                     <div>
+
                         <label className="mb-2 block text-sm font-medium text-gray-700">
-                            Fecha Inicio 
+                          Fecha  inicio de inscripción
                         </label>
                         <input
                             type="date"
@@ -213,7 +214,8 @@ const CreateDeporte = ({ deporte }) => {
 
                     <div>
                         <label className="mb-2 block text-sm font-medium text-gray-700">
-                            Fecha Fin 
+                            Fecha fin de inscripción
+
                         </label>
                         <input
                             type="date"
@@ -227,7 +229,7 @@ const CreateDeporte = ({ deporte }) => {
                     {/* Horas de Inicio y Fin */}
                     <div>
                         <label className="mb-2 block text-sm font-medium text-gray-700">
-                            Hora Inicio 
+                            Hora inicio de inscripción
                         </label>
                         <input
                             type="time"
@@ -242,7 +244,7 @@ const CreateDeporte = ({ deporte }) => {
 
                     <div>
                         <label className="mb-2 block text-sm font-medium text-gray-700">
-                            Hora Fin 
+                            Hora fin de inscripción
                         </label>
                         <input
                             type="time"
@@ -258,7 +260,7 @@ const CreateDeporte = ({ deporte }) => {
                     {/* Día y Hora de Entrenamiento */}
                     <div>
                         <label className="mb-2 block text-sm font-medium text-gray-700">
-                            Entrenamiento Día 
+                            Fecha para Entrenamiento
                         </label>
                         <input
                             type="date"
@@ -271,7 +273,8 @@ const CreateDeporte = ({ deporte }) => {
 
                     <div>
                         <label className="mb-2 block text-sm font-medium text-gray-700">
-                            Entrenamiento Hora 
+                             Hora para entrenamiento
+
                         </label>
                         <input
                             type="time"
@@ -290,7 +293,7 @@ const CreateDeporte = ({ deporte }) => {
                             Detalle 
                         </label>
                         <textarea
-                            placeholder="Descripción del deporte"
+                            placeholder="Observación para estudiantes "
                             className="block w-full rounded-lg border border-gray-300 py-2.5 px-4 text-gray-900 resize-y
                                      focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             rows={4}

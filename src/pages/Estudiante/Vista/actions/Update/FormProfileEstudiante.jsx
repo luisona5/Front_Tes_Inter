@@ -146,21 +146,6 @@ const FormularioPerfilEstudiante = () => {
                     {errors.carreraEstudiante && <p className="text-red-600 text-sm mt-1">{errors.carreraEstudiante.message}</p>}
                 </div>
 
-                {/* Campo status */}
-                <div className="mb-3">
-                    <label className="mb-2 block text-sm font-semibold">Estado</label>
-                    <select
-                        className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-700"
-                        {...register("status", { required: "El estado es obligatorio" })}
-                    >
-                        <option value="">----Selecciona un estado----</option>
-                        <option value="activo">Activo</option>
-                        <option value="graduado">Graduado</option>
-                        <option value="retirado">Retirado</option>
-                        <option value="inactivo">Inactivo</option>
-                    </select>
-                    {errors.status && <p className="text-red-600 text-sm mt-1">{errors.status.message}</p>}
-                </div>
 
 
                 {/* Campo correo electrónico */}

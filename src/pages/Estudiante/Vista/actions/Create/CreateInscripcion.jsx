@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router'; // ✅ CORRECTO: react-router-dom
-import { Loader2, User, Mail, Phone, MapPin, Activity, Heart } from 'lucide-react';
+import { useNavigate } from 'react-router'; 
+import {  User, Mail, Phone, MapPin, Activity, Heart } from 'lucide-react';
 import { useForm } from "react-hook-form";
 import { ToastContainer } from 'react-toastify';
 import { useFetch } from "../../../../../hooks/useFetch";
@@ -10,7 +10,7 @@ const InscripcionDeportiva = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm()
     const fetchDataBackend = useFetch()
     const [deportes, setDeportes] = useState([])
-    const [loadingDeportes, setLoadingDeportes] = useState(true)
+    const [loadingDeportes, setLoadingDeportes] = useState(true);
 
     const registerInscripcion = async (dataForm) => {
         let url = `${import.meta.env.VITE_BACKEND_URL}/registro/estudiante/Incripcion`
@@ -30,7 +30,6 @@ const InscripcionDeportiva = () => {
         }
     }
 
-    // ✅ Cargar deportes
     useEffect(() => {
         const fetchDeportes = async () => {
             try {
@@ -52,7 +51,6 @@ const InscripcionDeportiva = () => {
                 const data = await response.json()
                 console.log("Deportes recibidos:", data)
                 
-                // Ajusta según la estructura de tu respuesta
                 const deportesArray = Array.isArray(data) ? data : (data.deportes || data.data || [])
                 setDeportes(deportesArray)
             } catch (error) {
@@ -175,7 +173,7 @@ const InscripcionDeportiva = () => {
                                 Información Deportiva
                             </h2>
 
-                            {/* ✅ Campo Deporte */}
+                            {/*  Campo Deporte */}
                             <div>
                                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                                     Deporte *
@@ -185,7 +183,7 @@ const InscripcionDeportiva = () => {
                                     className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500"
                                     {...register("deporte", { required: "La deporte es obligatoria"})}
                                 >
-                                    <option value="">Selecciona un Deporte</option>
+                                    <option value="">--- Selecciona un deporte---  </option>
                                     {deportes.map(sport => (
                                         <option key={sport._id} value={sport._id}>
                                             {sport.nombre}
@@ -199,7 +197,7 @@ const InscripcionDeportiva = () => {
 
                             
 
-                           {/* ✅ Información Médica */}
+                           {/* Información Médica */}
                         <div className="mb-6 p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border border-indigo-200">
                             <div className="flex items-center gap-2 mb-4">
                                 <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-indigo-500 to-blue-500 flex items-center justify-center">

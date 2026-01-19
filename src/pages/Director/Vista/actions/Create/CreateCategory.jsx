@@ -89,7 +89,6 @@ const CreateCategory = ({categoria}) => {
                         className="block w-full rounded-md border border-gray-300 py-2 px-3 text-gray-500 resize-y"
                         rows={4}
                         {...register("descripcion",{required:'la descripcion es obligatoria'})}
-                        onInput={soloLetras}
 
                     />
                     {errors.descripcion && <p className="text-red-600 text-sm mt-1">{errors.descripcion.message}</p>}

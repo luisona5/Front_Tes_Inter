@@ -166,7 +166,7 @@ const ResetGeneral = () => {
                             {/* Link Iniciar Sesión */}
                             <div className="text-center mt-6">
                                 <a 
-                                    href="/" 
+                                    href="/login" 
                                     className="text-white hover:text-white/80 font-medium underline transition-colors"
                                 >
                                     Iniciar sesión
