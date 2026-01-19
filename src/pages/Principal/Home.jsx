@@ -1,6 +1,7 @@
 import { FaBasketballBall, FaVolleyballBall, FaTableTennis } from "react-icons/fa";
 import { Mail, Phone, Facebook, Instagram, Globe } from 'lucide-react';
 import esfot from '../../assets/esfot.png';
+import imagenGrupal from "../../assets/grupal.jpg"
 import { Link } from "react-router";
 import {Carrusel} from "../../components/carrusel/carrusel";
 import Cronograma from "./Cronograma";
@@ -70,7 +71,7 @@ export const Home = () => {
 </h2>
           
            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-          No te quedes sin la oportunidad de participar en las diferntes disciplinas         
+          No te quedes sin la oportunidad de participar en las diferentes disciplinas         
            </p>
         </div>
 
@@ -220,8 +221,7 @@ export const Home = () => {
       
       <div className="relative h-full w-full overflow-hidden rounded-2xl shadow-2xl">
         <img 
-          src="/src/assets/grupal.jpg" 
-          alt="Gestión Deportiva"
+          src={imagenGrupal}
           className="w-full h-full object-cover object-center transform hover:scale-105 transition duration-500"
         />
       </div>
