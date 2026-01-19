@@ -11,7 +11,7 @@ const UpdateInscripctionEstado = () => {
     const [inscripcion, setInscripcion] = useState({})
     const [loading, setLoading] = useState(true)
     const [modalOpen, setModalOpen] = useState(false)
-    const [accion, setAccion] = useState('') // 'aprobar' o 'rechazar'
+    const [accion, setAccion] = useState('') 
     const [comentarios, setComentarios] = useState('')
     const [motivo, setMotivo] = useState('')
     const [procesando, setProcesando] = useState(false)
@@ -251,6 +251,9 @@ const UpdateInscripctionEstado = () => {
                                 </div>
                             </div>
                         </div>
+
+                        
+                        
 
                         {/* Información Deportiva */}
                         <div className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">

@@ -24,7 +24,6 @@ const DetailsInscripction = () => {
                 const data = await response.json()
                 setInscripcion(data)
 
-                // Verificar si ya tiene uniforme registrado
                 if (data.estado === 'Aprobada') {
                     await verificarUniforme(data._id)
                 }
