@@ -38,7 +38,7 @@ import CreateDeporte from "./pages/Director/Vista/actions/Create/CreateDeporte";
 import TablaDeporte from "./pages/Director/Vista/actions/Delete/DeleteDeporte";
 import DetailsDeporte from "./pages/Director/Vista/actions/Read/DetailsDeporte";
 import UpdateDeporte from "./pages/Director/Vista/actions/Update/UpdateDeporte";
-import DetailsInscripction from "./pages/Estudiante/Vista/actions/Read/DetailsInscription";
+import DetailsInscripction from "./pages/Estudiante/Vista/actions/Read/DetailsInscripction";
 import TablaInscripcion from "./pages/Estudiante/Vista/actions/Delete/DeleteInscripcion";
 import { ForgotGeneral } from "./pages/Principal/forgotGeneral";
 import TablaEstadoEstudiante from "./pages/Director/Components/EstadoEstudiantes/estadoEstudiante";
