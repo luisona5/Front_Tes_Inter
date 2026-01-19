@@ -34,9 +34,9 @@ import CreateCategory from "./pages/Director/Vista/actions/Create/CreateCategory
 import DetailsCategory from "./pages/Director/Vista/actions/Read/DetailsCategory";
 import UpdateCategoria from "./pages/Director/Vista/actions/Update/Updatecategoria";
 import TablaCategoria from "./pages/Director/Vista/actions/Delete/DeleteCategory";
-import CreateDeporte from "./pages/Director/Vista/actions/Create/createDeporte";
+import CreateDeporte from "./pages/Director/Vista/actions/Create/CreateDeporte";
 import TablaDeporte from "./pages/Director/Vista/actions/Delete/DeleteDeporte";
-import DetailsDeporte from "./pages/Director/Vista/actions/Read/detailsDeporte";
+import DetailsDeporte from "./pages/Director/Vista/actions/Read/DetailsDeporte";
 import UpdateDeporte from "./pages/Director/Vista/actions/Update/UpdateDeporte";
 import DetailsInscripction from "./pages/Estudiante/Vista/actions/Read/DetailsInscription";
 import TablaInscripcion from "./pages/Estudiante/Vista/actions/Delete/DeleteInscripcion";
