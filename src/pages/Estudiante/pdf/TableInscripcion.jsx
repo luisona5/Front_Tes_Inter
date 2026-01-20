@@ -134,7 +134,8 @@ const styles = StyleSheet.create({
   col5: { width: "20%" },   
   col6: { width: "12%" },   
   col7: { width: "10%" },    
-  col8: { width: "14%" },   
+  col8: { width: "14%" },  
+   
   
   
   textWrap: {

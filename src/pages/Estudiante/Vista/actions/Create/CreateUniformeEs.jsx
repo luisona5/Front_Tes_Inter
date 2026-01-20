@@ -30,14 +30,14 @@ const RegistroUniforme = () => {
 
             const dataFinal = {
                 ...dataForm,
-                inscripcion: inscripcion._id 
+                inscripcion: inscripcion._id    
             };
 
             const response = await fetchDataBackend(url, dataFinal, "POST", headers);
             
             if (response) {
                 setTimeout(() => {
-                    navigate("/dashboard/estudiante/inscripcionesGenerales", { 
+                    navigate("/dashboard/Uniforme/informacion-completa/detalle-para-pago", { 
                         state: { inscripcion } 
                     });
                     reset();
@@ -58,51 +58,52 @@ const RegistroUniforme = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-blue-50 to-purple-50 py-12 px-4">
-            <div className="max-w-4xl mx-auto">
-                <div className="text-center mb-8">
-                    <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl shadow-lg mb-4">
-                        <ShirtIcon className="w-10 h-10 text-white" />
-                    </div>
-                    <h1 className="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
-                        Registro de Uniforme
-                    </h1>
-                    <p className="text-gray-600 text-lg">
-                        Disciplina: <span className="font-bold text-indigo-600">{inscripcion.deporte?.nombre}</span>
-                    </p>
-                </div>
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
+    <div className="max-w-3xl mx-auto">
+        <div className="bg-white rounded-2xl shadow-xl p-8">
+            {/* Encabezado */}
+            <div className="text-center mb-8">
+                <h1 className="text-3xl font-bold text-gray-800 mb-2">
+                    Registro de Uniforme
+                </h1>
+               
+            </div>
 
-                <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-10 border border-gray-100">
-                    <form onSubmit={handleSubmit(registerUniEstudiante)} className="space-y-6">
-                        
-                        {/* Campo Nombre */}
-                        <div className="space-y-2">
-                            <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                                <User className="w-4 h-4 text-indigo-500" />
+            <form onSubmit={handleSubmit(registerUniEstudiante)} className="space-y-6">
+                
+                {/* Sección Detalles del Uniforme */}
+                <div className="space-y-4">
+                    <h2 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
+                        <ShirtIcon className="w-5 h-5 text-indigo-500" />
+                        Detalles del Uniforme
+                    </h2>
+
+                    <div className="grid md:grid-cols-2 gap-4">
+                        {/* Campo Nombre en el Uniforme */}
+                        <div className="mb-3">
+                            <label className="mb-2 block text-sm font-semibold text-gray-700 flex items-center gap-2">
+                                <User className="w-4 h-4" />
                                 Nombre en el Uniforme
                             </label>
                             <input 
                                 type="text" 
-                                placeholder="ingresa un nombre" 
-                                className={`block w-full rounded-xl border-2 py-3 px-4 text-gray-700 transition-all duration-200
-                                    ${errors.nombre 
-                                        ? 'border-red-400 focus:border-red-500' 
-                                        : 'border-gray-200 focus:border-indigo-500'
-                                    } outline-none`}
+                                placeholder="Ingresa el nombre" 
+                                className={`block w-full rounded-md border py-2 px-3 text-gray-700 outline-none transition-all
+                                    ${errors.nombre ? 'border-red-500' : 'border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent'}`}
                                 {...register("nombre", { required: "El nombre es obligatorio"})}
                             />
-                            {errors.nombre && <p className="text-red-500 text-sm">{errors.nombre.message}</p>}
+                            {errors.nombre && <p className="text-red-600 text-sm mt-1">{errors.nombre.message}</p>}
                         </div>
 
                         {/* Campo Talla */}
-                        <div className="space-y-2">
-                            <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                                <Ruler className="w-4 h-4 text-indigo-500" />
+                        <div className="mb-3">
+                            <label className="mb-2 block text-sm font-semibold text-gray-700 flex items-center gap-2">
+                                <Ruler className="w-4 h-4" />
                                 Talla del Uniforme
                             </label>
                             <select
-                                className={`w-full px-4 py-3 border-2 rounded-xl text-gray-700 outline-none
-                                    ${errors.talla ? 'border-red-400' : 'border-gray-200 focus:border-indigo-500'}`}
+                                className={`block w-full rounded-md border py-2 px-3 text-gray-700 outline-none transition-all
+                                    ${errors.talla ? 'border-red-500' : 'border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent'}`}
                                 {...register("talla", { required: "La talla es obligatoria" })}
                             >
                                 <option value="">Selecciona una talla</option>
@@ -111,38 +112,43 @@ const RegistroUniforme = () => {
                                 <option value="L">L - Large</option>
                                 <option value="XL">XL - Extra Large</option>
                             </select>
-                            {errors.talla && <p className="text-red-500 text-sm">{errors.talla.message}</p>}
+                            {errors.talla && <p className="text-red-600 text-sm mt-1">{errors.talla.message}</p>}
                         </div>
+                    </div>
 
-                        {/* Campo Detalle */}
-                        <div className="space-y-2">
-                            <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                                <FileText className="w-4 h-4 text-indigo-500" />
-                                Detalles Adicionales (Número preferido)
-                            </label>
-                            <textarea 
-                                rows="4"
-                                placeholder="Indica el número que deseas en tu espalda o detalles específicos..." 
-                                className={`block w-full rounded-xl border-2 py-3 px-4 text-gray-700 transition-all duration-200 resize-none
-                                    ${errors.detalle ? 'border-red-400' : 'border-gray-200 focus:border-indigo-500'} outline-none`}
-                                {...register("detalle", { required: "El detalle es obligatorio" })}
-                            />
-                            {errors.detalle && <p className="text-red-500 text-sm">{errors.detalle.message}</p>}
-                        </div>
-
-                        <button 
-                            type="submit"
-                            className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold py-4 rounded-xl mt-8
-                                hover:from-indigo-700 hover:to-purple-700 transform hover:scale-[1.01] transition-all shadow-lg flex items-center justify-center gap-2"
-                        >
-                            <ShirtIcon className="w-5 h-5" />
-                            Confirmar y Registrar Uniforme
-                        </button>
-                    </form>
+                    {/* Campo Detalles/Número (Textarea estilo Información Médica) */}
+                    <div className="mb-3 p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border border-indigo-200">
+                        <label className="mb-2 block text-sm font-semibold text-gray-700 flex items-center gap-2">
+                            <FileText className="w-4 h-4" />
+                            Detalles Adicionales (Número preferido)
+                        </label>
+                        <textarea 
+                            rows="3"
+                            placeholder="Indica el número que deseas en tu espalda o detalles específicos..." 
+                            className={`block w-full rounded-lg border py-3 px-4 text-gray-700 transition-all duration-200 resize-none outline-none
+                                ${errors.detalle ? 'border-red-500' : 'border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent'}`}
+                            {...register("detalle", { required: "El detalle es obligatorio" })}
+                        />
+                        {errors.detalle && <p className="text-red-600 text-sm mt-1">{errors.detalle.message}</p>}
+                    </div>
                 </div>
-            </div>
-            <ToastContainer />
+
+                {/* Botón de Registro con el estilo del segundo formulario */}
+                <div className="pt-4">
+                    <button 
+                        type="submit"
+                        className="bg-indigo-600 text-white font-semibold py-3 w-full rounded-xl mt-5 
+                        hover:scale-[1.02] duration-300 hover:bg-indigo-700 shadow-md flex items-center justify-center gap-2"
+                    >
+                        <ShirtIcon className="w-5 h-5" />
+                        Confirmar y Registrar Uniforme
+                    </button>
+                </div>
+            </form>
         </div>
+    </div>
+    <ToastContainer />
+</div>
     );
 };
 

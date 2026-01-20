@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { useParams, useNavigate, Link } from "react-router" 
 import { User, Phone, Activity, MapPinned, ArrowLeft, Heart, AlertCircle, 
-    CheckCircle, XCircle, MessageSquare, Calendar, Clock, ShoppingBag, Ruler, DollarSign} from 'lucide-react'
+    CheckCircle, XCircle, MessageSquare, Calendar, Clock, ShoppingBag, Ruler, X} from 'lucide-react'
 
 const DetailsInscripction = () => {
     
@@ -10,6 +10,7 @@ const DetailsInscripction = () => {
     const [inscripcion, setInscripcion] = useState({})
     const [uniformeRegistrado, setUniformeRegistrado] = useState(null)
     const [loading, setLoading] = useState(true)
+    const [mostrarNotificacion, setMostrarNotificacion] = useState(false)
     
     useEffect(() => {
         const detalleInscripcion = async () => {
@@ -57,6 +58,13 @@ const DetailsInscripction = () => {
                     
                     if (uniformeEncontrado) {
                         setUniformeRegistrado(uniformeEncontrado)
+                    } else {
+                        // Solo mostrar notificación si NO tiene uniforme registrado
+                        setMostrarNotificacion(true)
+                        // Auto-ocultar después de 8 segundos
+                        setTimeout(() => {
+                            setMostrarNotificacion(false)
+                        }, 8000)
                     }
                 }
             } catch (error) {
@@ -72,10 +80,41 @@ const DetailsInscripction = () => {
         'Rechazada': 'bg-rose-50 text-rose-700 border border-rose-200'
     }
 
-   
-
     return (
         <div className="min-h-screen bg-gray-50 py-6 px-4">
+            {/* Notificación flotante superior derecha */}
+            {mostrarNotificacion && inscripcion?.estado === 'Aprobada' && (
+                <div className="fixed top-6 right-6 z-50 max-w-sm animate-slide-in">
+                    <div className="bg-white rounded-xl shadow-2xl border-l-4 border-emerald-500 p-5">
+                        <div className="flex items-start gap-3">
+                            <div className="bg-emerald-100 p-2.5 rounded-full shrink-0">
+                                <CheckCircle className="w-6 h-6 text-emerald-600" />
+                            </div>
+                            <div className="flex-1 pr-2">
+                                <h3 className="font-bold text-gray-900 mb-1.5 text-base">
+                                    ¡Inscripción Aprobada!
+                                </h3>
+                                <p className="text-sm text-gray-600 mb-3 leading-relaxed">
+                                    Ya estás habilitado para adquirir tu uniforme de <span className="font-semibold text-emerald-700">{inscripcion?.deporte?.nombre}</span>
+                                </p>
+                                <div className="flex items-center gap-2 bg-emerald-50 px-3 py-2 rounded-lg">
+                                    <ShoppingBag className="w-4 h-4 text-emerald-600" />
+                                    <span className="text-sm font-bold text-emerald-700">
+                                        Valor: ${inscripcion?.deporte?.precioUniforme}
+                                    </span>
+                                </div>
+                            </div>
+                            <button 
+                                onClick={() => setMostrarNotificacion(false)}
+                                className="text-gray-400 hover:text-gray-600 transition-colors shrink-0 p-1 hover:bg-gray-100 rounded"
+                            >
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <div className="max-w-6xl mx-auto">
                 {/* Header */}
                 <div className="mb-6">
@@ -109,42 +148,7 @@ const DetailsInscripction = () => {
                         {/* SECCIÓN DE UNIFORME */}
                         {inscripcion?.estado === 'Aprobada' && (
                             <>
-                                {!uniformeRegistrado && (
-                                    <div className="bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 border-2 border-emerald-300 rounded-xl p-6 shadow-lg">
-                                        <div className="flex items-start gap-4">
-                                            <div className="bg-emerald-500 p-3 rounded-full shadow-md">
-                                                <ShoppingBag className="w-6 h-6 text-white" />
-                                            </div>
-                                            <div className="flex-1">
-                                                <h3 className="text-xl font-bold text-emerald-900 mb-2">
-                                                    ¡Felicidades! Tu inscripción fue aprobada
-                                                </h3>
-                                                <p className="text-sm text-emerald-800 mb-4">
-                                                    Ya puedes registrar y adquirir tu uniforme de <span className="font-semibold">{inscripcion?.deporte?.nombre}</span>
-                                                </p>
-                                                
-                                                <div className="bg-white rounded-lg p-5 border-2 border-emerald-200 shadow-sm">
-                                                    <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-200">
-                                                        <span className="text-sm font-semibold text-gray-700">Valor del uniforme</span>
-                                                        <span className="text-2xl font-bold text-emerald-700">
-                                                            ${inscripcion?.deporte?.precioUniforme}
-                                                        </span>
-                                                    </div> 
-                                                    
-                                                    <Link 
-                                                        to='/dashboard/Uniforme/registro/detalle-para-pago' 
-                                                        state={{ inscripcion: inscripcion }} 
-                                                        className="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white text-center py-3.5 rounded-lg block mt-2 text-base font-bold hover:from-emerald-700 hover:to-emerald-800 transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 group"
-                                                    >
-                                                        <ShoppingBag className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                                                        Registrar uniforme
-                                                    </Link>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-
+                                
                                 {uniformeRegistrado && (
                                     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
                                         <div className="flex items-center gap-3 mb-5 pb-4 border-b">
@@ -153,7 +157,6 @@ const DetailsInscripction = () => {
                                         </div>
                                         
                                         <div className="grid md:grid-cols-2 gap-6">
-                                            {/* Detalles del uniforme */}
                                             <div className="space-y-4">
                                                 <div>
                                                     <p className="text-xs text-gray-500 mb-1 flex items-center gap-1">
@@ -174,11 +177,8 @@ const DetailsInscripction = () => {
                                                         Talla
                                                     </p>
                                                     <p className="text-sm text-gray-700">{uniformeRegistrado?.talla }</p>
-
                                                 </div>
                                             </div>
-
-                                            
                                         </div>
                                     </div>
                                 )}
@@ -447,11 +447,44 @@ const DetailsInscripction = () => {
                                 </div>
                             )}
 
-                            
+                            {!uniformeRegistrado && (
+                                    <div className="bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 border-2 border-emerald-300 rounded-xl p-6 shadow-lg">
+                                        <div className="flex items-start gap-4">
+                                            <div className="bg-emerald-500 p-3 rounded-full shadow-md">
+                                                <ShoppingBag className="w-6 h-6 text-white" />
+                                            </div>
+                                            <div className="flex-1">
+                                                <h5 className="text-xl font-bold text-emerald-900 mb-2">
+                                                    Registra tu uniforme
+                                                </h5>
+                                                
+                                                
+                                                    <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-200">
+                                                        <span className="text-sm font-semibold text-gray-700">Valor del uniforme</span>
+                                                        <span className="text-2xl font-bold text-emerald-700">
+                                                            ${inscripcion?.deporte?.precioUniforme}
+                                                        </span>
+                                                    </div> 
+                                                    
+                                                    <Link 
+                                                        to='/dashboard/Uniforme/registro/detalle-para-pago' 
+                                                        state={{ inscripcion: inscripcion }} 
+                                                        className="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white text-center py-3.5 rounded-lg block mt-2 text-base font-bold hover:from-emerald-700 hover:to-emerald-800 transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 group"
+                                                    >
+                                                        <ShoppingBag className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                                                        Registrar uniforme
+                                                    </Link>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
                         </div>
                     </div>
                 </div>
             </div>
+
+            
         </div>
     )
 }

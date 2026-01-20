@@ -221,7 +221,7 @@ const SimpleInscripcionPDF = ({ data }) => {
         <View style={styles.sectionBox}>
           <View style={styles.row}>
             <Text style={styles.label}>Cédula:</Text>
-            <Text style={styles.value}>{data.nombre || "N/A"}</Text>
+            <Text style={styles.value}>{data.cedula || "N/A"}</Text>
           </View>
 
           <View style={styles.row}>
@@ -276,7 +276,7 @@ const SimpleInscripcionPDF = ({ data }) => {
 
           <View style={styles.row}>
             <Text style={styles.label}>Estado de Salud:</Text>
-            <Text style={styles.value}>{data.informacionMedica.estadoSlud || "N/A"}</Text>
+            <Text style={styles.value}>{data.informacionMedica.estadoSalud || "N/A"}</Text>
           </View>
 
           <View style={styles.row}>
@@ -294,7 +294,7 @@ const SimpleInscripcionPDF = ({ data }) => {
         <Text style={styles.sectionTitle}>Contacto de Emergencia</Text>
         <View style={styles.sectionBox}>
 
-        <View style={styles.row}>
+          <View style={styles.row}>
             <Text style={styles.label}>Nombre:</Text>
             <Text style={styles.value}>{data.contactoEmergencia.nombre || "N/A"}</Text>
           </View>
@@ -307,6 +307,26 @@ const SimpleInscripcionPDF = ({ data }) => {
           <View style={styles.row}>
             <Text style={styles.label}>Relación:</Text>
             <Text style={styles.value}>{data.contactoEmergencia.relacion || "N/A"}</Text>
+          </View>
+
+        </View>
+
+        <Text style={styles.sectionTitle}>Uniforme</Text>
+        <View style={styles.sectionBox}>
+
+          <View style={styles.row}>
+            <Text style={styles.label}>Nombre a llevar:</Text>
+            <Text style={styles.value}>{data.uniformeRegistrado?.nombre || "N/A"}</Text>
+          </View>
+
+          <View style={styles.row}>
+            <Text style={styles.label}>Talla:</Text>
+            <Text style={styles.value}>{data.uniformeRegistrado?.talla || "N/A"}</Text>
+          </View>
+
+          <View style={styles.row}>
+            <Text style={styles.label}>Precio:</Text>
+            <Text style={styles.value}>{data.deporte?.precioUniforme || "N/A"}</Text>
           </View>
 
         </View>
@@ -328,9 +348,32 @@ const SimpleInscripcionPDF = ({ data }) => {
           <View style={styles.statusContainer}>
             <Text style={styles.label}>Aprobado por:</Text>
             <View style={styles.row}>
-            <Text style={styles.value}>{data.aprobacion.aprobadopor || "N/A"}</Text>
+            <Text style={styles.value}>{data.aprobacion?.aprobadoPor || "N/A"}</Text>
           </View>
           </View>
+
+          <View style={styles.row}>
+    <Text style={styles.label}>Fecha de aprobación:</Text>
+    <Text style={styles.value}>
+      {data.aprobacion?.fechaAprobacion
+        ? new Date(data.aprobacion.fechaAprobacion).toLocaleDateString('es-EC', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            timeZone: 'UTC'
+          })
+                : "N/A"}
+            </Text>
+          </View>
+
+          {data.aprobacion?.comentarios && (
+            <View style={styles.row}>
+              <Text style={styles.label}>Comentarios:</Text>
+              <Text style={styles.value}>{data.aprobacion.comentarios}</Text>
+            </View>
+          )}
         </View>
 
         {/* FECHA DE GENERACIÓN */}
