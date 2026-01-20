@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router"
 import { ToastContainer } from "react-toastify"
 import { BlobProvider, PDFDownloadLink } from "@react-pdf/renderer"
 import SimpleInscripcionPDF from "../../../pdf/Inscripcion"
+import TableInscripcionPDF from "../../../pdf/TableInscripcion"
 
 const TablaInscripcion = () => {
     const fetchDataBackend = useFetch()
@@ -104,7 +105,7 @@ const TablaInscripcion = () => {
 
                     {/* Botón de descarga mejorado */}
                     <PDFDownloadLink
-                        document={<SimpleCategoryPDF categories={filteredCategorias} />}
+                        document={<TableInscripcionPDF inscripcion={filteredCategorias} />}
                         fileName={`estudiantes${new Date().toISOString().split('T')[0]}.pdf`}
                         className="flex items-center gap-3 bg-blue-900 text-white px-6 py-3.5 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl font-medium transform hover:scale-105"
                     >

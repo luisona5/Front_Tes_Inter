@@ -207,7 +207,7 @@ const SimpleInscripcionPDF = ({ data }) => {
             <Text style={styles.headerTitle}>ESCUELA POLITÉCNICA NACIONAL</Text>
             <Text style={styles.headerTitle}>Escuela de Formación de Tecnólogos</Text>
             <Text style={styles.headerTitle}>ESFOT</Text>
-            <Text style={styles.subtitle}>Informe Detallado del Estudiante</Text>
+            <Text style={styles.subtitle}>Informe Detallado de la Inscripción</Text>
           </View>
           
           <Image style={styles.logoRight} src={logoESFOT} />
@@ -221,58 +221,93 @@ const SimpleInscripcionPDF = ({ data }) => {
         <View style={styles.sectionBox}>
           <View style={styles.row}>
             <Text style={styles.label}>Cédula:</Text>
-            <Text style={styles.value}>{data.cedulaEstudiante || "N/A"}</Text>
+            <Text style={styles.value}>{data.nombre || "N/A"}</Text>
           </View>
 
           <View style={styles.row}>
-            <Text style={styles.label}>Género:</Text>
-            <Text style={styles.value}>{data.genero || "N/A"}</Text>
+            <Text style={styles.label}>Apellido:</Text>
+            <Text style={styles.value}>{data.apellido  || "N/A"}</Text>
           </View>
           
           
           <View style={styles.row}>
             <Text style={styles.label}>Nombre:</Text>
-            <Text style={styles.value}>{data.nombreEstudiante || "N/A"}</Text>
+            <Text style={styles.value}>{data.nombre || "N/A"}</Text>
           </View>
           
           <View style={styles.row}>
-            <Text style={styles.label}>Apellido:</Text>
-            <Text style={styles.value}>{data.apellidoEstudiante || "N/A"}</Text>
+            <Text style={styles.label}>Email:</Text>
+            <Text style={styles.value}>{data.email || "N/A"}</Text>
           </View>
           
           
           
           <View style={styles.row}>
-            <Text style={styles.label}>Teléfono:</Text>
-            <Text style={styles.value}>{data.telefonoEstudiante || "N/A"}</Text>
+            <Text style={styles.label}>Dirección:</Text>
+            <Text style={styles.value}>{data.direccion || "N/A"}</Text>
           </View>
 
-           <View style={styles.row}>
-            <Text style={styles.label}>Dirección:</Text>
-            <Text style={styles.value}>{data.direccionEstudiante || "N/A"}</Text>
+           
+
+          <View style={styles.row}>
+            <Text style={styles.label}>teléfono:</Text>
+            <Text style={styles.value}>{data.telefono || "N/A"}</Text>
           </View>
+
+          <View style={styles.row}>
+            <Text style={styles.label}>Fecha de Inscripción:</Text>
+            {new Date(data.fechaInscripcion).toLocaleDateString('es-EC', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                  timeZone:'UTC'
+                })}          </View>
 
 
         </View>
 
-        <Text style={styles.sectionTitle}>Información Universitaria</Text>
+        <Text style={styles.sectionTitle}>Información Médica</Text>
         <View style={styles.sectionBox}>
 
           <View style={styles.row}>
-            <Text style={styles.label}>Email:</Text>
-            <Text style={styles.value}>{data.emailEstudiante || "N/A"}</Text>
+            <Text style={styles.label}>Alergias:</Text>
+            <Text style={styles.value}>{data.informacionMedica.alergias || "N/A"}</Text>
           </View>
 
           <View style={styles.row}>
-            <Text style={styles.label}>Carrera del Estudiante:</Text>
-            <Text style={styles.value}>{data.carreraEstudiante || "N/A"}</Text>
+            <Text style={styles.label}>Estado de Salud:</Text>
+            <Text style={styles.value}>{data.informacionMedica.estadoSlud || "N/A"}</Text>
           </View>
 
           <View style={styles.row}>
-            <Text style={styles.label}>Semestre o nivel actual:</Text>
-            <Text style={styles.value}>{data.semestre || "N/A"}</Text>
+            <Text style={styles.label}>Medicamento:</Text>
+            <Text style={styles.value}>{data.informacionMedica.medicamentos || "N/A"}</Text>
           </View>
 
+          <View style={styles.row}>
+            <Text style={styles.label}>Condición Médica:</Text>
+            <Text style={styles.value}>{data.informacionMedica.condicionesMedicas || "N/A"}</Text>
+          </View>
+
+        </View>
+
+        <Text style={styles.sectionTitle}>Contacto de Emergencia</Text>
+        <View style={styles.sectionBox}>
+
+        <View style={styles.row}>
+            <Text style={styles.label}>Nombre:</Text>
+            <Text style={styles.value}>{data.contactoEmergencia.nombre || "N/A"}</Text>
+          </View>
+
+          <View style={styles.row}>
+            <Text style={styles.label}>Teléfono:</Text>
+            <Text style={styles.value}>{data.contactoEmergencia.telefono || "N/A"}</Text>
+          </View>
+
+          <View style={styles.row}>
+            <Text style={styles.label}>Relación:</Text>
+            <Text style={styles.value}>{data.contactoEmergencia.relacion || "N/A"}</Text>
+          </View>
 
         </View>
         
@@ -283,7 +318,17 @@ const SimpleInscripcionPDF = ({ data }) => {
           <View style={styles.statusContainer}>
             <Text style={styles.label}>Estado:</Text>
             <View style={styles.row}>
-            <Text style={styles.value}>{data.status || "N/A"}</Text>
+            <Text style={styles.value}>{data.estado || "N/A"}</Text>
+          </View>
+          </View>
+        </View>
+
+         <Text style={styles.sectionTitle}>Aprobación</Text>
+        <View style={styles.sectionBox}>
+          <View style={styles.statusContainer}>
+            <Text style={styles.label}>Aprobado por:</Text>
+            <View style={styles.row}>
+            <Text style={styles.value}>{data.aprobacion.aprobadopor || "N/A"}</Text>
           </View>
           </View>
         </View>
