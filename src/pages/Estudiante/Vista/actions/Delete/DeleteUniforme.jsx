@@ -20,8 +20,6 @@ const TableUniforms = () => {
             setLoading(true)
             const { token, id } = getAuthData();
 
-           
-
             const url = `${import.meta.env.VITE_BACKEND_URL}/lista-de-uniforme/listar/${id}`;
             
             const headers = {
@@ -35,7 +33,6 @@ const TableUniforms = () => {
                 const data = await response.json();
                 console.log("Uniformes obtenidos:", data);
                 
-                // Filtra uniformes con inscripción (puede que algunos no tengan)
                 const uniformesConInscripcion = data.filter(uniforme => 
                     uniforme.inscripcion
                 );
