@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { useParams, useNavigate, Link } from "react-router" 
 import { User, Phone, Activity, MapPinned, ArrowLeft, Heart, AlertCircle, 
-    CheckCircle, XCircle, MessageSquare, Calendar, Clock, ShoppingBag, Ruler, X} from 'lucide-react'
+    CheckCircle, XCircle, MessageSquare, Calendar, Clock, ShoppingBag, Ruler, X, DollarSign} from 'lucide-react'
 
 const DetailsInscripction = () => {
     
@@ -38,7 +38,7 @@ const DetailsInscripction = () => {
 
         const verificarUniforme = async (inscripcionId) => {
             try {
-                const url = `${import.meta.env.VITE_BACKEND_URL}/lista-de-uniforme/listar`
+                const url = `${import.meta.env.VITE_BACKEND_URL}/lista-de-uniforme/listar/${id}`
                 const storedUser = JSON.parse(localStorage.getItem("auth-token"))
                 const headers = {
                     "Content-Type": "application/json",
@@ -59,9 +59,7 @@ const DetailsInscripction = () => {
                     if (uniformeEncontrado) {
                         setUniformeRegistrado(uniformeEncontrado)
                     } else {
-                        // Solo mostrar notificación si NO tiene uniforme registrado
                         setMostrarNotificacion(true)
-                        // Auto-ocultar después de 8 segundos
                         setTimeout(() => {
                             setMostrarNotificacion(false)
                         }, 8000)
@@ -78,6 +76,12 @@ const DetailsInscripction = () => {
         'Aprobada': 'bg-emerald-50 text-emerald-700 border border-emerald-200',
         'Pendiente': 'bg-amber-50 text-amber-700 border border-amber-200',
         'Rechazada': 'bg-rose-50 text-rose-700 border border-rose-200'
+    }
+
+    // Función para formatear precio
+    const formatPrecio = (precio) => {
+        if (!precio && precio !== 0) return 'N/A';
+        return `$${Number(precio).toFixed(2)}`;
     }
 
     return (
@@ -177,6 +181,109 @@ const DetailsInscripction = () => {
                                                         Talla
                                                     </p>
                                                     <p className="text-sm text-gray-700">{uniformeRegistrado?.talla }</p>
+                                                </div>
+                                            </div>
+                                            
+                                            <div className="space-y-4">
+                                                <div>
+                                                    <p className="text-xs text-gray-500 mb-1 flex items-center gap-1">
+                                                        <DollarSign className="w-3 h-3" />
+                                                        Precio del Uniforme
+                                                    </p>
+                                                    <p className="text-sm font-bold text-emerald-700">
+                                                        {formatPrecio(uniformeRegistrado?.precioUniforme || uniformeRegistrado?.deporte?.precioUniforme)}
+                                                    </p>
+                                                </div>
+                                                
+                                                <div>
+                                                    <p className="text-xs text-gray-500 mb-1 flex items-center gap-1">
+                                                        <Activity className="w-3 h-3" />
+                                                        Deporte
+                                                    </p>
+                                                    <p className="text-sm text-gray-700">
+                                                        {uniformeRegistrado?.deporte?.nombre || inscripcion?.deporte?.nombre || 'N/A'}
+                                                    </p>
+                                                </div>
+                                                
+                                                <div>
+                                                    <p className="text-xs text-gray-500 mb-1 flex items-center gap-1">
+                                                        <Calendar className="w-3 h-3" />
+                                                        Fecha de Registro
+                                                    </p>
+                                                    <p className="text-sm text-gray-700">
+                                                        {uniformeRegistrado?.createdAt 
+                                                            ? new Date(uniformeRegistrado.createdAt).toLocaleDateString('es-ES', {
+                                                                day: '2-digit',
+                                                                month: 'short',
+                                                                year: 'numeric'
+                                                            })
+                                                            : 'N/A'
+                                                        }
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        {/* Información adicional del deporte */}
+                                        <div className="mt-6 pt-6 border-t border-gray-200">
+                                            <h3 className="text-md font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                                                <Activity className="w-4 h-4" />
+                                                Información del Deporte
+                                            </h3>
+                                            <div className="grid md:grid-cols-2 gap-4">
+                                                <div>
+                                                    <p className="text-xs text-gray-500 mb-1">Descripción</p>
+                                                    <p className="text-sm text-gray-700">
+                                                        {uniformeRegistrado?.deporte?.detalle || inscripcion?.deporte?.detalle || 'Sin descripción'}
+                                                    </p>
+                                                </div>
+                                                
+                                                <div>
+                                                    <p className="text-xs text-gray-500 mb-1">Lugar de Entrenamiento</p>
+                                                    <p className="text-sm text-gray-700">
+                                                        {uniformeRegistrado?.deporte?.lugar || inscripcion?.deporte?.lugar || 'N/A'}
+                                                    </p>
+                                                </div>
+                                                
+                                                <div>
+                                                    <p className="text-xs text-gray-500 mb-1">Horario de Entrenamiento</p>
+                                                    <p className="text-sm text-gray-700">
+                                                        {inscripcion?.deporte?.EntrenamientoHora 
+                                                            ? `${inscripcion.deporte.EntrenamientoHora}`
+                                                            : 'N/A'
+                                                        }
+                                                    </p>
+                                                </div>
+                                                
+                                                <div>
+                                                    <p className="text-xs text-gray-500 mb-1">Días de Entrenamiento</p>
+                                                    <p className="text-sm text-gray-700">
+                                                        {inscripcion?.deporte?.EntrenamientoDia 
+                                                            ? new Date(inscripcion.deporte.EntrenamientoDia).toLocaleDateString('es-ES', {
+                                                                weekday: 'long',
+                                                                day: '2-digit',
+                                                                month: 'short'
+                                                            })
+                                                            : 'N/A'
+                                                        }
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        {/* Información de pago */}
+                                        <div className="mt-6 p-4 bg-blue-50 border-l-4 border-blue-500 rounded-r-md">
+                                            <div className="flex items-start gap-3">
+                                                <AlertCircle className="w-5 h-5 text-blue-600 shrink-0" />
+                                                <div>
+                                                    <p className="text-sm font-bold text-blue-900 mb-1">
+                                                        Información de Pago
+                                                    </p>
+                                                    <p className="text-xs text-blue-800 leading-relaxed">
+                                                        Para cancelar el valor del uniforme ({formatPrecio(uniformeRegistrado?.precioUniforme || uniformeRegistrado?.deporte?.precioUniforme)}), 
+                                                        por favor acércate a la 
+                                                        <span className="font-semibold text-blue-900"> oficina de deportes</span>.
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -341,79 +448,81 @@ const DetailsInscripction = () => {
                             </div>
                         </div>
 
-                        {/* Información Deportiva */}
-                        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                            <div className="flex items-center gap-3 mb-5 pb-4 border-b">
-                                <Activity className="w-5 h-5 text-gray-600" />
-                                <h2 className="text-lg font-semibold text-gray-900">Información Deportiva</h2>
-                            </div>
-                            
-                            <div className="space-y-4">
-                                <div className="grid md:grid-cols-2 gap-4">
-                                    <div>
-                                        <p className="text-xs text-gray-500 mb-1">Categoría</p>
-                                        <p className="text-sm text-gray-900 font-medium">{inscripcion?.categoria?.nombre || 'N/A'}</p>
+                        {/* Información Deportiva (solo si NO hay uniforme registrado) */}
+                        {!uniformeRegistrado && (
+                            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                                <div className="flex items-center gap-3 mb-5 pb-4 border-b">
+                                    <Activity className="w-5 h-5 text-gray-600" />
+                                    <h2 className="text-lg font-semibold text-gray-900">Información Deportiva</h2>
+                                </div>
+                                
+                                <div className="space-y-4">
+                                    <div className="grid md:grid-cols-2 gap-4">
+                                        <div>
+                                            <p className="text-xs text-gray-500 mb-1">Categoría</p>
+                                            <p className="text-sm text-gray-900 font-medium">{inscripcion?.categoria?.nombre || 'N/A'}</p>
+                                        </div>
+                                        
+                                        <div>
+                                            <p className="text-xs text-gray-500 mb-1">Disciplina</p>
+                                            <p className="text-sm text-gray-900 font-medium">{inscripcion?.deporte?.nombre || 'N/A'}</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="bg-gray-50 p-4 rounded-md">
+                                        <p className="text-xs text-gray-500 mb-1">Descripción del Deporte</p>
+                                        <p className="text-sm text-gray-700">{inscripcion?.deporte?.detalle || 'Sin descripción'}</p>
+                                    </div>
+
+                                    <div className="grid md:grid-cols-2 gap-4">
+                                        <div>
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <Calendar className="w-4 h-4 text-gray-400" />  
+                                                <p className="text-xs text-gray-500 font-medium">Fecha de entrenamiento</p>
+                                            </div>
+                                            <p className="text-sm text-gray-900 font-medium">
+                                                {inscripcion?.deporte?.EntrenamientoDia   
+                                                    ? new Date(inscripcion?.deporte?.EntrenamientoDia).toLocaleDateString('es-ES', {
+                                                        year: 'numeric',
+                                                        month: 'short',
+                                                        day: 'numeric'
+                                                    }) 
+                                                    : 'N/A'}
+                                            </p>
+                                        </div>
+
+                                        <div>
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <Clock className="w-4 h-4 text-gray-400" />  
+                                                <p className="text-xs text-gray-500 font-medium">Hora de entrenamiento</p>
+                                            </div>
+                                            <p className="text-sm text-gray-900 font-medium">{inscripcion?.deporte?.EntrenamientoHora || 'N/A'}</p>
+                                        </div>
                                     </div>
                                     
                                     <div>
-                                        <p className="text-xs text-gray-500 mb-1">Disciplina</p>
-                                        <p className="text-sm text-gray-900 font-medium">{inscripcion?.deporte?.nombre || 'N/A'}</p>
-                                    </div>
-                                </div>
-                                
-                                <div className="bg-gray-50 p-4 rounded-md">
-                                    <p className="text-xs text-gray-500 mb-1">Descripción del Deporte</p>
-                                    <p className="text-sm text-gray-700">{inscripcion?.deporte?.detalle || 'Sin descripción'}</p>
-                                </div>
-
-                                <div className="grid md:grid-cols-2 gap-4">
-                                    <div>
                                         <div className="flex items-center gap-2 mb-1">
-                                            <Calendar className="w-4 h-4 text-gray-400" />  
-                                            <p className="text-xs text-gray-500 font-medium">Fecha de entrenamiento</p>
+                                            <MapPinned className="w-4 h-4 text-gray-400" />
+                                            <p className="text-xs text-gray-500 font-medium">Lugar de Entrenamiento</p>
                                         </div>
+                                        <p className="text-sm text-gray-900 font-medium">{inscripcion?.deporte?.lugar || 'N/A'}</p>
+                                    </div>
+                                    
+                                    <div>
+                                        <p className="text-xs text-gray-500 mb-1">Fecha de Inscripción</p>
                                         <p className="text-sm text-gray-900 font-medium">
-                                            {inscripcion?.deporte?.EntrenamientoDia   
-                                                ? new Date(inscripcion?.deporte?.EntrenamientoDia).toLocaleDateString('es-ES', {
-                                                    year: 'numeric',
-                                                    month: 'short',
-                                                    day: 'numeric'
-                                                }) 
-                                                : 'N/A'}
+                                            {inscripcion?.fechaInscripcion ? new Date(inscripcion.fechaInscripcion).toLocaleDateString('es-ES', {
+                                                year: 'numeric',
+                                                month: 'short',
+                                                day: 'numeric',
+                                                hour: '2-digit',
+                                                minute: '2-digit'
+                                            }) : 'N/A'}
                                         </p>
                                     </div>
-
-                                    <div>
-                                        <div className="flex items-center gap-2 mb-1">
-                                            <Clock className="w-4 h-4 text-gray-400" />  
-                                            <p className="text-xs text-gray-500 font-medium">Hora de entrenamiento</p>
-                                        </div>
-                                        <p className="text-sm text-gray-900 font-medium">{inscripcion?.deporte?.EntrenamientoHora || 'N/A'}</p>
-                                    </div>
-                                </div>
-                                
-                                <div>
-                                    <div className="flex items-center gap-2 mb-1">
-                                        <MapPinned className="w-4 h-4 text-gray-400" />
-                                        <p className="text-xs text-gray-500 font-medium">Lugar de Entrenamiento</p>
-                                    </div>
-                                    <p className="text-sm text-gray-900 font-medium">{inscripcion?.deporte?.lugar || 'N/A'}</p>
-                                </div>
-                                
-                                <div>
-                                    <p className="text-xs text-gray-500 mb-1">Fecha de Inscripción</p>
-                                    <p className="text-sm text-gray-900 font-medium">
-                                        {inscripcion?.fechaInscripcion ? new Date(inscripcion.fechaInscripcion).toLocaleDateString('es-ES', {
-                                            year: 'numeric',
-                                            month: 'short',
-                                            day: 'numeric',
-                                            hour: '2-digit',
-                                            minute: '2-digit'
-                                        }) : 'N/A'}
-                                    </p>
                                 </div>
                             </div>
-                        </div>
+                        )}
                     </div>
 
                     {/* Columna lateral */}
@@ -447,44 +556,40 @@ const DetailsInscripction = () => {
                                 </div>
                             )}
 
-                            {!uniformeRegistrado && (
-                                    <div className="bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 border-2 border-emerald-300 rounded-xl p-6 shadow-lg">
-                                        <div className="flex items-start gap-4">
-                                            <div className="bg-emerald-500 p-3 rounded-full shadow-md">
-                                                <ShoppingBag className="w-6 h-6 text-white" />
-                                            </div>
-                                            <div className="flex-1">
-                                                <h5 className="text-xl font-bold text-emerald-900 mb-2">
-                                                    Registra tu uniforme
-                                                </h5>
-                                                
-                                                
-                                                    <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-200">
-                                                        <span className="text-sm font-semibold text-gray-700">Valor del uniforme</span>
-                                                        <span className="text-2xl font-bold text-emerald-700">
-                                                            ${inscripcion?.deporte?.precioUniforme}
-                                                        </span>
-                                                    </div> 
-                                                    
-                                                    <Link 
-                                                        to='/dashboard/Uniforme/registro/detalle-para-pago' 
-                                                        state={{ inscripcion: inscripcion }} 
-                                                        className="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white text-center py-3.5 rounded-lg block mt-2 text-base font-bold hover:from-emerald-700 hover:to-emerald-800 transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 group"
-                                                    >
-                                                        <ShoppingBag className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                                                        Registrar uniforme
-                                                    </Link>
-                                            </div>
+                            {!uniformeRegistrado && inscripcion?.estado === 'Aprobada' && (
+                                <div className="bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 border-2 border-emerald-300 rounded-xl p-6 shadow-lg">
+                                    <div className="flex items-start gap-4">
+                                        <div className="bg-emerald-500 p-3 rounded-full shadow-md">
+                                            <ShoppingBag className="w-6 h-6 text-white" />
+                                        </div>
+                                        <div className="flex-1">
+                                            <h5 className="text-xl font-bold text-emerald-900 mb-2">
+                                                Registra tu uniforme
+                                            </h5>
+                                            
+                                            <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-200">
+                                                <span className="text-sm font-semibold text-gray-700">Valor del uniforme</span>
+                                                <span className="text-2xl font-bold text-emerald-700">
+                                                    {formatPrecio(inscripcion?.deporte?.precioUniforme)}
+                                                </span>
+                                            </div> 
+                                            
+                                            <Link 
+                                                to='/dashboard/Uniforme/registro/detalle-para-pago' 
+                                                state={{ inscripcion: inscripcion }} 
+                                                className="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white text-center py-3.5 rounded-lg block mt-2 text-base font-bold hover:from-emerald-700 hover:to-emerald-800 transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 group"
+                                            >
+                                                <ShoppingBag className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                                                Registrar uniforme
+                                            </Link>
                                         </div>
                                     </div>
-                                )}
-
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
             </div>
-
-            
         </div>
     )
 }
