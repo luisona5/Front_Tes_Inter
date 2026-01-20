@@ -3,6 +3,7 @@ import { Mail} from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { ToastContainer } from 'react-toastify'
 import { useFetch } from '../../hooks/useFetch'
+import casona from '../../../public/images/casona.jpg'
 
 export const ForgotGeneral = () => {
    
@@ -24,7 +25,7 @@ export const ForgotGeneral = () => {
             {/* Imagen de fondo con overlay */}
             <div 
                 className="fixed inset-0 bg-cover bg-center bg-no-repeat"
-                style={{ backgroundImage: "url('/public/images/casona.jpg')" }}
+                    style={{ backgroundImage: `url(${casona})` }}
             >
                 <div className="fixed inset-0 bg-black/50"></div>
             </div>
