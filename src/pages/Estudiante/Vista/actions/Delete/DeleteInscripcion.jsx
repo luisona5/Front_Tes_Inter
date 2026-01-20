@@ -5,7 +5,7 @@ import { FileDown, Trash2, Search, Download } from "lucide-react"
 import { Link, useNavigate } from "react-router"
 import { ToastContainer } from "react-toastify"
 import { BlobProvider, PDFDownloadLink } from "@react-pdf/renderer"
-import SimpleCategoryPDF from "../../../pdf/Inscripcion"
+import SimpleInscripcionPDF from "../../../pdf/Inscripcion"
 
 const TablaInscripcion = () => {
     const fetchDataBackend = useFetch()
@@ -210,7 +210,7 @@ const TablaInscripcion = () => {
                                     {/* Botón PDF mejorado */}
                                     <td className="px-4 py-3">
                                         <div className="flex justify-center">
-                                            <BlobProvider document={<SimpleCategoryPDF data={Inscription} />}>
+                                            <BlobProvider document={<SimpleInscripcionPDF data={Inscription} />}>
                                                 {({ url, loading }) => (
                                                     <button
                                                         disabled={loading}

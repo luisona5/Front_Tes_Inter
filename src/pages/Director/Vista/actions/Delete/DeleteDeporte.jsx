@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router"
 import { ToastContainer } from "react-toastify"
 import { BlobProvider, PDFDownloadLink } from "@react-pdf/renderer"
 import SimpleSportPDF from "../../pdf/Sport"
+import TableDeportePDF from "../../pdf/TableSport"
 
 const TablaDeporte = () => {
     const fetchDataBackend = useFetch()
@@ -112,14 +113,14 @@ const TablaDeporte = () => {
 
                     {/* Botón de descarga PDF */}
                     <PDFDownloadLink
-                        document={<SimpleSportPDF deportes={filteredDeporte} />}
+                        document={<TableDeportePDF deportes={filteredDeporte} />}
                         fileName={`deportes-${new Date().toISOString().split('T')[0]}.pdf`}
-                        className="flex items-center gap-2 bg-gray-800 text-white px-4 py-3 rounded-lg hover:bg-gray-700 transition-colors font-medium"
+                        className="flex items-center gap-3 bg-blue-900 text-white px-6 py-4 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl font-medium transform hover:scale-105"
                     >
                         {({ loading }) => (
                             <>
                                 <Download className="w-5 h-5" />
-                                <span>{loading ? 'Generando...' : 'Descargar PDF'}</span>
+                                <span>{loading ? 'Generando...' : 'Descargar listado'}</span>
                             </>
                         )}
                     </PDFDownloadLink>
@@ -237,7 +238,7 @@ const TablaDeporte = () => {
                                                             onClick={() => {
                                                                 if (url) window.open(url, "_blank")
                                                             }}
-                                                            className="flex items-center gap-2 bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors text-sm font-medium disabled:bg-gray-400"
+                                                        className="flex items-center gap-3 bg-blue-900 text-white px-6 py-4 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl font-medium transform hover:scale-105"
                                                         >
                                                             <FileDown className="h-4 w-4" />
                                                             <span>{loading ? "Generando..." : "Ver PDF"}</span>

@@ -11,7 +11,7 @@ import logoESFOT from "/src/assets/esfot.png";
 
 const styles = StyleSheet.create({
   page: {
-    paddingTop: 120,
+    paddingTop: 100,
     paddingBottom: 80,
     paddingHorizontal: 30,
     fontSize: 10,
@@ -19,13 +19,15 @@ const styles = StyleSheet.create({
     color: "#2c3e50",
     backgroundColor: "#ffffff",
   },
+  
+  // HEADER
   header: {
     position: "absolute",
     top: 20,
     left: 30,
     right: 30,
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-start",
     justifyContent: "space-between",
     borderBottomWidth: 2,
     borderBottomColor: "#003366",
@@ -34,244 +36,282 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingTop: 10,
   },
+  
   logoLeft: {
-    width: 60,
-    height: 60,
+    width: 50,
+    height: 50,
   },
+  
   logoRight: {
-    width: 80,
-    height: 60,
+    width: 100,
+    height: 50,
   },
+  
   headerTextContainer: {
     flex: 1,
-    textAlign: "center",
     alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 15,
+    justifyContent: "flex-start",
+    paddingHorizontal: 20,
+    paddingTop: 5,
   },
+  
   headerTitle: {
-    fontSize: 9,
+    fontSize: 10,
     fontWeight: "bold",
     color: "#003366",
     textAlign: "center",
     marginBottom: 2,
   },
+  
   subtitle: {
-    fontSize: 11,
-    fontWeight: "bold",
-    color: "#0055a5",
+    fontSize: 9,
+    color: "#555",
     textAlign: "center",
-    marginTop: 4,
+    marginTop: 5,
+    fontStyle: "italic",
   },
+  
+  // TÍTULO PRINCIPAL
   title: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
-    marginBottom: 15,
+    marginTop: 15,
+    marginBottom: 5,
     textAlign: "center",
     color: "#003366",
     textTransform: "uppercase",
     letterSpacing: 1,
   },
-  // Estilos de la tabla
+  
+  date: {
+    fontSize: 9,
+    color: "#9ca3af",
+    marginBottom: 15,
+    textAlign: "center",
+  },
+  
+  // TABLA
   table: {
     display: "table",
-    width: "auto",
-    marginBottom: 20,
+    width: "100%",
+    borderStyle: "solid",
     borderWidth: 1,
-    borderColor: "#003366",
+    borderColor: "#e5e7eb",
+    borderRightWidth: 0,
+    borderBottomWidth: 0,
   },
+  
   tableRow: {
     flexDirection: "row",
     borderBottomWidth: 1,
-    borderBottomColor: "#e0e0e0",
+    borderBottomColor: "#e5e7eb",
+    minHeight: 25,
+    alignItems: "center",
   },
+  
   tableHeader: {
     backgroundColor: "#003366",
-    color: "#ffffff",
+    color: "white",
     fontWeight: "bold",
-  },
-  tableCell: {
-    padding: 8,
-    fontSize: 9,
     textAlign: "center",
+    minHeight: 30,
+  },
+  
+  tableCell: {
     borderRightWidth: 1,
-    borderRightColor: "#e0e0e0",
+    borderRightColor: "#e5e7eb",
+    padding: 5,
+    textAlign: "center",
+    fontSize: 9,
+    flexWrap: "wrap",
+    overflow: "hidden",
   },
-  // Anchos de columnas
-  col1: {
-    width: "8%",
+  
+  col1: { width: "5%" },    
+  col2: { width: "10%" },  
+  col3: { width: "30%" },   
+  col4: { width: "10%" },   
+  col5: { width: "10%" },   
+  col6: { width: "12%" },   
+  col7: { width: "10%" },    
+  col8: { width: "14%" },   
+  
+  
+  textWrap: {
+    fontSize: 8,
+    lineHeight: 1.3,
   },
-  col2: {
-    width: "18%",
-  },
-  col3: {
-    width: "22%",
-  },
-  col4: {
-    width: "16%",
-  },
-  col5: {
-    width: "16%",
-  },
-  col7: {
-    width: "12%",
-  },
-  // Estados
+  
   statusActive: {
-    color: "#10b981",
-    fontWeight: "bold",
+    backgroundColor: "#dcfce7",
+    color: "#166534",
+    padding: 3,
+    borderRadius: 3,
     fontSize: 8,
+    fontWeight: "bold",
   },
+  
   statusInactive: {
-    color: "#ef4444",
-    fontWeight: "bold",
+    backgroundColor: "#fee2e2",
+    color: "#991b1b",
+    padding: 3,
+    borderRadius: 3,
     fontSize: 8,
+    fontWeight: "bold",
   },
-  // Total de deportes
-  totalDeportes: {
+  
+  totalDirectores: {
     marginTop: 15,
     padding: 10,
-    backgroundColor: "#f0f9ff",
-    borderLeftWidth: 4,
-    borderLeftColor: "#003366",
-    borderRadius: 4,
+    backgroundColor: "#f3f4f6",
+    borderRadius: 5,
+    textAlign: "center",
   },
+  
   totalText: {
     fontSize: 11,
     fontWeight: "bold",
-    color: "#003366",
+    color: "#374151",
   },
-  generated: {
-    marginTop: 20,
-    fontSize: 8,
-    textAlign: "right",
-    color: "#7f8c8d",
-    fontStyle: "italic",
-  },
+  
+  // FOOTER
   footerContainer: {
     position: "absolute",
     bottom: 20,
     left: 30,
     right: 30,
-    textAlign: "center",
     borderTopWidth: 1,
     borderTopColor: "#003366",
-    paddingTop: 8,
+    paddingTop: 10,
   },
+  
   footerLine: {
     fontSize: 7,
-    color: "#7f8c8d",
-    marginBottom: 2,
+    color: "#666",
+    textAlign: "center",
   },
 });
 
-const SimpleSportPDF = ({ deportes }) => {
-  // Validación: si deporte no existe o no es un array
-  if (!deportes || !Array.isArray(deportes) || deportes.length === 0) {
-    return (
-      <Document>
-        <Page style={styles.page}>
-          <Text>No hay datos disponibles</Text>
-        </Page>
-      </Document>
-    );
-  }
-
-  const fechaHora = new Date().toLocaleString("es-EC", {
+const TableDeportePDF = ({ deportes }) => {
+  const fechaActual = new Date().toLocaleDateString("es-EC", {
     year: "numeric",
     month: "long",
     day: "numeric",
     hour: "2-digit",
     minute: "2-digit",
+    second: "2-digit",
   });
+
+  // Función para truncar texto largo
+  const truncateText = (text, maxLength = 50) => {
+    if (!text) return "";
+    return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
+  };
 
   return (
     <Document>
-      <Page  orientation="landscape" style={styles.page}>
-        {/* Header */}
+      <Page size="A4" orientation="landscape" style={styles.page}>
+        
+        {/* HEADER */}
         <View style={styles.header} fixed>
           <Image style={styles.logoLeft} src={logoEPN} />
+          
           <View style={styles.headerTextContainer}>
             <Text style={styles.headerTitle}>ESCUELA POLITÉCNICA NACIONAL</Text>
-            <Text style={styles.headerTitle}>Escuela de Formación de Tecnólogos - ESFOT</Text>
-            <Text style={styles.subtitle}>Listado de Deportes</Text>
+            <Text style={styles.headerTitle}>Escuela de Formación de Tecnólogos</Text>
+            <Text style={styles.headerTitle}>ESFOT</Text>
+            <Text style={styles.subtitle}>Lista de Deportes - Sistema Polisport</Text>
           </View>
+          
           <Image style={styles.logoRight} src={logoESFOT} />
         </View>
 
-        {/* TITLE */}
-        <Text style={styles.title}>Polisport</Text>
+        {/* TÍTULO */}
+        <Text style={styles.title}>Registro de Deportes</Text>
 
-        {/* Tabla */}
+        {/* TABLA */}
         <View style={styles.table}>
           {/* Encabezado de la tabla */}
           <View style={[styles.tableRow, styles.tableHeader]}>
-            <Text style={[styles.tableCell, styles.col1, { color: "#ffffff" }]}>N°</Text>
-            <Text style={[styles.tableCell, styles.col2, { color: "#ffffff" }]}>Categoría</Text>
-            <Text style={[styles.tableCell, styles.col3, { color: "#ffffff" }]}>Nombre</Text>
-            <Text style={[styles.tableCell, styles.col4, { color: "#ffffff" }]}>Fecha Inicio</Text>
-            <Text style={[styles.tableCell, styles.col5, { color: "#ffffff" }]}>Fecha Fin</Text>
-            <Text style={[styles.tableCell, styles.col7, { color: "#ffffff" }]}>Estado</Text>
+            <Text style={[styles.tableCell, styles.col1]}>N°</Text>
+            <Text style={[styles.tableCell, styles.col2]}>Nombre</Text>
+            <Text style={[styles.tableCell, styles.col3]}>Detalle</Text>
+            <Text style={[styles.tableCell, styles.col4]}>Inicio Insc.</Text>
+            <Text style={[styles.tableCell, styles.col5]}>Fin Insc.</Text>
+            <Text style={[styles.tableCell, styles.col6]}>Fecha Entreno</Text>
+            <Text style={[styles.tableCell, styles.col7]}>Hora Entreno</Text>
+            <Text style={[styles.tableCell, styles.col8]}>Lugar</Text>
           </View>
 
           {/* Filas de datos */}
           {deportes.map((deporte, index) => (
-            <View style={styles.tableRow} key={deporte._id || index}>
+            <View style={styles.tableRow} key={deporte._id} wrap={false}>
               <Text style={[styles.tableCell, styles.col1]}>{index + 1}</Text>
-              <Text style={[styles.tableCell, styles.col2]}>{deporte.categoria?.nombre || "N/A"}</Text>
-              <Text style={[styles.tableCell, styles.col3]}>{deporte.nombre || "N/A"}</Text>
-              <Text style={[styles.tableCell, styles.col4]}>
-                {deporte.fechaInicio 
-                  ? new Date(deporte.fechaInicio).toLocaleDateString("es-EC", {
-                      year: "numeric",
-                      month: "2-digit",
-                      day: "2-digit",
-                    })
-                  : "N/A"}
+              
+              <Text style={[styles.tableCell, styles.col2, styles.textWrap]}>
+                {truncateText(deporte.nombre, 20)}
               </Text>
-              <Text style={[styles.tableCell, styles.col5]}>
-                {deporte.fechaFin
-                  ? new Date(deporte.fechaFin).toLocaleDateString("es-EC", {
-                      year: "numeric",
-                      month: "2-digit",
-                      day: "2-digit",
-                    })
-                  : "N/A"}
+              
+              <Text style={[styles.tableCell, styles.col3, styles.textWrap]}>
+                {truncateText(deporte.detalle, 40)}
               </Text>
-              <View style={[styles.tableCell, styles.col7]}>
-                <Text style={deporte.estadoDeporte ? styles.statusActive : styles.statusInactive}>
-                  {deporte.estadoDeporte ? "Activo" : "Inactivo"}
-                </Text>
-              </View>
+              
+              <Text style={[styles.tableCell, styles.col4, styles.textWrap]}>
+                {new Date(deporte.fechaInicio).toLocaleDateString('es-EC', {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                  timeZone:'UTC'
+                })}
+              </Text>
+              
+              <Text style={[styles.tableCell, styles.col5, styles.textWrap]}>
+                {new Date(deporte.fechaFin).toLocaleDateString('es-EC', {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                  timeZone:'UTC'
+                })}
+              </Text>
+              
+              <Text style={[styles.tableCell, styles.col6, styles.textWrap]}>
+                {new Date(deporte.EntrenamientoDia).toLocaleDateString('es-EC', {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                  timeZone:'UTC'
+                })}
+              </Text>
+              
+              <Text style={[styles.tableCell, styles.col7, styles.textWrap]}>
+                {deporte.EntrenamientoHora || "N/A"}
+              </Text>
+              
+              <Text style={[styles.tableCell, styles.col8, styles.textWrap]}>
+                {truncateText(deporte.lugar, 25)}
+              </Text>
             </View>
           ))}
         </View>
 
         {/* Total de deportes */}
-        <View style={styles.totalDeportes}>
+        <View style={styles.totalDirectores}>
           <Text style={styles.totalText}>
-            Total de deportes: {deporte.length}
+            Total de Deportes: {deportes.length}
           </Text>
         </View>
-
-        {/* GENERATED DATE */}
-        <Text style={styles.generated}>Generado: {fechaHora}</Text>
+        <Text style={styles.date}>Generado el: {fechaActual}</Text>
 
         {/* FOOTER */}
         <View style={styles.footerContainer} fixed>
           <Text style={styles.footerLine}>
-            Edificio 21 | Email: diresfot@epn.edu.ec
-          </Text>
-          <Text style={styles.footerLine}>
-            Av. Ladrón de Guevara E11-253, Quito - Ecuador
-          </Text>
-          <Text style={styles.footerLine}>
-            Tel: (+593) 2 2976 300 | info@epn.edu.ec
+            Edificio 21 | Email: diresfot@epn.edu.ec | Av. Ladrón de Guevara E11-253, Quito - Ecuador | Tel: (+593) 2 2976 300 | info@epn.edu.ec
           </Text>
         </View>
+
       </Page>
     </Document>
   );
 };
 
-export default SimpleSportPDF;
+export default TableDeportePDF;

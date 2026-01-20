@@ -71,7 +71,6 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
   },
   
-  // TÍTULO PRINCIPAL
   title: {
     fontSize: 18,
     fontWeight: "bold",
@@ -105,7 +104,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     borderBottomWidth: 1,
     borderBottomColor: "#e5e7eb",
-    minHeight: 30,
+    minHeight: 25,
     alignItems: "center",
   },
   
@@ -114,6 +113,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
+    minHeight: 30,
   },
   
   tableCell: {
@@ -121,15 +121,19 @@ const styles = StyleSheet.create({
     borderRightColor: "#e5e7eb",
     padding: 5,
     textAlign: "center",
+    fontSize: 11,
+    flexWrap: "wrap",
+    overflow: "hidden",
   },
   
-  col1: { width: "5%" },   // N°
-  col2: { width: "20%" },  // Apellido
-  col3: { width: "20%" },  // Nombre
-  col4: { width: "10%" },  // Cédula
-  col5: { width: "25%" },  // Email
-  col6: { width: "10%" },  // Teléfono
-  col7: { width: "10%" },  // Estado
+  col1: { width: "5%" },   
+  col2: { width: "25%" },  
+  col3: { width: "70%" },  
+  
+  textWrap: {
+    fontSize: 10,
+    lineHeight: 1.3,
+  },
   
   statusActive: {
     backgroundColor: "#dcfce7",
@@ -181,7 +185,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const DirectoresTablePDF = ({ directores }) => {
+const TableCategoriaPDF = ({ categories }) => {
   const fechaActual = new Date().toLocaleDateString("es-EC", {
     year: "numeric",
     month: "long",
@@ -203,63 +207,47 @@ const DirectoresTablePDF = ({ directores }) => {
             <Text style={styles.headerTitle}>ESCUELA POLITÉCNICA NACIONAL</Text>
             <Text style={styles.headerTitle}>Escuela de Formación de Tecnólogos</Text>
             <Text style={styles.headerTitle}>ESFOT</Text>
-            <Text style={styles.subtitle}>Lista de Directores - Sistema Polisport</Text>
+            <Text style={styles.subtitle}>Lista de Categorías - Sistema Polisport</Text>
           </View>
           
           <Image style={styles.logoRight} src={logoESFOT} />
         </View>
 
         {/* TÍTULO */}
-        <Text style={styles.title}>Registro de Directores</Text>
+        <Text style={styles.title}>Registro de Categorías</Text>
 
         {/* TABLA */}
         <View style={styles.table}>
           {/* Encabezado de la tabla */}
           <View style={[styles.tableRow, styles.tableHeader]}>
             <Text style={[styles.tableCell, styles.col1]}>N°</Text>
-            <Text style={[styles.tableCell, styles.col2]}>Apellido</Text>
-            <Text style={[styles.tableCell, styles.col3]}>Nombre</Text>
-            <Text style={[styles.tableCell, styles.col4]}>Cédula</Text>
-            <Text style={[styles.tableCell, styles.col5]}>Email</Text>
-            <Text style={[styles.tableCell, styles.col6]}>Teléfono</Text>
-            <Text style={[styles.tableCell, styles.col7]}>Estado</Text>
+            <Text style={[styles.tableCell, styles.col2]}>Nombre</Text>
+            <Text style={[styles.tableCell, styles.col3]}>Descripción</Text>
           </View>
 
           {/* Filas de datos */}
-          {directores.map((director, index) => (
-            <View style={styles.tableRow} key={director._id}>
+          {categories.map((categoria, index) => (
+            <View style={styles.tableRow} key={categoria._id} wrap={false}>
               <Text style={[styles.tableCell, styles.col1]}>{index + 1}</Text>
-              <Text style={[styles.tableCell, styles.col2]}>
-                {director.apellidoDirector}
+              
+              <Text style={[styles.tableCell, styles.col2, styles.textWrap]}>
+                {categoria.nombre}
               </Text>
-              <Text style={[styles.tableCell, styles.col3]}>
-                {director.nombreDirector}
-              </Text>
-              <Text style={[styles.tableCell, styles.col4]}>
-                {director.cedulaDirector}
-              </Text>
-              <Text style={[styles.tableCell, styles.col5]}>
-                {director.emailDirector}
-              </Text>
-              <Text style={[styles.tableCell, styles.col6]}>
-                {director.telefonoDirector}
-              </Text>
-              <Text style={[styles.tableCell, styles.col7]}>
-                {director.status}
-
+              
+              <Text style={[styles.tableCell, styles.col3, styles.textWrap]}>
+                {categoria.descripcion}
               </Text>
             </View>
           ))}
         </View>
 
-        {/* Total de directores */}
+        {/* Total de categorías */}
         <View style={styles.totalDirectores}>
           <Text style={styles.totalText}>
-            Total de Directores: {directores.length}
+            Total de Categorías: {categories.length}
           </Text>
         </View>
         <Text style={styles.date}>Generado el: {fechaActual}</Text>
-
 
         {/* FOOTER */}
         <View style={styles.footerContainer} fixed>
@@ -273,4 +261,4 @@ const DirectoresTablePDF = ({ directores }) => {
   );
 };
 
-export default DirectoresTablePDF;
+export default TableCategoriaPDF;

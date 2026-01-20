@@ -78,14 +78,14 @@ const TableDirector = () => {
                         <div className="mb-6">
                             
                             <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                                No hay estudiantes Registrados
+                                No hay Directores Registrados
                             </h3>
                            
                         </div>
                         
                         <Link to='/dashboard/inscripciones/nuevo/director'>
                             <button className="w-full flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium">
-                                Registrar Estudiante
+                                Registrar Director
                             </button>
                         </Link>
                     </div>
