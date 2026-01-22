@@ -10,12 +10,10 @@ import { validacionCedula, validacionTelefono,
         validacionDireccion,validacionApellido, 
         validacionPassword} from "../../helpers/validaciones"
 
-
 export const Register = () => {
-
-		const [showPassword, setShowPassword] = useState(false)
+    const [showPassword, setShowPassword] = useState(false)
     const fetchDataBackend = useFetch()
-    const { register, handleSubmit, formState: { errors },reset } = useForm()
+    const { register, handleSubmit, formState: { errors }, reset } = useForm()
     
     const registerUser = async (dataForm) => {
         const url = `${import.meta.env.VITE_BACKEND_URL}/registro/estudiante`
@@ -23,51 +21,55 @@ export const Register = () => {
         reset()
     }
 
-
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex">
-            <ToastContainer />
-
-            <div className="hidden lg:block lg:w-1/2 bg-[url('/src/assets/buho.jpg')] bg-cover bg-center bg-no-repeat relative">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 p-4">
+            <ToastContainer position="top-right" autoClose={3000} />
+            
+            <div className="flex w-full max-w-6xl bg-white rounded-3xl shadow-2xl overflow-hidden">
                 
-                <div className=" z-10 flex flex-col justify-between h-full p-12 text-white ">
-                    <div>
-                        <h1 className="text-5xl text-center font-bold mb-4 drop-shadow-lg">POLISPORT</h1>
+                {/* Panel Izquierdo - Imagen */}
+                <div className="hidden lg:flex lg:w-2/5 relative bg-gradient-to-br from-teal-600 via-teal-700 to-cyan-800">
+                    <div 
+                        className="absolute inset-0 bg-[url('/src/assets/buho.jpg')] bg-cover bg-center opacity-30"
+                    ></div>
+                    
+                    <div className="relative z-10 flex flex-col justify-between text-white p-12">
+                        <div className="text-center">
+                            <h1 className="text-5xl font-bold mb-3 text-center">POLISPORT</h1>
+                        </div>
+
                         
-                    </div>
 
-
-                    <div className="pt-8 border-t border-white/20 text-center">
-                        <p className="text-white text-center text-lg mb-3">¿Ya tienes una cuenta?</p>
-                        <Link 
-                            to="/login" 
-                            className="inline-block px-8 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl font-semibold transition-all duration-300 hover:scale-105 "
-                        >
-                            Iniciar Sesión
-                        </Link>
+                        <div className="pt-6 border-t border-white/20 text-center">
+                            <p className="text-white text-lg mb-3">¿Ya tienes una cuenta?</p>
+                            <Link 
+                                to="/login" 
+                                className="inline-block px-8 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl font-semibold transition-all duration-300 hover:scale-105"
+                            >
+                                Iniciar Sesión
+                            </Link>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            {/* Panel derecho  */}
-            <div className="w-full lg:w-1/2 flex items-center justify-center p-6 overflow-y-auto">
-                <div className="w-full max-w-2xl">
+                {/* Panel Derecho - Formulario */}
+                <div className="w-full lg:w-3/5 p-8 lg:p-12 overflow-y-auto max-h-screen">
+                    <div className="max-w-2xl mx-auto">
 
-                    {/* Header  */}
-                    <div className="lg:hidden mb-8 text-center">
-                        <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2">
-                            POLISPORT
-                        </h1>
-                        <p className="text-gray-600">Registro de Estudiantes</p>
-                    </div>
+                        {/* Header Mobile */}
+                        <div className="lg:hidden mb-6 text-center">
+                            <h1 className="text-4xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent mb-2">
+                                POLISPORT
+                            </h1>
+                            <p className="text-gray-600">Registro de Estudiantes</p>
+                        </div>
 
-                    {/* Card del formulario */}
-                    <div className="bg-white rounded-3xl shadow-2xl p-8 lg:p-10">
+                        {/* Header */}
                         <div className="mb-8">
-                            <h2 className="text-3xl font-bold text-gray-800 mb-2 text-center">
+                            <h2 className="text-3xl text-center font-bold text-gray-800 mb-2">
                                 Crear Cuenta
                             </h2>
-                        
+                          
                         </div>
 
                         <form onSubmit={handleSubmit(registerUser)} className="space-y-5">
@@ -81,14 +83,20 @@ export const Register = () => {
                                     <MdBadge className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
                                     <input 
                                         type="text" 
-                                        placeholder="ingresa numero de cédula" 
-                                        className="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all text-gray-700"
+                                        placeholder="Ingresa número de cédula" 
+                                        className={`w-full pl-12 pr-4 py-3 rounded-lg border-2 transition-all duration-200 ${
+                                            errors.cedulaEstudiante 
+                                            ? 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-100' 
+                                            : 'border-gray-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-100'
+                                        }`}
                                         maxLength={10}
                                         {...register("cedulaEstudiante", validacionCedula)}
                                         onInput={soloNumeros}
                                     />
                                 </div>
-                                {errors.cedulaEstudiante && (<p className="text-red-500 text-sm mt-1.5 flex items-center gap-1">{errors.cedulaEstudiante.message}
+                                {errors.cedulaEstudiante && (
+                                    <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
+                                        {errors.cedulaEstudiante.message}
                                     </p>
                                 )}
                             </div>
@@ -104,13 +112,18 @@ export const Register = () => {
                                         <input 
                                             type="text" 
                                             placeholder="Ingresa tu nombre" 
-                                            className="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all text-gray-700"
+                                            className={`w-full pl-12 pr-4 py-3 rounded-lg border-2 transition-all duration-200 ${
+                                                errors.nombreEstudiante 
+                                                ? 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-100' 
+                                                : 'border-gray-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-100'
+                                            }`}
                                             {...register("nombreEstudiante", validacionNombre)}
                                             onInput={soloLetras}
                                         />
                                     </div>
                                     {errors.nombreEstudiante && (
-                                        <p className="text-red-500 text-sm mt-1.5 flex items-center gap-1">{errors.nombreEstudiante.message}
+                                        <p className="text-red-600 text-sm mt-1">
+                                            {errors.nombreEstudiante.message}
                                         </p>
                                     )}
                                 </div>
@@ -124,13 +137,18 @@ export const Register = () => {
                                         <input 
                                             type="text" 
                                             placeholder="Ingresa tu apellido" 
-                                            className="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all text-gray-700"
+                                            className={`w-full pl-12 pr-4 py-3 rounded-lg border-2 transition-all duration-200 ${
+                                                errors.apellidoEstudiante 
+                                                ? 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-100' 
+                                                : 'border-gray-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-100'
+                                            }`}
                                             {...register("apellidoEstudiante", validacionApellido)}
                                             onInput={soloLetras}
                                         />
                                     </div>
                                     {errors.apellidoEstudiante && (
-                                        <p className="text-red-500 text-sm mt-1.5 flex items-center gap-1"> {errors.apellidoEstudiante.message}
+                                        <p className="text-red-600 text-sm mt-1">
+                                            {errors.apellidoEstudiante.message}
                                         </p>
                                     )}
                                 </div>
@@ -145,51 +163,67 @@ export const Register = () => {
                                     <MdPhone className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
                                     <input 
                                         type="tel" 
-                                        placeholder="ingresa número de teléfono" 
-                                        className="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all text-gray-700"
+                                        placeholder="Ingresa número de teléfono" 
+                                        className={`w-full pl-12 pr-4 py-3 rounded-lg border-2 transition-all duration-200 ${
+                                            errors.telefonoEstudiante 
+                                            ? 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-100' 
+                                            : 'border-gray-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-100'
+                                        }`}
                                         maxLength={10}
                                         {...register("telefonoEstudiante", validacionTelefono)}
                                         onInput={soloNumeros}
                                     />
                                 </div>
                                 {errors.telefonoEstudiante && (
-                                    <p className="text-red-500 text-sm mt-1.5 flex items-center gap-1">{errors.telefonoEstudiante.message}</p>
+                                    <p className="text-red-600 text-sm mt-1">
+                                        {errors.telefonoEstudiante.message}
+                                    </p>
                                 )}
                             </div>
 
                             {/* Género */}
-                            <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-3">
+                            <div className="md:col-span-2">
+                                <label className="block text-[11px] font-bold text-gray-500 uppercase mb-3">
                                     Género <span className="text-red-500">*</span>
                                 </label>
-                                <div className="flex gap-4">
-                                    <label className="flex-1 cursor-pointer">
+                                
+                                <div className="flex flex-row gap-3 ml-2">
+                                    {/* Opción Masculino */}
+                                    <label className="flex items-center cursor-pointer group">
                                         <input 
                                             type="radio" 
-                                            value="masculino" 
-                                            className="peer sr-only"
+                                            value="Masculino" 
+                                            className="w-4 h-4 text-teal-600 bg-gray-100 border-gray-300 focus:ring-teal-500 focus:ring-2 cursor-pointer"
                                             {...register("genero", { required: "El género es obligatorio" })}
                                         />
-                                        <div className="px-4 py-3.5 border-2 border-gray-200 rounded-xl text-center font-medium text-gray-600 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 transition-all hover:border-gray-300">
+                                        <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-teal-700 transition-colors">
                                             Masculino
-                                        </div>
+                                        </span>
                                     </label>
 
-                                    <label className="flex-1 cursor-pointer">
+                                    {/* Opción Femenino */}
+                                    <label className="flex items-center cursor-pointer group">
                                         <input 
                                             type="radio" 
-                                            value="femenino" 
-                                            className="peer sr-only"
+                                            value="Femenino" 
+                                            className="w-4 h-4 text-teal-600 bg-gray-100 border-gray-300 focus:ring-teal-500 focus:ring-2 cursor-pointer"
                                             {...register("genero", { required: "El género es obligatorio" })}
                                         />
-                                        <div className="px-4 py-3.5 border-2 border-gray-200 rounded-xl text-center font-medium text-gray-600 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 transition-all hover:border-gray-300">
+                                        <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-teal-700 transition-colors">
                                             Femenino
-                                        </div>
+                                        </span>
                                     </label>
                                 </div>
-                                {errors.genero && (<p className="text-red-500 text-sm mt-1.5 flex items-center gap-1"> {errors.genero.message}</p>
+
+                                {errors.genero && (
+                                    <p className="text-red-500 text-[10px] mt-2 font-bold italic">
+                                        {errors.genero.message}
+                                    </p>
                                 )}
                             </div>
+
+                            
+
 
                             {/* Dirección */}
                             <div>
@@ -200,13 +234,18 @@ export const Register = () => {
                                     <MdHome className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
                                     <input 
                                         type="text" 
-                                        placeholder="Ingresa tu dirección " 
-                                        className="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all text-gray-700"
+                                        placeholder="Ingresa tu dirección" 
+                                        className={`w-full pl-12 pr-4 py-3 rounded-lg border-2 transition-all duration-200 ${
+                                            errors.direccionEstudiante 
+                                            ? 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-100' 
+                                            : 'border-gray-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-100'
+                                        }`}
                                         {...register("direccionEstudiante", validacionDireccion)}
                                     />
                                 </div>
                                 {errors.direccionEstudiante && (
-                                    <p className="text-red-500 text-sm mt-1.5 flex items-center gap-1">{errors.direccionEstudiante.message}
+                                    <p className="text-red-600 text-sm mt-1">
+                                        {errors.direccionEstudiante.message}
                                     </p>
                                 )}
                             </div>
@@ -220,7 +259,11 @@ export const Register = () => {
                                     <div className="relative">
                                         <MdSchool className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none z-10" size={20} />
                                         <select 
-                                            className="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all text-gray-700 appearance-none bg-white cursor-pointer"
+                                            className={`w-full pl-12 pr-10 py-3 rounded-lg border-2 transition-all duration-200 appearance-none bg-white ${
+                                                errors.carreraEstudiante 
+                                                ? 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-100' 
+                                                : 'border-gray-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-100'
+                                            }`}
                                             {...register("carreraEstudiante", { required: "La carrera es obligatoria" })}
                                         >
                                             <option value="">Selecciona una carrera</option>
@@ -236,7 +279,8 @@ export const Register = () => {
                                         </div>
                                     </div>
                                     {errors.carreraEstudiante && (
-                                        <p className="text-red-500 text-sm mt-1.5 flex items-center gap-1"> {errors.carreraEstudiante.message}
+                                        <p className="text-red-600 text-sm mt-1">
+                                            {errors.carreraEstudiante.message}
                                         </p>
                                     )}
                                 </div>
@@ -247,7 +291,11 @@ export const Register = () => {
                                     </label>
                                     <div className="relative">
                                         <select
-                                            className="w-full px-4 py-3.5 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all text-gray-700 appearance-none bg-white cursor-pointer"
+                                            className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-200 appearance-none bg-white ${
+                                                errors.semestre 
+                                                ? 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-100' 
+                                                : 'border-gray-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-100'
+                                            }`}
                                             {...register("semestre", { required: "Semestre es obligatorio" })}
                                         >
                                             <option value="">Selecciona semestre</option>
@@ -264,7 +312,8 @@ export const Register = () => {
                                         </div>
                                     </div>
                                     {errors.semestre && (
-                                        <p className="text-red-500 text-sm mt-1.5 flex items-center gap-1"> {errors.semestre.message}
+                                        <p className="text-red-600 text-sm mt-1">
+                                            {errors.semestre.message}
                                         </p>
                                     )}
                                 </div>
@@ -279,13 +328,18 @@ export const Register = () => {
                                     <MdEmail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
                                     <input 
                                         type="email" 
-                                        placeholder="ingresa tu email" 
-                                        className="w-full pl-12 pr-4 py-3.5 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all text-gray-700"
+                                        placeholder="Ingresa tu email" 
+                                        className={`w-full pl-12 pr-4 py-3 rounded-lg border-2 transition-all duration-200 ${
+                                            errors.emailEstudiante 
+                                            ? 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-100' 
+                                            : 'border-gray-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-100'
+                                        }`}
                                         {...register("emailEstudiante", { required: "El correo electrónico es obligatorio"})}
                                     />
                                 </div>
                                 {errors.emailEstudiante && (
-                                    <p className="text-red-500 text-sm mt-1.5 flex items-center gap-1"> {errors.emailEstudiante.message}
+                                    <p className="text-red-600 text-sm mt-1">
+                                        {errors.emailEstudiante.message}
                                     </p>
                                 )}
                             </div>
@@ -300,7 +354,11 @@ export const Register = () => {
                                     <input
                                         type={showPassword ? "text" : "password"}
                                         placeholder="••••••••"
-                                        className="w-full pl-12 pr-12 py-3.5 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all text-gray-700"
+                                        className={`w-full pl-12 pr-12 py-3 rounded-lg border-2 transition-all duration-200 ${
+                                            errors.passwordEstudiante 
+                                            ? 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-100' 
+                                            : 'border-gray-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-100'
+                                        }`}
                                         {...register("passwordEstudiante", validacionPassword)}
                                     />
                                     <button
@@ -312,7 +370,8 @@ export const Register = () => {
                                     </button>
                                 </div>
                                 {errors.passwordEstudiante && (
-                                    <p className="text-red-500 text-sm mt-1.5 flex items-center gap-1">{errors.passwordEstudiante.message}
+                                    <p className="text-red-600 text-sm mt-1">
+                                        {errors.passwordEstudiante.message}
                                     </p>
                                 )}
                             </div>
@@ -320,20 +379,20 @@ export const Register = () => {
                             {/* Botón Submit */}
                             <button 
                                 type="submit"
-                                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-4 rounded-xl mt-6 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98]"
+                                className="w-full bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white font-semibold py-4 rounded-lg mt-6 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98]"
                             >
                                 Crear Cuenta
                             </button>
                         </form>
 
-                        <div className="mt-6 pt-6 border-t border-gray-200 text-center lg:hidden">
-                            <p className="text-gray-600 text-sm mb-3">¿Ya tienes una cuenta?</p>
-                            <Link 
-                                to="/login" 
-                                className="inline-block text-blue-600 font-semibold hover:text-blue-700 transition-colors"
-                            >
-                                Iniciar Sesión →
-                            </Link>
+                        {/* Link Login Mobile */}
+                        <div className="mt-6 text-center lg:hidden">
+                            <p className="text-sm text-gray-600">
+                                ¿Ya tienes cuenta?{' '}
+                                <Link to="/login" className="text-teal-600 hover:text-teal-700 font-semibold">
+                                    Iniciar Sesión
+                                </Link>
+                            </p>
                         </div>
                     </div>
                 </div>
