@@ -221,7 +221,7 @@ const CreateDeporte = ({ deporte }) => {
                             type="date"
                             className="block w-full rounded-lg border border-gray-300 py-2.5 px-4 text-gray-900
                                      focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            {...register("fechaFin", {required: "La fecha de fin es obligatoria"})}
+                            {...register("fechaFin", {required: "La fecha fin es obligatoria"})}
                         />
                         {errors.fechaFin && <p className="text-red-600 text-sm mt-1">{errors.fechaFin.message}</p>}
                     </div>

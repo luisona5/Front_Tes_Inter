@@ -30,55 +30,12 @@ const DashboardAdministrador = () => {
                             </span>
                         </Link>
                     </li>
-                    <div className='text-left'>
-                                <span className="flex items-center justify-start  px-3 py-2 text-xl  mt-2 w-full  text-red-500 gap-2 font-bold">
                     
-                                REGISTRO
-                            </span>      
-                        <li className="text-center">
-                        <Link 
-                            to='/dashboard/inscripciones/nuevo/director' 
-                            className={`
-                                ${urlActual === '/dashboard/inscripciones/nuevo/director' 
-                                    ? 'text-slate-200 px-3 py-2 rounded-md block mt-2 text-xl bg-gradient-to-r from-cyan-500 to-blue-500 shadow-lg' 
-                                    : 'text-slate-600 hover:text-slate-200 hover:bg-gray-800/30' 
-                                } 
-                                text-xl block mt-2 w-full transition-all duration-200
-                            `}
-                        >
-                            <span className="flex items-center justify-start gap-3 px-3 py-2">
-                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                                </svg>
-                                Director
-                            </span>
-                        </Link>
-                    </li>
-                    {/*Uniforme */}
-                    <li className="text-center">
-                        <Link 
-                            to='/dashboard/inscripciones/nuevo/estudiante/politecnico' 
-                            className={`
-                                ${urlActual === '/dashboard/inscripciones/nuevo/estudiante/politecnico' 
-                                    ? 'text-slate-200 px-3 py-2 rounded-md block mt-2 text-xl bg-gradient-to-r from-cyan-500 to-blue-500 shadow-lg' 
-                                    : 'text-slate-600 hover:text-slate-200 hover:bg-gray-800/30' 
-                                } 
-                                text-xl block mt-2 w-full transition-all duration-200
-                            `}
-                        >
-                            <span className="flex items-center justify-start gap-3 px-3 py-2">
-                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                                </svg>
-                                Estudiante
-                            </span>
-                        </Link>
-                    </li>
-                    </div>
+                    
 
                     <span className="flex items-center justify-start  px-3 py-2 text-xl  mt-2 w-full  text-red-500 gap-2 font-bold">
                     
-                                VISUALIZAR
+                                Usuarios
                             </span>  
                     {/*Visualizar */}
                     <li className="text-center">

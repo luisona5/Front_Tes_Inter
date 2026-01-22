@@ -1,15 +1,12 @@
-import { FaBasketballBall, FaVolleyballBall, FaTableTennis } from "react-icons/fa";
 import { Mail, Phone, Facebook, Instagram, Globe } from 'lucide-react';
 import esfot from '../../assets/esfot.png';
 import imagenGrupal from "../../assets/grupal.jpg"
 import { Link } from "react-router";
 import {Carrusel} from "../../components/carrusel/carrusel";
 import Cronograma from "./Cronograma";
+import { CardInformativo } from '../../components/CardInformativo/Cards';
 
 export const Home = () => {
-
-
-  
 
   return (
     
@@ -41,7 +38,7 @@ export const Home = () => {
               </a>
 
               <a href='#noticias' className="relative group text-white hover:text-orange-600 font-semibold text-sm px-5 py-2 transition-colors" >
-                noticias
+                Noticias
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-600 group-hover:w-full transition-all duration-300"></span>
               </a>
               
@@ -65,23 +62,25 @@ export const Home = () => {
 
         
       <body>
-        <div className="text-center mb-16">
-         <h2 className="font-extrabold text-4xl md:text-6xl tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-800 mb-4">
-  POLISPORT
-</h2>
-          
-           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-          No te quedes sin la oportunidad de participar en las diferentes disciplinas         
-           </p>
-        </div>
+        
 
         <section className="container mx-auto px-4 my-10">
           <div className="h-100 md:h-100 w-full">
             <Carrusel />
           </div>
         </section>
+
+        <div className="text-center mb-16">
+         <h2 className="font-extrabold text-4xl md:text-6xl tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-800 mb-4">
+          POLISPORT
+        </h2>
+          
+           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+          No te quedes sin la oportunidad de participar en las diferentes disciplinas         
+           </p>
+        </div>
+
         <section id='noticias' className="w-full flex justify-center py-10 bg-gray-50">
-        
         <Cronograma />
       </section>
 
@@ -96,92 +95,10 @@ export const Home = () => {
         </div>
 
        
-
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-    {/* Card Fútbol */}
-    <div className="group relative bg-gradient-to-br from-red-50 to-orange-50 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
-      <div className="absolute top-0 right-0 w-32 h-32 bg-amber-200/20 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500" />
-      
-      <div className="relative z-10">
-        <div className="bg-gradient-to-br from-amber-500 to-amber-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-          <FaVolleyballBall className="text-white text-3xl" />
+        <div>
+          <CardInformativo/>
         </div>
-        
-        <h4 className="text-2xl font-bold text-gray-800 mb-3">Fútbol</h4>
-        <p className="text-gray-600 leading-relaxed">
-          Participa en torneos inter-facultades y desarrolla tus habilidades futbolísticas
-        </p>
-        
-        <button className="mt-6 text-amber-600 font-semibold flex items-center gap-2 group-hover:gap-3 transition-all">
-          Ver más 
-          <span className="transform group-hover:translate-x-1 transition-transform">→</span>
-        </button>
-      </div>
-    </div>
-
-    {/* Card Basketball */}
-    <div className="group relative bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
-      <div className="absolute top-0 right-0 w-32 h-32 bg-orange-200/20 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500" />
-      
-      <div className="relative z-10">
-        <div className="bg-gradient-to-br from-orange-500 to-red-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-          <FaBasketballBall className="text-white text-3xl" />
-        </div>
-        
-        <h4 className="text-2xl font-bold text-gray-800 mb-3">Basketball</h4>
-        <p className="text-gray-600 leading-relaxed">
-          Únete a los equipos de basketball y compite en emocionantes partidos
-        </p>
-        
-        <button className="mt-6 text-orange-600 font-semibold flex items-center gap-2 group-hover:gap-3 transition-all">
-          Ver más 
-          <span className="transform group-hover:translate-x-1 transition-transform">→</span>
-        </button>
-      </div>
-    </div>
-
-    {/* Card Volleyball */}
-    <div className="group relative bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
-      <div className="absolute top-0 right-0 w-32 h-32 bg-blue-200/20 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500" />
-      
-      <div className="relative z-10">
-        <div className="bg-gradient-to-br from-blue-500 to-cyan-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-          <FaVolleyballBall className="text-white text-3xl" />
-        </div>
-        
-        <h4 className="text-2xl font-bold text-gray-800 mb-3">Volleyball</h4>
-        <p className="text-gray-600 leading-relaxed">
-          Forma parte de nuestros equipos de volleyball y demuestra tu talento
-        </p>
-        
-        <button className="mt-6 text-blue-600 font-semibold flex items-center gap-2 group-hover:gap-3 transition-all">
-          Ver más 
-          <span className="transform group-hover:translate-x-1 transition-transform">→</span>
-        </button>
-      </div>
-    </div>
-
-    {/* Card Tenis de Mesa */}
-    <div className="group relative bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
-      <div className="absolute top-0 right-0 w-32 h-32 bg-green-200/20 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500" />
-      
-      <div className="relative z-10">
-        <div className="bg-gradient-to-br from-green-500 to-emerald-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-          <FaTableTennis className="text-white text-3xl" />
-        </div>
-        
-        <h4 className="text-2xl font-bold text-gray-800 mb-3">Tenis de Mesa</h4>
-        <p className="text-gray-600 leading-relaxed">
-          Practica y compite en tenis de mesa con los mejores jugadores
-        </p>
-        
-        <button className="mt-6 text-green-600 font-semibold flex items-center gap-2 group-hover:gap-3 transition-all">
-          Ver más 
-          <span className="transform group-hover:translate-x-1 transition-transform">→</span>
-        </button>
-      </div>
-    </div>
-  </div>
+  
 </section>
 <section className="py-16 px-6 md:px-20 bg-gray-50">
   <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">

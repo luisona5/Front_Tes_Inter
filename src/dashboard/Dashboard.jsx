@@ -39,7 +39,16 @@ const Dashboard = () => {
                     <div className="bg-gray-800/50 rounded-xl p-4 mb-4 border border-gray-700/50 backdrop-blur-sm">
                         <div className="flex items-center justify-center gap-2 mb-3">
                             <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-lg shadow-green-500/50"></span>
-                            <p className="text-slate-300 text-sm font-medium">{user?.status}</p>
+                            <p className="text-slate-300 text-sm font-medium">
+
+                                <span className={`w-2 h-2 rounded-full animate-pulse shadow-lg ${
+                                    user?.status === 'Activo' ? 'bg-green-500 shadow-green-500/50' : 'bg-red-500 shadow-red-500/50'
+                                }`}></span>
+                                
+                                <p className="text-slate-300 text-sm font-medium">
+                                    {user?.status}
+                                </p>
+                            </p>
                         </div>
                         
                         <p className="text-white text-center font-semibold text-lg mb-2">

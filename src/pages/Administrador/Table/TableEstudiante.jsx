@@ -1,7 +1,7 @@
 import { MdInfo, MdUpdate } from "react-icons/md"
 import { useFetch } from "../../../hooks/useFetch"
 import { useEffect, useState } from "react"
-import { FileDown, Trash2, Search, Download } from "lucide-react"
+import { FileDown, Trash2, Search, Download, Power, PowerOff } from "lucide-react"
 import { Link, useNavigate } from "react-router"
 import { ToastContainer } from "react-toastify"
 import { BlobProvider, PDFDownloadLink } from "@react-pdf/renderer"
@@ -16,15 +16,58 @@ const TableEstudiante = () => {
     const navigate = useNavigate()
 
     const listEstudiante = async () => {
-        const url = `${import.meta.env.VITE_BACKEND_URL}/estudiante/visualizarEstudiantes`
-        
-        const storedUser = JSON.parse(localStorage.getItem("auth-token"))
-        const headers = {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${storedUser.state.token}`,
+        try {
+            const url = `${import.meta.env.VITE_BACKEND_URL}/estudiante/visualizarEstudiantes`
+            
+            const storedUser = JSON.parse(localStorage.getItem("auth-token"))
+            const headers = {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${storedUser.state.token}`,
+            }
+            const response = await fetchDataBackend(url, null, "GET", headers)
+            
+            if (Array.isArray(response)) {
+                setEstudiantes(response)
+            } else {
+                console.error("La respuesta no es un array:", response)
+                setEstudiantes([])
+            }
+        } catch (error) {
+            console.error("Error al cargar estudiantes:", error)
+            setEstudiantes([])
         }
-        const response = await fetchDataBackend(url, null, "GET", headers)
-        setEstudiantes(response)
+    }
+
+    const cambiarStatusEstudiante = async (id, nuevoStatus) => {
+        try {
+            const url = `${import.meta.env.VITE_BACKEND_URL}/estudiante/status/${id}`
+            const storedUser = JSON.parse(localStorage.getItem("auth-token"))
+            
+            const headers = {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${storedUser.state.token}`,
+            }
+            
+            const body = JSON.stringify({ status: nuevoStatus })
+            
+            const response = await fetchDataBackend(url, body, "PUT", headers)
+            
+            if (response) {
+                setEstudiantes(prevEstudiantes => 
+                    prevEstudiantes.map(estudiante => 
+                        estudiante._id === id 
+                            ? { ...estudiante, status: nuevoStatus }
+                            : estudiante
+                    )
+                )
+                
+                
+                await listEstudiante()
+            }
+        } catch (error) {
+            console.error("Error al cambiar status:", error)
+            
+        }
     }
 
     const deleteEstudiante = async(id) => {
@@ -52,35 +95,33 @@ const TableEstudiante = () => {
         listEstudiante()
     }, [])
 
-    const filteredEstudiantes = estudiantes.slice().sort((a, b) => {
-        const apellidoComparison = a.apellidoEstudiante.localeCompare(b.apellidoEstudiante, 'es', { sensitivity: 'base' });
+    const filteredEstudiantes = (estudiantes || []).slice().sort((a, b) => {
+        const apellidoComparison = (a.apellidoEstudiante || '').localeCompare((b.apellidoEstudiante || ''), 'es', { sensitivity: 'base' });
         if (apellidoComparison !== 0) {
             return apellidoComparison; 
         }
-        return a.nombreEstudiante.localeCompare(b.nombreEstudiante, 'es', { sensitivity: 'base' });
+        return (a.nombreEstudiante || '').localeCompare((b.nombreEstudiante || ''), 'es', { sensitivity: 'base' });
     }).filter(estudiante => {
         if (!busqueda) return true
         const buscar = busqueda.toLowerCase()
         return (
-            estudiante.nombreEstudiante.toLowerCase().includes(buscar) ||
-            estudiante.apellidoEstudiante.toLowerCase().includes(buscar) ||
-            estudiante.cedulaEstudiante.toLowerCase().includes(buscar) ||
-            estudiante.emailEstudiante.toLowerCase().includes(buscar)
+            (estudiante.nombreEstudiante || '').toLowerCase().includes(buscar) ||
+            (estudiante.apellidoEstudiante || '').toLowerCase().includes(buscar) ||
+            (estudiante.cedulaEstudiante || '').toLowerCase().includes(buscar) ||
+            (estudiante.emailEstudiante || '').toLowerCase().includes(buscar)
         )
     })
 
-   if (estudiantes.length === 0) {
+   if (!estudiantes || estudiantes.length === 0) {
         return (
             <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
                 <ToastContainer />
                 <div className="max-w-md w-full">
                     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center">
                         <div className="mb-6">
-                            
                             <h3 className="text-xl font-semibold text-gray-900 mb-2">
                                 No hay estudiantes Registrados
                             </h3>
-                           
                         </div>
                         
                         <Link to='/dashboard/inscripciones/Director/nuevo/estudiante/politecnico'>
@@ -129,8 +170,6 @@ const TableEstudiante = () => {
                         )}
                     </PDFDownloadLink>
                 </div>
-
-               
             </div>
 
             {/* Mensaje cuando no hay resultados */}
@@ -139,20 +178,18 @@ const TableEstudiante = () => {
                     <div className="flex items-center">
                         <div>
                             <p className="font-semibold text-yellow-800 text-lg">No se encontraron resultados</p>
-                            
                         </div>
                     </div>
                 </div>
             )}
-            <td className="px-4 py-3">
-                <div className="flex justify-center">
-                    <Link to='/dashboard/inscripciones/nuevo/estudiante/politecnico'>
-                        <button className="flex items-center gap-3 bg-blue-900 text-white px-6 py-4 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl font-medium transform hover:scale-105">
-                            Nuevo Estudiante
-                        </button>
-                    </Link>
-                </div>
-            </td>
+
+            <div className="mb-6 flex justify-center">
+                <Link to='/dashboard/inscripciones/nuevo/estudiante/politecnico'>
+                    <button className="flex items-center gap-3 bg-blue-900 text-white px-6 py-4 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl font-medium transform hover:scale-105">
+                        Nuevo Estudiante
+                    </button>
+                </Link>
+            </div>
 
             {/* Tabla mejorada */}
             <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
@@ -190,16 +227,23 @@ const TableEstudiante = () => {
                                     <td className="px-4 py-4 text-sm text-gray-600">
                                         {Estudiante.emailEstudiante}
                                     </td>
+
+                                    {/* Estado con botón toggle */}
                                     <td className="px-4 py-4 text-center">
-                                        <span 
-                                            className={`px-3 py-1.5 inline-flex text-xs font-semibold rounded-full
-                                            ${Estudiante.estadoEstudiante
-                                                ? 'bg-green-100 text-green-800 ring-1 ring-green-600' 
-                                                : 'bg-red-100 text-red-800 ring-1 ring-red-600'
-                                            }`}
-                                        >
-                                            {Estudiante.estadoEstudiante ? "Activo" : "Inactivo"}
-                                        </span>
+                                        <div className="flex flex-col items-center gap-2">
+                                            <span 
+                                                className={`px-3 py-1.5 inline-flex text-xs font-semibold rounded-full
+                                                ${Estudiante.status === 'Activo'
+                                                    ? 'bg-green-100 text-green-800 ring-1 ring-green-600' 
+                                                    : 'bg-red-100 text-red-800 ring-1 ring-red-600'
+                                                }`}
+                                            >
+                                                {Estudiante.status || 'Activo'}
+                                            </span>
+                                            
+                                            {/* Botón para cambiar status */}
+                                            
+                                        </div>
                                     </td>
 
                                     {/* Acciones con mejor diseño */}
@@ -231,11 +275,36 @@ const TableEstudiante = () => {
                                             >
                                                 <Trash2 className="h-5 w-5" /> 
                                             </button>
+
+                                            <button
+                                                onClick={() => cambiarStatusEstudiante(
+                                                    Estudiante._id, 
+                                                    Estudiante.status === 'Activo' ? 'Inactivo' : 'Activo'
+                                                )}
+                                                className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 shadow-sm hover:shadow-md
+                                                    ${Estudiante.status === 'Activo'
+                                                        ? 'bg-red-500 hover:bg-red-600 text-white'
+                                                        : 'bg-green-500 hover:bg-green-600 text-white'
+                                                    }`}
+                                                title={Estudiante.status === 'Activo' ? 'Desactivar' : 'Activar'}
+                                            >
+                                                {Estudiante.status === 'Activo' ? (
+                                                    <>
+                                                        <PowerOff className="h-3 w-3" />
+                                                        <span>Desactivar</span>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Power className="h-3 w-3" />
+                                                        <span>Activar</span>
+                                                    </>
+                                                )}
+                                            </button>
                                         </div>
                                     </td>
 
                                     {/* Botón PDF mejorado */}
-                                    <td className="px-4 py-3">
+                                    <td className="px-4 py-4">
                                         <div className="flex justify-center">
                                             <BlobProvider document={<SimpleEstudiantePDF data={Estudiante} />}>
                                                 {({ url, loading }) => (
@@ -244,8 +313,7 @@ const TableEstudiante = () => {
                                                         onClick={() => {
                                                             if (url) window.open(url, "_blank");
                                                         }}
-                                                        className="flex items-center gap-3 bg-blue-900 text-white px-6 py-4 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl font-medium transform hover:scale-105"
-
+                                                        className="flex items-center gap-2 bg-blue-900 text-white px-4 py-2 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl font-medium transform hover:scale-105 text-sm"
                                                     >
                                                         <FileDown className="h-4 w-4" />
                                                         <span>{loading ? "Generando..." : "Ver PDF"}</span>
@@ -254,6 +322,9 @@ const TableEstudiante = () => {
                                             </BlobProvider>
                                         </div>
                                     </td>
+
+
+                                    
                                 </tr>
                             ))}
                         </tbody>

@@ -1,9 +1,9 @@
 import { MdInfo, MdUpdate } from "react-icons/md"
 import { useFetch } from "../../../hooks/useFetch"
 import { useEffect, useState } from "react"
-import { FileDown, Trash2, Search, Download } from "lucide-react"
+import { FileDown, Trash2, Search, Download, Power, PowerOff } from "lucide-react"
 import { Link, useNavigate } from "react-router"
-import { ToastContainer } from "react-toastify"
+import { ToastContainer, toast } from "react-toastify"
 import SimpleDirectorPDF from "../pdf/ConversePDF"
 import { BlobProvider, PDFDownloadLink } from "@react-pdf/renderer"
 import DirectoresTablePDF from "../pdf/TableDirectores"
@@ -12,6 +12,7 @@ const TableDirector = () => {
     const fetchDataBackend = useFetch()
     const [directores, setDirectores] = useState([])
     const [busqueda, setBusqueda] = useState('')
+    const [loadingStatus, setLoadingStatus] = useState({})
     
     const navigate = useNavigate()
 
@@ -25,6 +26,43 @@ const TableDirector = () => {
         }
         const response = await fetchDataBackend(url, null, "GET", headers)
         setDirectores(response)
+    }
+
+    // Nueva función para cambiar el status
+    const cambiarStatusDirector = async (id, nuevoStatus) => {
+        setLoadingStatus(prev => ({ ...prev, [id]: true }))
+        
+        try {
+            const url = `${import.meta.env.VITE_BACKEND_URL}/admin/director/status/${id}`
+            const storedUser = JSON.parse(localStorage.getItem("auth-token"))
+            
+            const headers = {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${storedUser.state.token}`,
+            }
+            
+            const body = JSON.stringify({ status: nuevoStatus })
+            
+            const response = await fetchDataBackend(url, body, "PUT", headers)
+            
+            if (response) {
+                // Actualizar el estado local
+                setDirectores(prevDirectores => 
+                    prevDirectores.map(director => 
+                        director._id === id 
+                            ? { ...director, status: nuevoStatus }
+                            : director
+                    )
+                )
+                
+                await listDirector()
+            }
+        } catch (error) {
+            console.error("Error al cambiar status:", error)
+            
+        } finally {
+            setLoadingStatus(prev => ({ ...prev, [id]: false }))
+        }
     }
 
     const deleteDirector = async(id) => {
@@ -41,7 +79,6 @@ const TableDirector = () => {
                 const body = JSON.stringify({ estadoDirector: false });
                 await fetchDataBackend(url, body, "DELETE", options);
                 setDirectores((prevDirectores) => prevDirectores.filter(director => director._id !== id))
-                listDirector(); 
             } catch (error) {
                 console.error("Error al deshabilitar director.", error);
             }
@@ -65,7 +102,9 @@ const TableDirector = () => {
             director.nombreDirector.toLowerCase().includes(buscar) ||
             director.apellidoDirector.toLowerCase().includes(buscar) ||
             director.cedulaDirector.toLowerCase().includes(buscar) ||
-            director.emailDirector.toLowerCase().includes(buscar)
+            director.emailDirector.toLowerCase().includes(buscar)||
+            director.status.toLowerCase().includes(buscar)
+
         )
     })
 
@@ -76,11 +115,9 @@ const TableDirector = () => {
                 <div className="max-w-md w-full">
                     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center">
                         <div className="mb-6">
-                            
                             <h3 className="text-xl font-semibold text-gray-900 mb-2">
                                 No hay Directores Registrados
                             </h3>
-                           
                         </div>
                         
                         <Link to='/dashboard/inscripciones/nuevo/director'>
@@ -129,8 +166,6 @@ const TableDirector = () => {
                         )}
                     </PDFDownloadLink>
                 </div>
-
-               
             </div>
 
             {/* Mensaje cuando no hay resultados */}
@@ -139,21 +174,18 @@ const TableDirector = () => {
                     <div className="flex items-center">
                         <div>
                             <p className="font-semibold text-yellow-800 text-lg">No se encontraron resultados</p>
-                            
                         </div>
                     </div>
                 </div>
             )}
 
-            <td className="px-4 py-3">
-                <div className="flex justify-center">
-                    <Link to='/dashboard/inscripciones/nuevo/director'>
-                        <button className="flex items-center gap-3 bg-blue-900 text-white px-6 py-4 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl font-medium transform hover:scale-105">
-                            Nuevo director
-                        </button>
-                    </Link>
-                </div>
-            </td>
+            <div className="mb-6 flex justify-center">
+                <Link to='/dashboard/inscripciones/nuevo/director'>
+                    <button className="flex items-center gap-3 bg-blue-900 text-white px-6 py-4 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl font-medium transform hover:scale-105">
+                        Nuevo director
+                    </button>
+                </Link>
+            </div>
 
             {/* Tabla mejorada */}
             <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
@@ -191,16 +223,22 @@ const TableDirector = () => {
                                     <td className="px-4 py-4 text-sm text-gray-600">
                                         {Director.emailDirector}
                                     </td>
+                                    
+                                    {/* Estado con botón toggle */}
                                     <td className="px-4 py-4 text-center">
-                                        <span 
-                                            className={`px-3 py-1.5 inline-flex text-xs font-semibold rounded-full
-                                            ${Director.estadoDirector 
-                                                ? 'bg-green-100 text-green-800 ring-1 ring-green-600' 
-                                                : 'bg-red-100 text-red-800 ring-1 ring-red-600'
-                                            }`}
-                                        >
-                                            {Director.estadoDirector ? "Activo" : "Inactivo"}
-                                        </span>
+                                        <div className="flex flex-col items-center gap-2">
+                                            <span 
+                                                className={`px-3 py-1.5 inline-flex text-xs font-semibold rounded-full
+                                                ${Director.status === 'Activo'
+                                                    ? 'bg-green-100 text-green-800 ring-1 ring-green-600' 
+                                                    : 'bg-red-100 text-red-800 ring-1 ring-red-600'
+                                                }`}
+                                            >
+                                                {Director.status || 'Activo'}
+                                            </span>
+                                            
+                                            
+                                        </div>
                                     </td>
 
                                     {/* Acciones con mejor diseño */}
@@ -232,11 +270,45 @@ const TableDirector = () => {
                                             >
                                                 <Trash2 className="h-5 w-5" /> 
                                             </button>
+
+                                            <button
+                                                onClick={() => cambiarStatusDirector(
+                                                    Director._id, 
+                                                    Director.status === 'Activo' ? 'Inactivo' : 'Activo'
+                                                )}
+                                                disabled={loadingStatus[Director._id]}
+                                                className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 shadow-sm hover:shadow-md
+                                                    ${Director.status === 'Activo'
+                                                        ? 'bg-red-500 hover:bg-red-600 text-white'
+                                                        : 'bg-green-500 hover:bg-green-600 text-white'
+                                                    }
+                                                    ${loadingStatus[Director._id] ? 'opacity-50 cursor-not-allowed' : ''}
+                                                `}
+                                                title={Director.status === 'Activo' ? 'Desactivar' : 'Activar'}
+                                            >
+                                                {loadingStatus[Director._id] ? (
+                                                    <span>Procesando...</span>
+                                                ) : (
+                                                    <>
+                                                        {Director.status === 'Activo' ? (
+                                                            <>
+                                                                <PowerOff className="h-3 w-3" />
+                                                                <span>Desactivar</span>
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <Power className="h-3 w-3" />
+                                                                <span>Activar</span>
+                                                            </>
+                                                        )}
+                                                    </>
+                                                )}
+                                            </button>
                                         </div>
                                     </td>
 
                                     {/* Botón PDF mejorado */}
-                                    <td className="px-4 py-3">
+                                    <td className="px-4 py-4">
                                         <div className="flex justify-center">
                                             <BlobProvider document={<SimpleDirectorPDF data={Director} />}>
                                                 {({ url, loading }) => (
@@ -245,8 +317,7 @@ const TableDirector = () => {
                                                         onClick={() => {
                                                             if (url) window.open(url, "_blank");
                                                         }}
-                                                        className="flex items-center gap-3 bg-blue-900 text-white px-6 py-4 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl font-medium transform hover:scale-105"
-
+                                                        className="flex items-center gap-2 bg-blue-900 text-white px-4 py-2 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl font-medium transform hover:scale-105 text-sm"
                                                     >
                                                         <FileDown className="h-4 w-4" />
                                                         <span>{loading ? "Generando..." : "Ver PDF"}</span>
