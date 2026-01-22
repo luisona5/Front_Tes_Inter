@@ -137,7 +137,7 @@ const NuevoEstudiante = ({estudiante}) => {
                             <label className="flex items-center cursor-pointer">
                                 <input 
                                     type="radio" 
-                                    value="masculino" 
+                                    value="Masculino" 
                                     className="mr-2"
                                     {...register("genero", { required: "El género es obligatorio" })}
 
@@ -148,7 +148,7 @@ const NuevoEstudiante = ({estudiante}) => {
                             <label className="flex items-center cursor-pointer">
                                 <input 
                                     type="radio" 
-                                    value="femenino" 
+                                    value="Femenino" 
                                     className="mr-2"
                                     {...register("genero", { required: "El género es obligatorio" })}
                                 />
