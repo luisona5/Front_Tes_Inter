@@ -57,35 +57,24 @@ const Cronograma = () => {
         return new Date(d.year, d.month - 1, d.day, d.hour, d.minute, d.second);
     };
 
-    // Verificar si la fecha ya pasó (comparando con zona horaria Ecuador)
     const esFechaPasada = (fechaFinStr, horaFinStr) => {
         if (!fechaFinStr) return false;
         
         try {
-            // Obtener fecha actual de Ecuador
             const ahoraEcuador = obtenerFechaEcuador();
             
-            // Parsear la fecha que viene del backend (formato YYYY-MM-DD)
             const fechaParts = fechaFinStr.split('T')[0].split('-');
             const [year, month, day] = fechaParts.map(Number);
             
-            // Crear fecha en zona horaria de Ecuador
             const fechaFin = new Date(year, month - 1, day);
             
-            // Si tenemos hora de fin, la usamos
             if (horaFinStr) {
                 const [hora, minutos] = horaFinStr.split(':').map(Number);
                 fechaFin.setHours(hora, minutos, 59, 999);
             } else {
-                // Si no hay hora, asumimos final del día
                 fechaFin.setHours(23, 59, 59, 999);
             }
-            
-            console.log('Ahora Ecuador:', ahoraEcuador);
-            console.log('Fecha Fin:', fechaFin);
-            console.log('¿Expirado?:', ahoraEcuador > fechaFin);
-            
-            // Comparar fechas
+           
             return ahoraEcuador > fechaFin;
         } catch (error) {
             console.error('Error al verificar fecha:', error);
