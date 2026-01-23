@@ -67,7 +67,6 @@ const PanelDirector = () => {
                 "Authorization": `Bearer ${token}`
             };
             
-            console.log('📤 Enviando petición...');
             const response = await fetch(url, { headers });
             
             console.log('📥 Respuesta recibida:', {
@@ -177,7 +176,7 @@ const PanelDirector = () => {
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-blue-500/20 via-transparent to-transparent rounded-2xl"></div>
                 <div className="relative text-center">
                     <h1 className="text-white text-4xl font-black uppercase tracking-tighter leading-none mb-2">
-                        Panel de Administración
+                        Panel de Director de Evento
                     </h1>
                     <p className="text-blue-200 text-base font-medium">
                         Gestión completa del sistema deportivo
