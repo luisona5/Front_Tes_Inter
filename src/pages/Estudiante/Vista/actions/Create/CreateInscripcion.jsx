@@ -220,7 +220,7 @@ const InscripcionDeportiva = () => {
                                         <option value="Excelente">Excelente</option>
                                         <option value="Bueno">Bueno</option>
                                         <option value="Regular">Regular</option>
-                                        <option value="Delicado">Delicado/a</option>
+                                        <option value="Delicado/a">Delicado/a</option>
                                     </select>
                                     {errors.informacionMedica?.estadoSalud && (
                                     <p className="text-red-500 text-sm mt-1">{errors.informacionMedica?.estadoSalud.message}</p>
