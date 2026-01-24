@@ -357,12 +357,12 @@ const SimpleInscripcionPDF = ({ data }) => {
     <Text style={styles.value}>
       {data.aprobacion?.fechaAprobacion
         ? new Date(data.aprobacion.fechaAprobacion).toLocaleDateString('es-EC', {
+            timeZone: 'America/Guayaquil',
             year: 'numeric',
             month: 'long',
             day: 'numeric',
             hour: '2-digit',
-            minute: '2-digit',
-            timeZone: 'UTC'
+            minute: '2-digit'
           })
                 : "N/A"}
             </Text>
