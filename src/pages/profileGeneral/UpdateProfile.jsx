@@ -1,4 +1,4 @@
-import FormProfileEstudiante from '../Estudiante/Vista/actions/Update/FormProfileEstudiante';
+import FormProfileEstudiante from '../Estudiante/Vista/actions/Update/UpdateProfile';
 import FormProfileAdministrador from '../Administrador/FormProfileAdministrador';
 import FormProfileDirector from '../../pages/Director/Vista/actions/Update/UpdateProfile';
 import storeProfile from '../../context/storeProfile'

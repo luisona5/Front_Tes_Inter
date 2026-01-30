@@ -8,13 +8,14 @@ import {  UserRoundCog} from 'lucide-react';
 const FormularioPerfilEstudiante = () => {
 
     const { user, updateProfile } = storeProfile()
-    const { register, handleSubmit, reset, formState: { errors } = {} } = useForm() 
+    const { register, handleSubmit,  formState: { errors } = {},reset } = useForm() 
 
-    const updateUser = (dataForm) => {
+    const UpdateEstudiante = (dataForm) => {
         const url = `${import.meta.env.VITE_BACKEND_URL}/actualizarperfilEstudiante/${user._id}`
         updateProfile(url, dataForm)
     }
 
+    
     useEffect(() => {
         if (user) {
             reset({
@@ -31,7 +32,7 @@ const FormularioPerfilEstudiante = () => {
         <div className="max-w-xl mx-auto"> 
             <ToastContainer />
             
-            <form onSubmit={handleSubmit(updateUser)} 
+            <form onSubmit={handleSubmit(UpdateEstudiante)} 
                   className="bg-gradient-to-br from-white to-slate-50 border border-slate-200 rounded-2xl shadow-2xl p-8 w-full 
                              hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] transition-all duration-300">
                 
@@ -41,7 +42,7 @@ const FormularioPerfilEstudiante = () => {
                         <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-slate-500 to-slate-400 flex items-center justify-center shadow-lg">
                             <UserRoundCog size={24} className="text-white" strokeWidth={2.5} />
                             </div>
-                        <h1 className="font-bold text-2xl text-slate-800">Actualizar Informacion</h1>
+                        <h1 className="font-bold text-2xl text-slate-800">Actualizar Información</h1>
                     </div>
                 </div>
                 

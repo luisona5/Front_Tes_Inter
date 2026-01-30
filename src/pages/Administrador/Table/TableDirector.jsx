@@ -1,9 +1,9 @@
 import { MdInfo, MdUpdate } from "react-icons/md"
 import { useFetch } from "../../../hooks/useFetch"
 import { useEffect, useState } from "react"
-import { FileDown, Trash2, Search, Download, Power, PowerOff } from "lucide-react"
+import { FileDown, Search, Download, Power, PowerOff } from "lucide-react"
 import { Link, useNavigate } from "react-router"
-import { ToastContainer, toast } from "react-toastify"
+import { ToastContainer,  } from "react-toastify"
 import SimpleDirectorPDF from "../pdf/ConversePDF"
 import { BlobProvider, PDFDownloadLink } from "@react-pdf/renderer"
 import DirectoresTablePDF from "../pdf/TableDirectores"
@@ -65,25 +65,7 @@ const TableDirector = () => {
         }
     }
 
-    const deleteDirector = async(id) => {
-        const confirmDelete = confirm("Advertencia: Esta acción se eliminara de manera permanente. ¿Deseas continuar?");
-        
-        if (confirmDelete) {
-            try {
-                const url = `${import.meta.env.VITE_BACKEND_URL}/directordeEvento/eliminar/${id}` 
-                const storedUser = JSON.parse(localStorage.getItem("auth-token"))
-                const options = {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${storedUser.state.token}`,
-                }
-                const body = JSON.stringify({ estadoDirector: false });
-                await fetchDataBackend(url, body, "DELETE", options);
-                setDirectores((prevDirectores) => prevDirectores.filter(director => director._id !== id))
-            } catch (error) {
-                console.error("Error al deshabilitar director.", error);
-            }
-        }
-    };
+   
 
     useEffect(() => {
         listDirector()
@@ -262,14 +244,7 @@ const TableDirector = () => {
                                                 <MdUpdate className="h-5 w-5" />                                
                                             </button>
 
-                                            <button 
-                                                onClick={() => deleteDirector(Director._id)}
-                                                className="p-2 text-red-600 hover:text-white hover:bg-red-600 
-                                                         rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
-                                                title="Eliminar"
-                                            >
-                                                <Trash2 className="h-5 w-5" /> 
-                                            </button>
+                                           
 
                                             <button
                                                 onClick={() => cambiarStatusDirector(

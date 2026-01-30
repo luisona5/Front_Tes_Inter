@@ -140,8 +140,7 @@ const RegistroUniforme = () => {
                         className="bg-indigo-600 text-white font-semibold py-3 w-full rounded-xl mt-5 
                         hover:scale-[1.02] duration-300 hover:bg-indigo-700 shadow-md flex items-center justify-center gap-2"
                     >
-                        <ShirtIcon className="w-5 h-5" />
-                        Confirmar y Registrar Uniforme
+                         Registrar Uniforme
                     </button>
                 </div>
             </form>

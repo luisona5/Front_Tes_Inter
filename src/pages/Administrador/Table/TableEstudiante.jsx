@@ -1,7 +1,7 @@
 import { MdInfo, MdUpdate } from "react-icons/md"
 import { useFetch } from "../../../hooks/useFetch"
 import { useEffect, useState } from "react"
-import { FileDown, Trash2, Search, Download, Power, PowerOff } from "lucide-react"
+import { FileDown, Search, Download, Power, PowerOff } from "lucide-react"
 import { Link, useNavigate } from "react-router"
 import { ToastContainer } from "react-toastify"
 import { BlobProvider, PDFDownloadLink } from "@react-pdf/renderer"
@@ -70,26 +70,7 @@ const TableEstudiante = () => {
         }
     }
 
-    const deleteEstudiante = async(id) => {
-        const confirmDelete = confirm("Advertencia: Esta acción se eliminara de manera permanente. ¿Deseas continuar?");
-        
-        if (confirmDelete) {
-            try {
-                const url = `${import.meta.env.VITE_BACKEND_URL}/estudiante/eliminar/${id}` 
-                const storedUser = JSON.parse(localStorage.getItem("auth-token"))
-                const options = {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${storedUser.state.token}`,
-                }
-                const body = JSON.stringify({ estadoEstudiante: false });
-                await fetchDataBackend(url, body, "DELETE", options);
-                setEstudiantes((prevEstudiantes) => prevEstudiantes.filter(estudiante => estudiante._id !== id))
-                listEstudiante(); 
-            } catch (error) {
-                console.error("Error al deshabilitar estudiante.", error);
-            }
-        }
-    };
+    
 
     useEffect(() => {
         listEstudiante()
@@ -267,14 +248,7 @@ const TableEstudiante = () => {
                                                 <MdUpdate className="h-5 w-5" />                                
                                             </button>
 
-                                            <button 
-                                                onClick={() => deleteEstudiante(Estudiante._id)}
-                                                className="p-2 text-red-600 hover:text-white hover:bg-red-600 
-                                                         rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
-                                                title="Eliminar"
-                                            >
-                                                <Trash2 className="h-5 w-5" /> 
-                                            </button>
+                                           
 
                                             <button
                                                 onClick={() => cambiarStatusEstudiante(
