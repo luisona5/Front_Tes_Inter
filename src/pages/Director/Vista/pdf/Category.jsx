@@ -207,7 +207,7 @@ const SimpleCategoryPDF = ({ data }) => {
             <Text style={styles.headerTitle}>ESCUELA POLITÉCNICA NACIONAL</Text>
             <Text style={styles.headerTitle}>Escuela de Formación de Tecnólogos</Text>
             <Text style={styles.headerTitle}>ESFOT</Text>
-            <Text style={styles.subtitle}>Informe Detallado de la Categoria</Text>
+            <Text style={styles.subtitle}>Informe Detallado de la Categoría</Text>
           </View>
           
           <Image style={styles.logoRight} src={logoESFOT} />
@@ -217,7 +217,7 @@ const SimpleCategoryPDF = ({ data }) => {
         <Text style={styles.title}>Polisport</Text>
 
         {/* INFORMACIÓN GENERAL */}
-        <Text style={styles.sectionTitle}>Información de la Categoria</Text>
+        <Text style={styles.sectionTitle}>Información de la Categoría</Text>
         <View style={styles.sectionBox}>
           <View style={styles.row}>
             <Text style={styles.label}>nombre:</Text>
