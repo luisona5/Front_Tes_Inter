@@ -155,17 +155,7 @@ const PanelEstudiante = () => {
                                         )}
                                     </div>
 
-                                    <button 
-                                        onClick={() => !expirado && navigate("/login")}
-                                        disabled={expirado}
-                                        className={`ml-4 px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-wider transition-all shadow-md ${
-                                            expirado 
-                                            ? 'bg-gray-300 text-white cursor-not-allowed shadow-none' 
-                                            : 'bg-blue-600 text-white hover:bg-black active:scale-95 shadow-blue-200'
-                                        }`}
-                                    >
-                                        {expirado ? 'Cerrado' : 'Registrarse >'}
-                                    </button>
+                                    
                                 </div>
                             </div>
                         );

@@ -24,7 +24,7 @@ const InscripcionDeportiva = () => {
         
         if (response) {
             setTimeout(() => {
-                navigate("/dashboard/inscripciones/visualizar/inscripcion-estudiante")
+                navigate("/dashboard/estudiante/inscripcionesGenerales")
                 reset()
             }, 4000)
         }

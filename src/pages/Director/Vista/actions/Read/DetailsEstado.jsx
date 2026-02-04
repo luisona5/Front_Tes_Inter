@@ -17,9 +17,32 @@ const DetailsInscripctionEstadoGeneral = () => {
     const [comentarios, setComentarios] = useState('')
     const [motivo, setMotivo] = useState('')
     const [procesando, setProcesando] = useState(false)
+    const [uniforme, setUniforme] = useState(null)
+    const [loadingUniforme, setLoadingUniforme] = useState(false)
 
     
     const fetchDataBackend = useFetch()
+    
+    const obtenerUniforme = async () => {
+        try {
+            setLoadingUniforme(true)
+            const url = `${import.meta.env.VITE_BACKEND_URL}/uniforme/inscripcion/${id}`
+            const storedUser = JSON.parse(localStorage.getItem("auth-token"))
+            const headers = {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${storedUser.state.token}`
+            }
+            const response = await fetchDataBackend(url, null, "GET", headers)
+            console.log('Uniforme:', response)
+            
+            setUniforme(response || null)
+        } catch (error) {
+            console.error("Error al cargar uniforme:", error)
+            setUniforme(null)
+        } finally {
+            setLoadingUniforme(false)
+        }
+    }
     
     useEffect(() => {
         const detalleInscripcion = async () => {
@@ -34,6 +57,10 @@ const DetailsInscripctionEstadoGeneral = () => {
                 const response = await fetchDataBackend(url, null, "GET", headers)
                 console.log('Inscripción:', response)
                 setInscripcion(response)
+                
+                if (response.estado === 'Aprobada') {
+                    obtenerUniforme()
+                }
             } catch (error) {
                 console.error("Error al cargar inscripción:", error)
             } finally {
@@ -41,7 +68,7 @@ const DetailsInscripctionEstadoGeneral = () => {
             }
         }
         detalleInscripcion()
-    }, [])
+    }, [id])
 
     const handleAprobar = async () => {
         try {
@@ -69,7 +96,7 @@ const DetailsInscripctionEstadoGeneral = () => {
                     }
                 }))
                 
-                setModalOpen(false)
+                 await obtenerUniforme()
                 
                 setTimeout(() => {
                     navigate("/dashboard/estados-de-inscripciones/visualizar/estudiantes")
@@ -115,6 +142,7 @@ const DetailsInscripctionEstadoGeneral = () => {
                 }))
                 
                 setModalOpen(false)
+                toast.success("Inscripción rechazada")
                 
                 setTimeout(() => {
                     navigate("/dashboard/estados-de-inscripciones/visualizar/estudiantes")
@@ -368,6 +396,71 @@ const DetailsInscripctionEstadoGeneral = () => {
                                         </p>
                                     </div>
                                 </div>
+                            </div>
+                        )}
+
+                        {/* Información del Uniforme */}
+                        {inscripcion?.estado === 'Aprobada' && (
+                            <div className="bg-white border border-gray-200 rounded-lg p-6">
+                                <div className="flex items-center gap-2 mb-4 pb-3 border-b border-gray-200">
+                                    <FileText className="w-5 h-5 text-gray-600" />
+                                    <h2 className="text-lg font-semibold text-gray-900">Uniforme Solicitado</h2>
+                                </div>
+                                
+                                {loadingUniforme ? (
+                                    <div className="text-center py-4">
+                                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
+                                        <p className="text-sm text-gray-500">Cargando información del uniforme...</p>
+                                    </div>
+                                ) : uniforme ? (
+                                    <div className="grid md:grid-cols-2 gap-4">
+                                        <div>
+                                            <p className="text-xs text-gray-500 mb-1">Nombre del Uniforme</p>
+                                            <p className="text-sm text-gray-900 font-medium">{uniforme.nombre}</p>
+                                        </div>
+                                        
+                                        <div>
+                                            <p className="text-xs text-gray-500 mb-1">Talla</p>
+                                            <p className="text-sm text-gray-900 font-medium">{uniforme.talla}</p>
+                                        </div>
+                                        
+                                        <div>
+                                            <p className="text-xs text-gray-500 mb-1">Deporte</p>
+                                            <p className="text-sm text-gray-900 font-medium">{uniforme.deporte?.nombre || 'N/A'}</p>
+                                        </div>
+                                        
+                                        <div>
+                                            <p className="text-xs text-gray-500 mb-1">Precio</p>
+                                            <p className="text-sm text-gray-900 font-medium">${uniforme.precioUniforme}</p>
+                                        </div>
+                                        
+                                        <div className="md:col-span-2">
+                                            <p className="text-xs text-gray-500 mb-1">Detalle</p>
+                                            <p className="text-sm text-gray-900 font-medium">{uniforme.detalle}</p>
+                                        </div>
+
+                                        {uniforme.createdAt && (
+                                            <div className="md:col-span-2">
+                                                <p className="text-xs text-gray-500 mb-1">Fecha de Solicitud</p>
+                                                <p className="text-sm text-gray-900 font-medium">
+                                                    {new Date(uniforme.createdAt).toLocaleDateString('es-EC', {
+                                                        year: 'numeric',
+                                                        month: 'long',
+                                                        day: 'numeric',
+                                                        hour: '2-digit',
+                                                        minute: '2-digit'
+                                                    })}
+                                                </p>
+                                            </div>
+                                        )}
+                                    </div>
+                                ) : (
+                                    <div className="text-center py-6 bg-gray-50 rounded-lg border border-gray-200">
+                                        <FileText className="w-12 h-12 text-gray-400 mx-auto mb-2" />
+                                        <p className="text-sm text-gray-600 font-medium">No se ha solicitado uniforme</p>
+                                        <p className="text-xs text-gray-500 mt-1">El estudiante aún no ha realizado la solicitud de uniforme para esta inscripción</p>
+                                    </div>
+                                )}
                             </div>
                         )}
                    

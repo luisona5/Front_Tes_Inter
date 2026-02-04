@@ -72,6 +72,11 @@ const TablaInscripcion = () => {
         )
     })
 
+    const categoriasConUniforme = filteredCategorias.filter((category) =>
+        category.uniformeRegistrado &&
+        (category.uniformeRegistrado.nombre || category.uniformeRegistrado.talla)
+    )
+
     if (categories.length === 0) {
         return (
             <div className="p-6 text-center">
@@ -105,7 +110,7 @@ const TablaInscripcion = () => {
 
                     {/* Botón de descarga mejorado */}
                     <PDFDownloadLink
-                        document={<TableInscripcionPDF inscripcion={filteredCategorias} />}
+                        document={<TableInscripcionPDF inscripcion={categoriasConUniforme} />}
                         fileName={`estudiantes${new Date().toISOString().split('T')[0]}.pdf`}
                         className="flex items-center gap-3 bg-blue-900 text-white px-6 py-3.5 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl font-medium transform hover:scale-105"
                     >

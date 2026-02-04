@@ -257,10 +257,12 @@ const SimpleInscripcionPDF = ({ data }) => {
           <View style={styles.row}>
             <Text style={styles.label}>Fecha de Inscripción:</Text>
             {new Date(data.fechaInscripcion).toLocaleDateString('es-EC', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                  timeZone:'UTC'
+            timeZone: 'America/Guayaquil',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
                 })}          </View>
 
 
@@ -314,20 +316,29 @@ const SimpleInscripcionPDF = ({ data }) => {
         <Text style={styles.sectionTitle}>Uniforme</Text>
         <View style={styles.sectionBox}>
 
-          <View style={styles.row}>
-            <Text style={styles.label}>Nombre a llevar:</Text>
-            <Text style={styles.value}>{data.uniformeRegistrado?.nombre || "N/A"}</Text>
-          </View>
+         {data.uniformeRegistrado ? (
+            <>
+              <View style={styles.row}>
+                <Text style={styles.label}>Nombre a llevar:</Text>
+                <Text style={styles.value}>{data.uniformeRegistrado?.nombre || "N/A"}</Text>
+              </View>
 
-          <View style={styles.row}>
-            <Text style={styles.label}>Talla:</Text>
-            <Text style={styles.value}>{data.uniformeRegistrado?.talla || "N/A"}</Text>
-          </View>
+              <View style={styles.row}>
+                <Text style={styles.label}>Talla:</Text>
+                <Text style={styles.value}>{data.uniformeRegistrado?.talla || "N/A"}</Text>
+              </View>
 
-          <View style={styles.row}>
-            <Text style={styles.label}>Precio:</Text>
-            <Text style={styles.value}>{data.deporte?.precioUniforme || "N/A"}</Text>
-          </View>
+              <View style={styles.row}>
+                <Text style={styles.label}>Precio:</Text>
+                <Text style={styles.value}>{data.deporte?.precioUniforme || "N/A"}</Text>
+              </View>
+            </>
+          ) : (
+            <View style={styles.row}>
+              <Text style={styles.label}>Estado:</Text>
+              <Text style={styles.value}>Sin registro de uniforme</Text>
+            </View>
+          )}
 
         </View>
         
