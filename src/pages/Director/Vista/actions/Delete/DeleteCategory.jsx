@@ -146,7 +146,7 @@ const TablaCategoria = () => {
                 <div className="flex justify-center">
                     <Link to='/dashboard/Director/inscripciones/nuevo/categorias'>
                         <button className="flex items-center gap-3 bg-blue-900 text-white px-6 py-4 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl font-medium transform hover:scale-105">
-                            Nueva Categoria
+                            Nueva Categoría
                         </button>
                     </Link>
                 </div>
@@ -161,7 +161,7 @@ const TablaCategoria = () => {
                             <tr>
                                 <th className="px-4 py-4 text-left text-xs font-bold uppercase tracking-wider">N°</th>
                                 <th className="px-4 py-4 text-left text-xs font-bold uppercase tracking-wider">Nombre</th>
-                                <th className="px-4 py-4 text-left text-xs font-bold uppercase tracking-wider">Descripcion</th>
+                                <th className="px-4 py-4 text-left text-xs font-bold uppercase tracking-wider">Descripción</th>
                                 <th className="px-4 py-4 text-left text-xs font-bold uppercase tracking-wider">Estado</th>
 
                                 <th className="px-4 py-4 text-center text-xs font-bold uppercase tracking-wider">Acciones</th>
