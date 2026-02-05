@@ -142,7 +142,6 @@ const DetailsInscripctionEstadoGeneral = () => {
                 }))
                 
                 setModalOpen(false)
-                toast.success("Inscripción rechazada")
                 
                 setTimeout(() => {
                     navigate("/dashboard/estados-de-inscripciones/visualizar/estudiantes")
