@@ -6,6 +6,7 @@ import {  useNavigate } from "react-router"
 import { ToastContainer } from "react-toastify"
 import { BlobProvider, PDFDownloadLink } from "@react-pdf/renderer"
 import SimpleCategoryPDF from "../../../../pages/Estudiante/pdf/Inscripcion"
+import TableInscripcionPDF from "../../Vista/pdf/TableInscripcions"
 
 
 
@@ -92,8 +93,8 @@ const TablaEstadoEstudiante = () => {
 
                     {/* Botón de descarga mejorado */}
                     <PDFDownloadLink
-                        document={<SimpleCategoryPDF categories={filteredEstado} />}
-                        fileName={`estudiantes${new Date().toISOString().split('T')[0]}.pdf`}
+                        document={<TableInscripcionPDF inscriptions={filteredEstado} />}
+                        fileName={`Inscripciones${new Date().toISOString().split('T')[0]}.pdf`}
                         className="flex items-center gap-3 bg-blue-900 text-white px-6 py-3.5 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl font-medium transform hover:scale-105"
                     >
                         {({ loading }) => (
