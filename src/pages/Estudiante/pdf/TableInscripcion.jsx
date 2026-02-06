@@ -71,7 +71,6 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
   },
   
-  // TÍTULO PRINCIPAL
   title: {
     fontSize: 18,
     fontWeight: "bold",
@@ -127,23 +126,18 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   
-  col1: { width: "5%" },    
-  col2: { width: "15%" },  
-  col3: { width: "15%" },   
-  col4: { width: "25%" },   
-  col5: { width: "20%" },   
-  col6: { width: "12%" },   
-  col7: { width: "10%" },    
-  col8: { width: "14%" },  
-   
-  
+  col1: { width: "8%" },    // N°
+  col2: { width: "23%" },   // Nombre
+  col3: { width: "23%" },   // Apellido
+  col4: { width: "28%" },   // Deporte
+  col5: { width: "18%" },   // Estado
   
   textWrap: {
-    fontSize: 8,
+    fontSize: 9,
     lineHeight: 1.3,
   },
   
-  statusActive: {
+  statusAprobada: {
     backgroundColor: "#dcfce7",
     color: "#166534",
     padding: 3,
@@ -152,7 +146,16 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   
-  statusInactive: {
+  statusPendiente: {
+    backgroundColor: "#fef3c7",
+    color: "#92400e",
+    padding: 3,
+    borderRadius: 3,
+    fontSize: 8,
+    fontWeight: "bold",
+  },
+  
+  statusRechazada: {
     backgroundColor: "#fee2e2",
     color: "#991b1b",
     padding: 3,
@@ -191,9 +194,16 @@ const styles = StyleSheet.create({
     color: "#666",
     textAlign: "center",
   },
+
+  noData: {
+    padding: 20,
+    textAlign: "center",
+    fontSize: 12,
+    color: "#666",
+  },
 });
 
-const TableInscripcionPDF = ({ inscripcion }) => {
+const TablaInscripcionPDF = ({ inscripciones }) => {
   const fechaActual = new Date().toLocaleDateString("es-EC", {
     year: "numeric",
     month: "long",
@@ -203,10 +213,17 @@ const TableInscripcionPDF = ({ inscripcion }) => {
     second: "2-digit",
   });
 
-  // Función para truncar texto largo
-  const truncateText = (text, maxLength = 50) => {
-    if (!text) return "";
-    return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
+  const getEstadoStyle = (estado) => {
+    switch(estado) {
+      case 'Aprobada':
+        return styles.statusAprobada;
+      case 'Pendiente':
+        return styles.statusPendiente;
+      case 'Rechazada':
+        return styles.statusRechazada;
+      default:
+        return styles.statusPendiente;
+    }
   };
 
   return (
@@ -230,71 +247,59 @@ const TableInscripcionPDF = ({ inscripcion }) => {
         {/* TÍTULO */}
         <Text style={styles.title}>Registro de Inscripciones</Text>
 
-        {/* TABLA */}
-        <View style={styles.table}>
-          {/* Encabezado de la tabla */}
-          <View style={[styles.tableRow, styles.tableHeader]}>
-            <Text style={[styles.tableCell, styles.col1]}>N°</Text>
-            <Text style={[styles.tableCell, styles.col2]}> Apellido</Text>
-            <Text style={[styles.tableCell, styles.col3]}>Nombre</Text>
-            <Text style={[styles.tableCell, styles.col4]}>Email</Text>
-            <Text style={[styles.tableCell, styles.col5]}>Fecha Insc.</Text>
-            <Text style={[styles.tableCell, styles.col6]}>Deporte</Text>
-            <Text style={[styles.tableCell, styles.col7]}>Contacto Emer.</Text>
-            <Text style={[styles.tableCell, styles.col8]}>Estado</Text>
+        {/* Validación si no hay datos */}
+        {!inscripciones || inscripciones.length === 0 ? (
+          <View style={styles.noData}>
+            <Text>No hay inscripciones registradas</Text>
           </View>
+        ) : (
+          <>
+            {/* TABLA */}
+            <View style={styles.table}>
+              {/* Encabezado de la tabla */}
+              <View style={[styles.tableRow, styles.tableHeader]}>
+                <Text style={[styles.tableCell, styles.col1]}>N°</Text>
+                <Text style={[styles.tableCell, styles.col2]}>Nombre</Text>
+                <Text style={[styles.tableCell, styles.col3]}>Apellido</Text>
+                <Text style={[styles.tableCell, styles.col4]}>Deporte</Text>
+                <Text style={[styles.tableCell, styles.col5]}>Estado</Text>
+              </View>
 
-          {/* Filas de datos */}
-          {inscripcion.map((inscripcion, index) => (
-            <View style={styles.tableRow} key={inscripcion._id} wrap={false}>
-              <Text style={[styles.tableCell, styles.col1]}>{index + 1}</Text>
-              
-              <Text style={[styles.tableCell, styles.col2, styles.textWrap]}>
-                {truncateText(inscripcion.apellido, 20)}
-              </Text>
-              
-              <Text style={[styles.tableCell, styles.col3, styles.textWrap]}>
-                {truncateText(inscripcion.nombre, 40)}
-              </Text>
-              
-              <Text style={[styles.tableCell, styles.col4, styles.textWrap]}>
-                {truncateText(inscripcion.email, 40)}
+              {/* Filas de datos */}
+              {inscripciones.map((inscripcion, index) => (
+                <View style={styles.tableRow} key={inscripcion._id || index} wrap={false}>
+                  <Text style={[styles.tableCell, styles.col1]}>{index + 1}</Text>
+                  
+                  <Text style={[styles.tableCell, styles.col2, styles.textWrap]}>
+                    {inscripcion.nombre || 'N/A'}
+                  </Text>
+                  
+                  <Text style={[styles.tableCell, styles.col3, styles.textWrap]}>
+                    {inscripcion.apellido || 'N/A'}
+                  </Text>
+                  
+                  <Text style={[styles.tableCell, styles.col4, styles.textWrap]}>
+                    {inscripcion.deporte?.nombre || 'N/A'}
+                  </Text>
+                  
+                  <View style={[styles.tableCell, styles.col5]}>
+                    <Text style={getEstadoStyle(inscripcion.estado)}>
+                      {inscripcion.estado || 'N/A'}
+                    </Text>
+                  </View>
+                </View>
+              ))}
+            </View>
 
-              </Text>
-              
-              <Text style={[styles.tableCell, styles.col5, styles.textWrap]}>
-                {new Date(inscripcion.fechaInscripcion).toLocaleDateString('es-EC', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                  timeZone:'UTC'
-                })}
-              </Text>
-              
-              <Text style={[styles.tableCell, styles.col6, styles.textWrap]}>
-                {truncateText(inscripcion.deporte.nombre, 40)}
-
-              </Text>
-              
-              <Text style={[styles.tableCell, styles.col7, styles.textWrap]}>
-                {inscripcion.contactoEmergencia.telefono || "N/A"}
-              </Text>
-              
-              <Text style={[styles.tableCell, styles.col8, styles.textWrap]}>
-                {truncateText(inscripcion.estado, 25)}
+            {/* Total de inscripciones */}
+            <View style={styles.totalDirectores}>
+              <Text style={styles.totalText}>
+                Total de Inscripciones: {inscripciones.length}
               </Text>
             </View>
-          ))}
-        </View>
-
-        {/* Total de deportes */}
-        <View style={styles.totalDirectores}>
-          <Text style={styles.totalText}>
-            Total de inscripciones: {inscripcion.length}
-          </Text>
-        </View>
-        <Text style={styles.date}>Generado el: {fechaActual}</Text>
-
+          </>
+        )}
+        <Text style={styles.date}>Fecha de generación: {fechaActual}</Text>
         {/* FOOTER */}
         <View style={styles.footerContainer} fixed>
           <Text style={styles.footerLine}>
@@ -307,4 +312,4 @@ const TableInscripcionPDF = ({ inscripcion }) => {
   );
 };
 
-export default TableInscripcionPDF;
+export default TablaInscripcionPDF;

@@ -195,6 +195,30 @@ const SimpleInscripcionPDF = ({ data }) => {
     minute: "2-digit",
   });
 
+  // Formatear fecha de inscripción
+  const fechaInscripcion = data.fechaInscripcion 
+    ? new Date(data.fechaInscripcion).toLocaleDateString('es-EC', {
+        timeZone: 'America/Guayaquil',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      })
+    : "N/A";
+
+  // Formatear fecha de aprobación
+  const fechaAprobacion = data.aprobacion?.fechaAprobacion
+    ? new Date(data.aprobacion.fechaAprobacion).toLocaleDateString('es-EC', {
+        timeZone: 'America/Guayaquil',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      })
+    : "N/A";
+
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -226,9 +250,8 @@ const SimpleInscripcionPDF = ({ data }) => {
 
           <View style={styles.row}>
             <Text style={styles.label}>Apellido:</Text>
-            <Text style={styles.value}>{data.apellido  || "N/A"}</Text>
+            <Text style={styles.value}>{data.apellido || "N/A"}</Text>
           </View>
-          
           
           <View style={styles.row}>
             <Text style={styles.label}>Nombre:</Text>
@@ -240,143 +263,88 @@ const SimpleInscripcionPDF = ({ data }) => {
             <Text style={styles.value}>{data.email || "N/A"}</Text>
           </View>
           
-          
-          
           <View style={styles.row}>
             <Text style={styles.label}>Dirección:</Text>
             <Text style={styles.value}>{data.direccion || "N/A"}</Text>
           </View>
 
-           
-
           <View style={styles.row}>
-            <Text style={styles.label}>teléfono:</Text>
+            <Text style={styles.label}>Teléfono:</Text>
             <Text style={styles.value}>{data.telefono || "N/A"}</Text>
           </View>
 
           <View style={styles.row}>
             <Text style={styles.label}>Fecha de Inscripción:</Text>
-            {new Date(data.fechaInscripcion).toLocaleDateString('es-EC', {
-            timeZone: 'America/Guayaquil',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-                })}          </View>
-
-
+            <Text style={styles.value}>{fechaInscripcion}</Text>
+          </View>
         </View>
 
+        {/* INFORMACIÓN MÉDICA */}
         <Text style={styles.sectionTitle}>Información Médica</Text>
         <View style={styles.sectionBox}>
-
           <View style={styles.row}>
             <Text style={styles.label}>Alergias:</Text>
-            <Text style={styles.value}>{data.informacionMedica.alergias || "N/A"}</Text>
+            <Text style={styles.value}>{data.informacionMedica?.alergias || "N/A"}</Text>
           </View>
 
           <View style={styles.row}>
             <Text style={styles.label}>Estado de Salud:</Text>
-            <Text style={styles.value}>{data.informacionMedica.estadoSalud || "N/A"}</Text>
+            <Text style={styles.value}>{data.informacionMedica?.estadoSalud || "N/A"}</Text>
           </View>
 
           <View style={styles.row}>
             <Text style={styles.label}>Medicamento:</Text>
-            <Text style={styles.value}>{data.informacionMedica.medicamentos || "N/A"}</Text>
+            <Text style={styles.value}>{data.informacionMedica?.medicamentos || "N/A"}</Text>
           </View>
 
           <View style={styles.row}>
             <Text style={styles.label}>Condición Médica:</Text>
-            <Text style={styles.value}>{data.informacionMedica.condicionesMedicas || "N/A"}</Text>
+            <Text style={styles.value}>{data.informacionMedica?.condicionesMedicas || "N/A"}</Text>
           </View>
-
         </View>
 
+        {/* CONTACTO DE EMERGENCIA */}
         <Text style={styles.sectionTitle}>Contacto de Emergencia</Text>
         <View style={styles.sectionBox}>
-
           <View style={styles.row}>
             <Text style={styles.label}>Nombre:</Text>
-            <Text style={styles.value}>{data.contactoEmergencia.nombre || "N/A"}</Text>
+            <Text style={styles.value}>{data.contactoEmergencia?.nombre || "N/A"}</Text>
           </View>
 
           <View style={styles.row}>
             <Text style={styles.label}>Teléfono:</Text>
-            <Text style={styles.value}>{data.contactoEmergencia.telefono || "N/A"}</Text>
+            <Text style={styles.value}>{data.contactoEmergencia?.telefono || "N/A"}</Text>
           </View>
 
           <View style={styles.row}>
             <Text style={styles.label}>Relación:</Text>
-            <Text style={styles.value}>{data.contactoEmergencia.relacion || "N/A"}</Text>
+            <Text style={styles.value}>{data.contactoEmergencia?.relacion || "N/A"}</Text>
           </View>
-
         </View>
 
-        <Text style={styles.sectionTitle}>Uniforme</Text>
-        <View style={styles.sectionBox}>
-
-         {data.uniformeRegistrado ? (
-            <>
-              <View style={styles.row}>
-                <Text style={styles.label}>Nombre a llevar:</Text>
-                <Text style={styles.value}>{data.uniformeRegistrado?.nombre || "N/A"}</Text>
-              </View>
-
-              <View style={styles.row}>
-                <Text style={styles.label}>Talla:</Text>
-                <Text style={styles.value}>{data.uniformeRegistrado?.talla || "N/A"}</Text>
-              </View>
-
-              <View style={styles.row}>
-                <Text style={styles.label}>Precio:</Text>
-                <Text style={styles.value}>{data.deporte?.precioUniforme || "N/A"}</Text>
-              </View>
-            </>
-          ) : (
-            <View style={styles.row}>
-              <Text style={styles.label}>Estado:</Text>
-              <Text style={styles.value}>Sin registro de uniforme</Text>
-            </View>
-          )}
-
-        </View>
+        
         
 
         {/* ESTADO */}
         <Text style={styles.sectionTitle}>Estado Actual</Text>
         <View style={styles.sectionBox}>
-          <View style={styles.statusContainer}>
+          <View style={styles.row}>
             <Text style={styles.label}>Estado:</Text>
-            <View style={styles.row}>
             <Text style={styles.value}>{data.estado || "N/A"}</Text>
-          </View>
           </View>
         </View>
 
-         <Text style={styles.sectionTitle}>Aprobación</Text>
+        {/* APROBACIÓN */}
+        <Text style={styles.sectionTitle}>Aprobación</Text>
         <View style={styles.sectionBox}>
-          <View style={styles.statusContainer}>
+          <View style={styles.row}>
             <Text style={styles.label}>Aprobado por:</Text>
-            <View style={styles.row}>
             <Text style={styles.value}>{data.aprobacion?.aprobadoPor || "N/A"}</Text>
-          </View>
           </View>
 
           <View style={styles.row}>
-    <Text style={styles.label}>Fecha de aprobación:</Text>
-    <Text style={styles.value}>
-      {data.aprobacion?.fechaAprobacion
-        ? new Date(data.aprobacion.fechaAprobacion).toLocaleDateString('es-EC', {
-            timeZone: 'America/Guayaquil',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-          })
-                : "N/A"}
-            </Text>
+            <Text style={styles.label}>Fecha de aprobación:</Text>
+            <Text style={styles.value}>{fechaAprobacion}</Text>
           </View>
 
           {data.aprobacion?.comentarios && (

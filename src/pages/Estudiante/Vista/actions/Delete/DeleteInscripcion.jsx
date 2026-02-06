@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router"
 import { ToastContainer } from "react-toastify"
 import { BlobProvider, PDFDownloadLink } from "@react-pdf/renderer"
 import SimpleInscripcionPDF from "../../../pdf/Inscripcion"
-import TableInscripcionPDF from "../../../pdf/TableInscripcion"
+import TablaInscripcionPDF from "../../../pdf/TableInscripcion"
 
 const TablaInscripcion = () => {
     const fetchDataBackend = useFetch()
@@ -24,6 +24,8 @@ const TablaInscripcion = () => {
             Authorization: `Bearer ${storedUser.state.token}`,
         }
         const response = await fetchDataBackend(url, null, "GET", headers)
+        console.log("📋 Inscripciones recibidas:", response) // Para verificar los datos
+        console.log("🎽 Primera inscripción con uniforme:", response.find(i => i.uniformeRegistrado))
         setCategorias(response)
     }
 
@@ -72,11 +74,6 @@ const TablaInscripcion = () => {
         )
     })
 
-    const categoriasConUniforme = filteredCategorias.filter((category) =>
-        category.uniformeRegistrado &&
-        (category.uniformeRegistrado.nombre || category.uniformeRegistrado.talla)
-    )
-
     if (categories.length === 0) {
         return (
             <div className="p-6 text-center">
@@ -110,8 +107,8 @@ const TablaInscripcion = () => {
 
                     {/* Botón de descarga mejorado */}
                     <PDFDownloadLink
-                        document={<TableInscripcionPDF inscripcion={categoriasConUniforme} />}
-                        fileName={`estudiantes${new Date().toISOString().split('T')[0]}.pdf`}
+                        document={<TablaInscripcionPDF inscripciones={filteredCategorias} />}
+                        fileName={`inscripcionEstudiante${new Date().toISOString().split('T')[0]}.pdf`}
                         className="flex items-center gap-3 bg-blue-900 text-white px-6 py-3.5 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl font-medium transform hover:scale-105"
                     >
                         {({ loading }) => (
@@ -138,15 +135,15 @@ const TablaInscripcion = () => {
                     </div>
                 </div>
             )}
-             <td className="px-4 py-3">
-                <div className="flex justify-center">
-                    <Link to='/dashboard/inscripciones/nuevodeporte'>
-                        <button className="flex items-center gap-3 bg-blue-900 text-white px-6 py-4 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl font-medium transform hover:scale-105">
-                            Nueva Inscripción
-                        </button>
-                    </Link>
-                </div>
-            </td>
+
+            {/* Botón Nueva Inscripción - AHORA FUERA DEL TD */}
+            <div className="mb-6">
+                <Link to='/dashboard/inscripciones/nuevodeporte'>
+                    <button className="flex items-center gap-3 bg-blue-900 text-white px-6 py-4 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl font-medium transform hover:scale-105">
+                        Nueva Inscripción
+                    </button>
+                </Link>
+            </div>
 
 
             {/* Tabla mejorada */}
