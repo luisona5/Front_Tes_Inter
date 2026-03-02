@@ -5,6 +5,7 @@ import { Link } from "react-router";
 import {Carrusel} from "../../components/carrusel/carrusel";
 import Cronograma from "./Cronograma";
 import { CardInformativo } from '../../components/CardInformativo/Cards';
+import { FaTiktok } from 'react-icons/fa';
 
 export const Home = () => {
 
@@ -239,7 +240,7 @@ export const Home = () => {
               </a>
               <a 
               
-                href="https://www.google.com/maps/search/?api=1&query=Av.+Ladr%C3%B3n+de+Guevara+253,+Quito+170143"
+                href="https://www.facebook.com/profile.php?id=100063704537871"
                 target="_blank"
                 rel="noopener noreferrer"                
                 className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors"
@@ -248,11 +249,18 @@ export const Home = () => {
                 <Facebook className="w-5 h-5 text-white" />
               </a>
               <a 
-                href="#" 
+                href="https://www.instagram.com/esfot_epn.uio/" 
                 className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-pink-600 transition-colors"
                 aria-label="Instagram"
               >
                 <Instagram className="w-5 h-5 text-white" />
+              </a>
+              <a 
+                href="https://www.tiktok.com/@esfot.epn_uio?fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGnSMlBcFCpuSXeVs-a3yfx0WvN0j7iM85cchgNRgiaLfKelOVTtEPRPscNoi4_aem_5HUFSMg7T4m3UJ748QThlQ" 
+                className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-pink-600 transition-colors"
+                aria-label="TikTok"
+              >
+                <FaTiktok className="w-5 h-5 text-white" />
               </a>
               
             </div>
